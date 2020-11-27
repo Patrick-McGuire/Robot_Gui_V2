@@ -12,12 +12,10 @@ class GUIMaker(object):
 
     widgetList = []
 
-    def __init__(self, title):
+    def __init__(self):
         self.application = QApplication([])
         self.mainWindow = QMainWindow()
         self.mainWindow.setGeometry(0, 0, 500, 500)
-
-        self.SetTitle(title)
 
         self.tabHolderWidget = QTabWidget()
         self.tabHolderWidget.resize(300, 200)
@@ -36,12 +34,11 @@ class GUIMaker(object):
 
     def CreateTab(self, name):
         self.tabs[name] = QWidget()
-        # self.tabs[name].layout = QVBoxLayout()
 
         self.tabHolderWidget.addTab(self.tabs[name], name)
 
-    def CreateButton(self, tab, text, x, y):
-        self.widgetList.append(SimpleButton.SimpleButton(self.tabs[tab], text, x, y))
+    def CreateButton(self, tabName, text, x, y):
+        self.widgetList.append(SimpleButton.SimpleButton(self.tabs[tabName], text, x, y))
 
-    def CreateTextBox(self, tab):
-        textBox = TextBoxWidget.TextBoxWidget()
+    def CreateTextBox(self, tabName, x, y):
+        self.widgetList.append(TextBoxWidget.TextBoxWidget(self.tabs[tabName], x, y))

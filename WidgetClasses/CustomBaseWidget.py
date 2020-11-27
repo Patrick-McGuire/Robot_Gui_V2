@@ -13,3 +13,6 @@ class CustomBaseWidget(object):
         """
 
         return self.QTWidget
+
+    def Update(self, value):
+        pass
