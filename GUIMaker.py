@@ -1,12 +1,16 @@
 """
 Function calls to actually create GUI elements
 """
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget, QVBoxLayout, QPushButton
 
-from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QWidget, QAction, QTabWidget, QVBoxLayout
+from WidgetClasses import SimpleButton
+from WidgetClasses import TextBoxWidget
 
 
 class GUIMaker(object):
     tabs = {}
+
+    widgetList = []
 
     def __init__(self, title):
         self.application = QApplication([])
@@ -25,12 +29,19 @@ class GUIMaker(object):
         self.application.exec_()
 
     def SetTitle(self, title):
-        self.mainWindow.setWindowTitle("title")
+        self.mainWindow.setWindowTitle(title)
+
+    def GetWidgetList(self):
+        return self.widgetList
 
     def CreateTab(self, name):
         self.tabs[name] = QWidget()
+        # self.tabs[name].layout = QVBoxLayout()
 
         self.tabHolderWidget.addTab(self.tabs[name], name)
 
-    def CreateTextBox(self):
-        pass
+    def CreateButton(self, tab, text, x, y):
+        self.widgetList.append(SimpleButton.SimpleButton(self.tabs[tab], text, x, y))
+
+    def CreateTextBox(self, tab):
+        textBox = TextBoxWidget.TextBoxWidget()

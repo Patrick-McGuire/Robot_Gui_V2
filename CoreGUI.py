@@ -16,15 +16,14 @@ class CoreGUI(threading.Thread):
         self.start()
 
     def run(self):
-        GUICreator = GUIMaker("hi")
+        GUICreator = GUIMaker("PRoBoT_ConTrOl")
         GUICreator.CreateTab("1")
         GUICreator.CreateTab("2")
+
+        GUICreator.CreateButton("1", "test", 0, 10)
+        GUICreator.CreateButton("1", "2", 100, 100)
+        GUICreator.CreateButton("1", "3", 100, 0)
+
+        # GUICreator.CreateTextBox("1")
+
         GUICreator.start()
-
-        #
-        # tab1.layout = QVBoxLayout()
-        # pushButton1 = QPushButton("PyQt5 button")
-        # tab1.layout.addWidget(pushButton1)
-        # tab1.setLayout(tab1.layout)
-
-
