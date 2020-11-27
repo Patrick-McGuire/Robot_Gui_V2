@@ -1,6 +1,8 @@
 import threading
 from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QWidget, QAction, QTabWidget, QVBoxLayout
 
+from GUIMaker import GUIMaker
+
 
 # This class handles the underlying functionality of updating widgets, running, and creating the GUI
 class CoreGUI(threading.Thread):
@@ -14,28 +16,15 @@ class CoreGUI(threading.Thread):
         self.start()
 
     def run(self):
-        self.application = QApplication([])
-        self.mainWindow = QMainWindow()
-        self.mainWindow.setGeometry(0, 0, 500, 500)
+        GUICreator = GUIMaker("hi")
+        GUICreator.CreateTab("1")
+        GUICreator.CreateTab("2")
+        GUICreator.start()
 
-        self.mainWindow.setWindowTitle("Hi")
-
-        tabHolderWidget = QTabWidget()
-        tab1 = QWidget()
-        tab2 = QWidget()
-        tabHolderWidget.resize(300, 200)
-        tabHolderWidget.addTab(tab1, "Tab 1")
-        tabHolderWidget.addTab(tab2, "Tab 2")
-
-        tab1.layout = QVBoxLayout()
-        pushButton1 = QPushButton("PyQt5 button")
-        tab1.layout.addWidget(pushButton1)
-        tab1.setLayout(tab1.layout)
-
-        self.mainWindow.setCentralWidget(tabHolderWidget)
-
-
-        self.mainWindow.show()
-        self.application.exec_()
+        #
+        # tab1.layout = QVBoxLayout()
+        # pushButton1 = QPushButton("PyQt5 button")
+        # tab1.layout.addWidget(pushButton1)
+        # tab1.setLayout(tab1.layout)
 
 
