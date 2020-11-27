@@ -16,5 +16,5 @@ class CustomBaseWidget(object):
 
         return self.QTWidget
 
-    def Update(self, dataPassDict):
+    def update(self, dataPassDict):
         pass
