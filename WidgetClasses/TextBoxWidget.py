@@ -14,6 +14,7 @@ class TextBoxWidget(CustomBaseWidget):
         self.boxFormat = [["line1", "test"], ["bbb", "test1"]]
 
         self.QTWidget.setStyleSheet("border: 1px solid black;")
+        self.QTWidget.setToolTip("Holy shit this works")
 
     def update(self, dataPassDict):
         outString = "Title:"
@@ -23,14 +24,16 @@ class TextBoxWidget(CustomBaseWidget):
         for line in self.boxFormat:
             lines = lines + 1
             if line[1] in dataPassDict:
-                newLine = "\n{0}\t{1}".format(line[0], dataPassDict[line[1]])
+                newLine = "\n{0:<15}{1}".format(line[0], dataPassDict[line[1]])
             else:
-                newLine = "\n{0}\t{1}".format(line[0], "No Data")
+                newLine = "\n{0:<15}{1}".format(line[0], "No Data")
 
             outString = outString + newLine
             if len(newLine) > maxLineLength:
                 maxLineLength = len(newLine)
 
-        self.QTWidget.setMinimumWidth(maxLineLength*10)
-        self.QTWidget.setMinimumHeight(lines*20)
+        self.QTWidget.setMinimumWidth(maxLineLength * 7)
+        self.QTWidget.setMaximumWidth(maxLineLength * 7)
+        self.QTWidget.setMinimumHeight(lines * 20)
+        self.QTWidget.setMaximumHeight(lines * 20)
         self.QTWidget.setText(outString)

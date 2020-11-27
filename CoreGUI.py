@@ -1,7 +1,7 @@
 import threading
-from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QWidget, QAction, QTabWidget, QVBoxLayout
 
 import time
+import random
 
 from GUIMaker import GUIMaker
 
@@ -41,6 +41,8 @@ class CoreGUI(threading.Thread):
         self.mainWindow = self.GUICreator.getMainWindow()
         self.setupEventHandler()
 
+        self.GUICreator.CreateSimpleDropDown("2", 100, 100)
+
         self.GUICreator.start()
 
         self.GUIDone = True
@@ -53,7 +55,7 @@ class CoreGUI(threading.Thread):
 
         self.GUICreator.SetTitle(str(time.time()))
 
-        dataPassDict = {"test": 0, "test1": "aaaaaaaaaa"}
+        dataPassDict = {"test": "{}".format(random.random()), "test1": "{}".format(time.time())}
 
         for widget in listOfWidgets:
             widget.update(dataPassDict)
