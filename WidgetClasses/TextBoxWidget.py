@@ -1,0 +1,3 @@
+"""
+Text box widget
+"""
