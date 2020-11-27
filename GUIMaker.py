@@ -15,7 +15,6 @@ class GUIMaker(object):
         self.application = QApplication([])
         self.mainWindow = QMainWindow()
         self.mainWindow.setGeometry(0, 0, 500, 500)
-
         self.tabHolderWidget = QTabWidget()
         self.tabHolderWidget.resize(300, 200)
 
@@ -47,3 +46,6 @@ class GUIMaker(object):
     def CreateTextBox(self, tabName, x, y):
         """Creates a text box widget in the tab name specified"""
         self.widgetList.append(TextBoxWidget.TextBoxWidget(self.tabs[tabName], x, y))
+
+    def getMainWindow(self):
+        return self.mainWindow

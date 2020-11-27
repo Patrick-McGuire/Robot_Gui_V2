@@ -15,7 +15,7 @@ class TextBoxWidget(CustomBaseWidget):
 
         self.QTWidget.setStyleSheet("border: 1px solid black;")
 
-    def Update(self, dataPassDict):
+    def update(self, dataPassDict):
         outString = "Title:"
         lines = 1
         maxLineLength = len(outString)

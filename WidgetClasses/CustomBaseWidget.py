@@ -10,11 +10,28 @@ class CustomBaseWidget(object):
 
         self.x = x
         self.y = y
+        self.width = 50
+        self.height = 50
 
-    def GetTopLevelWidget(self):
+
+    def getTopLevelWidget(self):
         """Returns the QT Widget that is the top level for this CustomWidget"""
 
         return self.QTWidget
 
-    def Update(self, dataPassDict):
+    def update(self, dataPassDict):
         pass
+
+    def isPointInWidget(self, x, y):
+        self.width = float(self.QTWidget.minimumWidth())
+        self.height = float(self.QTWidget.minimumHeight())
+
+        if self.x <= x <= (self.x + self.width):
+            if (self.y + 30) <= y <= (self.y + self.height + 30):
+                return True
+        return False
+
+    def setPosition(self, x, y):
+        self.x = x
+        self.y = y
+        self.QTWidget.move(x, y)
