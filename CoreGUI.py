@@ -13,6 +13,8 @@ class CoreGUI(threading.Thread):
     def __init__(self, filePath):
         self.filePath = filePath
 
+        self.GUIDone = False
+
         self.GUICreator = None
 
         # Start the GUI
@@ -30,11 +32,21 @@ class CoreGUI(threading.Thread):
         self.GUICreator.CreateButton("1", "2", 100, 100)
         self.GUICreator.CreateButton("1", "3", 100, 0)
 
-        self.GUICreator.CreateTextBox("1", 110, 115)
+        self.GUICreator.CreateTextBox("1", 130, 130)
 
         self.GUICreator.start()
 
+        self.GUIDone = True
+
+    def stop(self):
+        self.GUICreator.stop()
+
     def updateGUI(self):
-        while True:
-            self.GUICreator.SetTitle(str(time.time()))
-            time.sleep(0.001)
+        listOfWidgets = self.GUICreator.GetWidgetList()
+
+        self.GUICreator.SetTitle(str(time.time()))
+
+        dataPassDict = {"test": 0, "test1": "aaaaaaaaaa"}
+
+        for widget in listOfWidgets:
+            widget.Update(dataPassDict)
