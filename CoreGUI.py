@@ -66,6 +66,10 @@ class CoreGUI(threading.Thread):
 
         self.GUICreator.CreateSimpleDropDown("2", 100, 100)
 
+        self.GUICreator.CreateTextBoxDropDownWidget("1", 500, 500)
+        self.GUICreator.CreateTextBoxDropDownWidget("1", 500, 500)
+        self.GUICreator.CreateTextBoxDropDownWidget("1", 500, 500)
+
         self.mainWindow = self.GUICreator.getMainWindow()
         self.setupEventHandler()
 
