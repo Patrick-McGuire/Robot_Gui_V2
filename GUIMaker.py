@@ -8,6 +8,7 @@ from WidgetClasses import SimpleButton
 from WidgetClasses import TextBoxWidget
 from WidgetClasses import SimpleDropDown
 from WidgetClasses import VideoWidget
+from WidgetClasses import TextBoxDropDownWidget
 
 
 class GUIMaker(object):
@@ -21,17 +22,20 @@ class GUIMaker(object):
         self.tabHolderWidget = QTabWidget()
         self.tabHolderWidget.resize(300, 200)
 
-        # menubar = QMenuBar()
-        # layout.addWidget(menubar, 0, 0)
-        # actionFile = menubar.addMenu("File")
-        # actionFile.addAction("New")
-        # actionFile.addAction("Open")
-        # actionFile.addAction("Save")
-        # actionFile.addSeparator()
-        # actionFile.addAction("Quit")
-        # menubar.addMenu("Edit")
-        # menubar.addMenu("View")
-        # menubar.addMenu("Help")
+        menuBar = self.mainWindow.menuBar()
+        fileMenu = menuBar.addMenu("File")
+        fileMenu.addAction("New")
+        fileMenu.addAction("Open")
+        fileMenu.addAction("Save")
+        fileMenu.addSeparator()
+        fileMenu.addAction("Quit")
+
+        menuBar.addMenu("Edit")
+        menuBar.addMenu("View")
+        helpMenu = menuBar.addMenu("Help")
+        helpMenu.addAction("Whack Patrick")
+
+        self.widgetsCreated = 0
 
     def start(self):
         self.mainWindow.setCentralWidget(self.tabHolderWidget)
@@ -69,6 +73,11 @@ class GUIMaker(object):
     def CreateVideoWidget(self, tabName, x, y, width, height):
         """Creates a video widget in the tab name specified"""
         self.widgetList.append(VideoWidget.VideoWidget(self.tabs[tabName], x, y, width, height))
+
+    def CreateTextBoxDropDownWidget(self, tabName, x, y):
+        """Creates a textbox with a drop down in the tab name specified"""
+        self.widgetList.append(TextBoxDropDownWidget.TextBoxDropDownWidget(self.tabs[tabName], "textBoxDropDown_{}".format(self.widgetsCreated), x, y))
+        self.widgetsCreated = self.widgetsCreated + 1
 
     def getMainWindow(self):
         return self.mainWindow

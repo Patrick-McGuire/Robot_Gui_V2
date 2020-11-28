@@ -50,13 +50,23 @@ class CustomBaseWidget(object):
         action = menu.exec_()
 
         if action == whiteAction:
-            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb(255, 255, 255); color: black")
+            self.setColor("white")
         if action == defaultAction:
-            self.QTWidget.setStyleSheet("color: black")
+            self.setColor("default")
         elif action == blueAction:
-            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb(0, 0, 100); color: white")
+            self.setColor("blue")
         elif action == awesome:
             print("Patrick has been whacked!!!!!!!!!!!!!!!!!!")
+
+    def setColor(self, color):
+        if color == "white":
+            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb(255, 255, 255); color: black")
+        elif color == "blue":
+            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb(0, 0, 100); color: white")
+        elif color == "default":
+            self.QTWidget.setStyleSheet("color: black")
+        else:
+            self.QTWidget.setStyleSheet("color: black")
 
     def returnsData(self):
         """Returns true if this widget has data to return"""
