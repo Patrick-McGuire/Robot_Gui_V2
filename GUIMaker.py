@@ -16,7 +16,7 @@ class GUIMaker(object):
     def __init__(self):
         self.application = QApplication([])
         self.mainWindow = QMainWindow()
-        self.mainWindow.setGeometry(0, 0, 500, 500)
+        self.mainWindow.setGeometry(0, 0, 1500, 1000)
         self.tabHolderWidget = QTabWidget()
         self.tabHolderWidget.resize(300, 200)
 

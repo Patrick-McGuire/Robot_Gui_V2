@@ -2,14 +2,17 @@
 Base class that all our widgets are derived off of
 """
 
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QMenu
+from PyQt5.QtCore import Qt
+import PyQt5.QtGui as QtGui
 
 
 class CustomBaseWidget(object):
     def __init__(self, QTWidget: QWidget, x: float, y: float, hasReturnValue: bool = False, returnKey: str = None):
         self.QTWidget = QTWidget
         self.QTWidget.move(x, y)
-        QTWidget.setToolTip("Holy shit this works")
+        self.QTWidget.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.QTWidget.customContextMenuRequested.connect(self.rightClickMenu)
 
         if hasReturnValue and returnKey is None:
             print("No ReturnDataDict key specified for a widget.  This widget won't return data")
@@ -25,6 +28,24 @@ class CustomBaseWidget(object):
         self.yBuffer = 20
         self.width = 50
         self.height = 50
+
+    def rightClickMenu(self, e):
+        colorMenu = QMenu("Set color")
+        whiteAction = colorMenu.addAction("white")
+        blueAction = colorMenu.addAction("blue")
+
+        menu = QMenu()
+        menu.addMenu(colorMenu)
+        awesome = menu.addAction("Whack Patrick")
+        menu.move(e.x() + self.x, e.y() + self.y + 90)
+        action = menu.exec_()
+
+        if action == whiteAction:
+            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb(255, 255, 255); color: black")
+        elif action == blueAction:
+            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb(0, 0, 100); color: white")
+        elif action == awesome:
+            print("Patrick has been whacked!!!!!!!!!!!!!!!!!!")
 
     def returnsData(self):
         """Returns true if this widget has data to return"""
@@ -47,8 +68,8 @@ class CustomBaseWidget(object):
         return self.returnKey
 
     def isPointInWidget(self, x, y):
-        if self.x-self.xBuffer <= x <= (self.x + self.width+self.xBuffer):
-            if (self.y + 30-self.yBuffer) <= y <= (self.y + self.height + 30+self.yBuffer):
+        if self.x - self.xBuffer <= x <= (self.x + self.width + self.xBuffer):
+            if (self.y + 30 - self.yBuffer) <= y <= (self.y + self.height + 30 + self.yBuffer):
                 return True
         return False
 

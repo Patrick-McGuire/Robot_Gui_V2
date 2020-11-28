@@ -12,7 +12,7 @@ class RobotGUI2:
             dataPassDict = {"test": "{}".format(random.random()), "test1": "{}".format(time.time())}
             self.coreGui.updateDataPassDict(dataPassDict)
 
-            print(self.coreGui.getReturnDict())
+            #print(self.coreGui.getReturnDict())
             time.sleep(0.01)
 
         self.coreGui.stop()
