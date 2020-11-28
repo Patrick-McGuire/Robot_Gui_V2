@@ -8,6 +8,7 @@ from WidgetClasses import SimpleButton
 from WidgetClasses import TextBoxWidget
 from WidgetClasses import SimpleDropDown
 from WidgetClasses import VideoWidget
+from WidgetClasses.CompassWidget import CompassWidget
 from WidgetClasses import TextBoxDropDownWidget
 
 
@@ -73,6 +74,9 @@ class GUIMaker(object):
     def CreateVideoWidget(self, tabName, x, y, width, height):
         """Creates a video widget in the tab name specified"""
         self.widgetList.append(VideoWidget.VideoWidget(self.tabs[tabName], x, y, width, height))
+
+    def CreateCompassWidget(self, tabName, x, y, size):
+        self.widgetList.append(CompassWidget(self.tabs[tabName], x, y, size))
 
     def CreateTextBoxDropDownWidget(self, tabName, x, y):
         """Creates a textbox with a drop down in the tab name specified"""

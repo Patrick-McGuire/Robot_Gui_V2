@@ -61,6 +61,9 @@ class CoreGUI(threading.Thread):
         self.GUICreator.CreateTextBox("1", 1200, 300)
         self.GUICreator.CreateTextBox("1", 1200, 400)
 
+        self.GUICreator.CreateCompassWidget("1", 100, 100, 200)
+        self.GUICreator.CreateCompassWidget("1", 100, 100, 150)
+
         self.GUICreator.CreateSimpleDropDown("2", 100, 100)
 
         self.GUICreator.CreateTextBoxDropDownWidget("1", 500, 500)

@@ -33,11 +33,11 @@ class VideoWidget(CustomBaseWidget):
             imageHeight = self.width / aspectRatio
         else:
             imageHeight = self.height
-            imageWidth = self.height / aspectRatio
+            imageWidth = self.height * aspectRatio
+
 
         # Resize image
-        frame = cv2.resize(frame, (int(imageWidth), int(imageHeight)))
-
+        frame = cv2.resize(frame, (int(imageWidth-1), int(imageHeight-1)))
         rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         convertToQtFormat = QtGui.QImage(rgbImage.data, rgbImage.shape[1], rgbImage.shape[0], QtGui.QImage.Format_RGB888)
         convertToQtFormat = QtGui.QPixmap.fromImage(convertToQtFormat)
