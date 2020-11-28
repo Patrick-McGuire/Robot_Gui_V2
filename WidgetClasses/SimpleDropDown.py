@@ -9,9 +9,8 @@ from .CustomBaseWidget import CustomBaseWidget
 class SimpleDropDown(CustomBaseWidget):
     def __init__(self, tab, xPos, yPos):
         QTWidget = QComboBox(tab)
-        QTWidget.setToolTip("Holy shit this works")
 
-        super().__init__(QTWidget, xPos, yPos)
+        super().__init__(QTWidget, xPos, yPos, hasReturnValue=True, returnKey="drop_down_one")
 
         self.setMenuItems()
 
@@ -23,5 +22,5 @@ class SimpleDropDown(CustomBaseWidget):
     def getCurrentText(self):
         return self.QTWidget.currentText()
 
-    def update(self, test):
-        self.getCurrentText()
+    def getData(self):
+        return self.getCurrentText()
