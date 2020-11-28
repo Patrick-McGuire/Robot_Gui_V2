@@ -32,6 +32,6 @@ class CustomBaseWidget(object):
         return False
 
     def setPosition(self, x, y):
-        self.x = x
-        self.y = y
-        self.QTWidget.move(x, y)
+        self.x = int(x)
+        self.y = int(y)
+        self.QTWidget.move(self.x, self.y)
