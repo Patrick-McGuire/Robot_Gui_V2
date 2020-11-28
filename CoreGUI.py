@@ -9,6 +9,16 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QMouseEvent
 
 
+
+# This class handles the underlying functionality of updating widgets, running, and creating the GUI
+def clamp(value, minValue, maxValue):
+    """
+    Clamps a value between the min and max value
+    """
+    return min(max(value, minValue), maxValue)
+
+
+
 class CoreGUI(threading.Thread):
     """This class handles the underlying functionality of updating widgets, running, and creating the GUI"""
 
@@ -45,78 +55,6 @@ class CoreGUI(threading.Thread):
         self.GUICreator.CreateButton("1", "2", 100, 100)
         self.GUICreator.CreateButton("1", "3", 100, 0)
 
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
         self.GUICreator.CreateTextBox("1", 130, 120)
         self.GUICreator.CreateTextBox("1", 130, 120)
         self.GUICreator.CreateTextBox("1", 130, 120)
@@ -166,9 +104,11 @@ class CoreGUI(threading.Thread):
 
     def mouseMoveEvent(self, e):
         """Moves the active widget to the position of the mouse if we are currently clicked"""
-        # print(self.activeClickedWidget)
         if self.activeClickedWidget is not None:
-            self.activeClickedWidget.setPosition(e.x() - self.activeOffset[0], e.y() - self.activeOffset[1])
+            x = clamp(e.x() - self.activeOffset[0], 0, float(self.mainWindow.width()) - 30)
+            y = clamp(e.y() - self.activeOffset[1], 0, float(self.mainWindow.height()) - 50)
+            self.activeClickedWidget.setPosition(x, y)
+
 
     def mousePressEvent(self, e: QMouseEvent):
         """Determines if we clicked on a widget"""
@@ -181,4 +121,6 @@ class CoreGUI(threading.Thread):
                     return
 
     def mouseReleaseEvent(self, e):
-        self.activeClickedWidget = None
+        if self.activeClickedWidget is not None:
+            # self.activeClickedWidget.setPosition(self.x, self.y)
+            self.activeClickedWidget = None
