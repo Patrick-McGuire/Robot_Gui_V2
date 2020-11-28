@@ -1,4 +1,5 @@
 import time
+import random
 
 from CoreGUI import CoreGUI
 
@@ -8,7 +9,10 @@ class RobotGUI2:
         self.coreGui = CoreGUI(filePath)
 
         while not self.coreGui.GUIDone:
-            self.coreGui.updateGUI()
+            dataPassDict = {"test": "{}".format(random.random()), "test1": "{}".format(time.time())}
+            self.coreGui.updateDataPassDict(dataPassDict)
+
+            print(self.coreGui.getReturnDict())
             time.sleep(0.01)
 
         self.coreGui.stop()

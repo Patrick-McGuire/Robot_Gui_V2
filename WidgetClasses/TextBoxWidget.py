@@ -10,11 +10,12 @@ from .CustomBaseWidget import CustomBaseWidget
 class TextBoxWidget(CustomBaseWidget):
     def __init__(self, tab, x, y):
         super().__init__(QLabel(tab), x, y)
+        self.xBuffer = 0
+        self.yBuffer = 0
 
         self.boxFormat = [["line1", "test"], ["bbb", "test1"]]
 
-        self.QTWidget.setStyleSheet("border: 1px solid black;")
-        self.QTWidget.setToolTip("Holy shit this works")
+        self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb(0, 0, 100); color: white")
 
     def update(self, dataPassDict):
         outString = "Title:"
@@ -37,3 +38,6 @@ class TextBoxWidget(CustomBaseWidget):
         self.QTWidget.setMinimumHeight(lines * 20)
         self.QTWidget.setMaximumHeight(lines * 20)
         self.QTWidget.setText(outString)
+
+        self.width = float(self.QTWidget.minimumWidth())
+        self.height = float(self.QTWidget.minimumHeight())

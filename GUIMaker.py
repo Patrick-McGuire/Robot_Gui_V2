@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget
 from WidgetClasses import SimpleButton
 from WidgetClasses import TextBoxWidget
 from WidgetClasses import SimpleDropDown
+from WidgetClasses import VideoWidget
 
 
 class GUIMaker(object):
@@ -51,6 +52,10 @@ class GUIMaker(object):
     def CreateSimpleDropDown(self, tabName, x, y):
         """Creates a text box widget in the tab name specified"""
         self.widgetList.append(SimpleDropDown.SimpleDropDown(self.tabs[tabName], x, y))
+
+    def CreateVideoWidget(self, tabName, x, y):
+        """Creates a video widget in the tab name specified"""
+        self.widgetList.append(VideoWidget.VideoWidget(self.tabs[tabName], x, y))
         
     def getMainWindow(self):
         return self.mainWindow

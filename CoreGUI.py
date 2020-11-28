@@ -1,13 +1,16 @@
 import threading
 
 import time
-import random
+import copy
 
 from GUIMaker import GUIMaker
 
+from PyQt5.QtCore import QTimer
 
-# This class handles the underlying functionality of updating widgets, running, and creating the GUI
+
 class CoreGUI(threading.Thread):
+    """This class handles the underlying functionality of updating widgets, running, and creating the GUI"""
+
     CustomWidgetList = []
 
     def __init__(self, filePath):
@@ -20,6 +23,9 @@ class CoreGUI(threading.Thread):
 
         self.activeClickedWidget = None
         self.activeOffset = [0, 0]
+
+        self.dataPassDict = {}
+        self.returnDict = {}
 
         # Start the GUI
         threading.Thread.__init__(self)
@@ -38,10 +44,17 @@ class CoreGUI(threading.Thread):
 
         self.GUICreator.CreateTextBox("1", 130, 120)
 
+        self.GUICreator.CreateSimpleDropDown("2", 100, 100)
+
+        # self.GUICreator.CreateVideoWidget("1", 0, 0)
+
         self.mainWindow = self.GUICreator.getMainWindow()
         self.setupEventHandler()
 
-        self.GUICreator.CreateSimpleDropDown("2", 100, 100)
+        # Qtimer to run the update method
+        timer = QTimer()
+        timer.timeout.connect(self.updateGUI)
+        timer.start(10)
 
         self.GUICreator.start()
 
@@ -50,18 +63,26 @@ class CoreGUI(threading.Thread):
     def stop(self):
         self.GUICreator.stop()
 
+    def updateDataPassDict(self, dataPassDict):
+        self.dataPassDict = dataPassDict
+
+    def getReturnDict(self):
+        return self.returnDict
+
     def updateGUI(self):
         listOfWidgets = self.GUICreator.GetWidgetList()
-
-        self.GUICreator.SetTitle(str(time.time()))
-
-        dataPassDict = {"test": "{}".format(random.random()), "test1": "{}".format(time.time())}
+        returnDict = {}
 
         for widget in listOfWidgets:
-            widget.update(dataPassDict)
+            widget.update(self.dataPassDict)
 
-    # Overwrites mainWindow's event handlers to ones in this class
+            if widget.returnsData():
+                returnDict[widget.getReturnKey()] = widget.getData()
+
+        self.returnDict = copy.deepcopy(returnDict)
+
     def setupEventHandler(self):
+        """Overwrites mainWindow's event handlers to ones in this class"""
         self.mainWindow.mouseMoveEvent = self.mouseMoveEvent
         self.mainWindow.mouseReleaseEvent = self.mouseReleaseEvent
         self.mainWindow.mousePressEvent = self.mousePressEvent
