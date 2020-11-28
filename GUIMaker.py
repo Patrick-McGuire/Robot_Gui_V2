@@ -1,7 +1,8 @@
 """
 Function calls to actually create GUI elements
 """
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget
+import PyQt5.QtGui as QtGui
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget, QMenuBar
 
 from WidgetClasses import SimpleButton
 from WidgetClasses import TextBoxWidget
@@ -19,6 +20,18 @@ class GUIMaker(object):
         self.mainWindow.setGeometry(0, 0, 1500, 1000)
         self.tabHolderWidget = QTabWidget()
         self.tabHolderWidget.resize(300, 200)
+
+        # menubar = QMenuBar()
+        # layout.addWidget(menubar, 0, 0)
+        # actionFile = menubar.addMenu("File")
+        # actionFile.addAction("New")
+        # actionFile.addAction("Open")
+        # actionFile.addAction("Save")
+        # actionFile.addSeparator()
+        # actionFile.addAction("Quit")
+        # menubar.addMenu("Edit")
+        # menubar.addMenu("View")
+        # menubar.addMenu("Help")
 
     def start(self):
         self.mainWindow.setCentralWidget(self.tabHolderWidget)
@@ -53,9 +66,9 @@ class GUIMaker(object):
         """Creates a text box widget in the tab name specified"""
         self.widgetList.append(SimpleDropDown.SimpleDropDown(self.tabs[tabName], x, y))
 
-    def CreateVideoWidget(self, tabName, x, y):
+    def CreateVideoWidget(self, tabName, x, y, width, height):
         """Creates a video widget in the tab name specified"""
-        self.widgetList.append(VideoWidget.VideoWidget(self.tabs[tabName], x, y))
-        
+        self.widgetList.append(VideoWidget.VideoWidget(self.tabs[tabName], x, y, width, height))
+
     def getMainWindow(self):
         return self.mainWindow
