@@ -2,37 +2,53 @@
 Text box widget
 """
 
-from PyQt5.QtCore import QDir, Qt, QUrl
-from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
-from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QAction
-from PyQt5.QtGui import QIcon, QImage, QPixmap
-
 import PyQt5.QtGui as QtGui
-import PyQt5.QtCore as QtCore
-
 import cv2
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QLabel, QMenu
 
 from .CustomBaseWidget import CustomBaseWidget
 
 
 class VideoWidget(CustomBaseWidget):
-    def __init__(self, tab, xPos, yPos):
+    def __init__(self, tab, xPos, yPos, width, height):
         QTWidget = QLabel(tab)
         super().__init__(QTWidget, xPos, yPos)
 
-        self.width = 2000
-        self.height = 2000
+        self.setSize(width, height)
 
     def update(self, dataPassDict):
-        cap = cv2.VideoCapture(0)
-        ret, frame = cap.read()
+        if "image" not in dataPassDict:
+            return
 
-        if ret:
-            rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            convertToQtFormat = QtGui.QImage(rgbImage.data, rgbImage.shape[1], rgbImage.shape[0], QtGui.QImage.Format_RGB888)
-            convertToQtFormat = QtGui.QPixmap.fromImage(convertToQtFormat)
-            pixmap = QPixmap(convertToQtFormat)
-            resizeImage = pixmap.scaled(640, 480, QtCore.Qt.KeepAspectRatio)
-            self.QTWidget.setPixmap(resizeImage)
+        frame = dataPassDict["image"]
+
+        height, width, channels = frame.shape
+        aspectRatio = float(width) / float(height)
+        widgetAspectRatio = float(self.width) / float(self.height)
+
+        # Fix aspect ratio
+        if aspectRatio >= widgetAspectRatio:
+            imageWidth = self.width
+            imageHeight = self.width / aspectRatio
+        else:
+            imageHeight = self.height
+            imageWidth = self.height / aspectRatio
+
+        # Resize image
+        frame = cv2.resize(frame, (int(imageWidth), int(imageHeight)))
+
+        rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        convertToQtFormat = QtGui.QImage(rgbImage.data, rgbImage.shape[1], rgbImage.shape[0], QtGui.QImage.Format_RGB888)
+        convertToQtFormat = QtGui.QPixmap.fromImage(convertToQtFormat)
+        pixmap = QPixmap(convertToQtFormat)
+        self.QTWidget.setPixmap(pixmap)
+
+    def rightClickMenu(self, e):
+        menu = QMenu()
+        awesome = menu.addAction("Whack Patrick")
+        menu.move(e.x() + self.x, e.y() + self.y + 90)
+        action = menu.exec_()
+
+        if action == awesome:
+            print("Patrick has been whacked!!!!!!!!!!!!!!!!!!")

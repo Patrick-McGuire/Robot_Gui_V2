@@ -4,7 +4,6 @@ Base class that all our widgets are derived off of
 
 from PyQt5.QtWidgets import QWidget, QMenu
 from PyQt5.QtCore import Qt
-import PyQt5.QtGui as QtGui
 
 
 class CustomBaseWidget(object):
@@ -29,10 +28,20 @@ class CustomBaseWidget(object):
         self.width = 50
         self.height = 50
 
+    def setSize(self, width, height):
+        self.QTWidget.setMinimumWidth(width)
+        self.QTWidget.setMaximumWidth(width)
+        self.QTWidget.setMinimumHeight(height)
+        self.QTWidget.setMaximumHeight(height)
+
+        self.width = width
+        self.height = height
+
     def rightClickMenu(self, e):
         colorMenu = QMenu("Set color")
         whiteAction = colorMenu.addAction("white")
         blueAction = colorMenu.addAction("blue")
+        defaultAction = colorMenu.addAction("default")
 
         menu = QMenu()
         menu.addMenu(colorMenu)
@@ -42,6 +51,8 @@ class CustomBaseWidget(object):
 
         if action == whiteAction:
             self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb(255, 255, 255); color: black")
+        if action == defaultAction:
+            self.QTWidget.setStyleSheet("color: black")
         elif action == blueAction:
             self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb(0, 0, 100); color: white")
         elif action == awesome:

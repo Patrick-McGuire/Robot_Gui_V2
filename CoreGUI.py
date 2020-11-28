@@ -9,14 +9,12 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QMouseEvent
 
 
-
 # This class handles the underlying functionality of updating widgets, running, and creating the GUI
 def clamp(value, minValue, maxValue):
     """
     Clamps a value between the min and max value
     """
     return min(max(value, minValue), maxValue)
-
 
 
 class CoreGUI(threading.Thread):
@@ -27,6 +25,7 @@ class CoreGUI(threading.Thread):
     def __init__(self, filePath):
         self.filePath = filePath
 
+        self.GUIStarted = False
         self.GUIDone = False
 
         self.GUICreator = None
@@ -43,7 +42,8 @@ class CoreGUI(threading.Thread):
         self.start()
 
         # Wait for the gui to actually start running
-        time.sleep(0.5)
+        while not self.GUIStarted:
+            time.sleep(0.001)
 
     def run(self):
         self.GUICreator = GUIMaker()
@@ -51,26 +51,27 @@ class CoreGUI(threading.Thread):
         self.GUICreator.CreateTab("1")
         self.GUICreator.CreateTab("2")
 
-        self.GUICreator.CreateButton("1", "test", 0, 10)
-        self.GUICreator.CreateButton("1", "2", 100, 100)
-        self.GUICreator.CreateButton("1", "3", 100, 0)
+        self.GUICreator.CreateVideoWidget("1", 0, 0, 1500, 1000)
 
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
-        self.GUICreator.CreateTextBox("1", 130, 120)
+        self.GUICreator.CreateButton("1", "test", 100, 200)
+        self.GUICreator.CreateButton("1", "2", 100, 250)
+        self.GUICreator.CreateButton("1", "3", 100, 300)
+
+        self.GUICreator.CreateTextBox("1", 1200, 200)
+        self.GUICreator.CreateTextBox("1", 1200, 300)
+        self.GUICreator.CreateTextBox("1", 1200, 400)
 
         self.GUICreator.CreateSimpleDropDown("2", 100, 100)
-
-        # self.GUICreator.CreateVideoWidget("1", 0, 0)
 
         self.mainWindow = self.GUICreator.getMainWindow()
         self.setupEventHandler()
 
-        # Qtimer to run the update method
+        # QTimer to run the update method
         timer = QTimer()
         timer.timeout.connect(self.updateGUI)
         timer.start(10)
 
+        self.GUIStarted = True
         self.GUICreator.start()
 
         self.GUIDone = True
@@ -108,7 +109,6 @@ class CoreGUI(threading.Thread):
             x = clamp(e.x() - self.activeOffset[0], 0, float(self.mainWindow.width()) - 30)
             y = clamp(e.y() - self.activeOffset[1], 0, float(self.mainWindow.height()) - 50)
             self.activeClickedWidget.setPosition(x, y)
-
 
     def mousePressEvent(self, e: QMouseEvent):
         """Determines if we clicked on a widget"""
