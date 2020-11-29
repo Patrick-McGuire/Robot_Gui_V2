@@ -118,9 +118,11 @@ class CoreGUI(threading.Thread):
         return self.returnDict
 
     def setTheme(self, theme: str):
+        """Function to set a theme for the whole GUI"""
+
         if theme == "dark":
             self.setColorOnALlWidgets("grey")
-            self.GUICreator.setGUIColor(50, 50, 50)
+            self.GUICreator.setGUIColor(30, 30, 30)
         elif theme == "light":
             self.setColorOnALlWidgets("default")
             self.GUICreator.setGUIColor(255, 255, 255)

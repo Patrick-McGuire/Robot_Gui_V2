@@ -5,7 +5,7 @@ Text box widget
 import PyQt5.QtGui as QtGui
 import cv2
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QLabel, QMenu
+from PyQt5.QtWidgets import QLabel, QMenu, QSizePolicy
 
 from .CustomBaseWidget import CustomBaseWidget
 from Constants import Constants
@@ -26,29 +26,35 @@ class VideoWidget(CustomBaseWidget):
             return
 
         frame = dataPassDict["image"]
+        screenWidth = self.QTWidget.parent().size().width()
+        screenHeight = self.QTWidget.parent().size().height()
 
         height, width, channels = frame.shape
         aspectRatio = float(width) / float(height)
-        widgetAspectRatio = float(self.width) / float(self.height)
+        screenAspectRatio = float(screenWidth) / float(screenHeight)
 
         # Fix aspect ratio
-        if aspectRatio >= widgetAspectRatio:
-            imageWidth = self.width
+        if aspectRatio >= screenAspectRatio:
+            imageWidth = screenWidth
             imageHeight = int(self.width / aspectRatio)
         else:
-            imageHeight = self.height
+            imageHeight = screenHeight
             imageWidth = int(self.height * aspectRatio)
 
-        if imageWidth == self.width + 1:
-            imageWidth = self.width
+        # If the width isn't a multiple of four, bad things happen
+        imageWidth = 4 * round(imageWidth / 4)
+
+        self.setSize(int(imageWidth), int(imageHeight))
+        centeredCornerPos = (screenWidth - imageWidth) / 2
+        self.setPosition(int(centeredCornerPos), 0)
 
         # Resize image
         frame = cv2.resize(frame, (int(imageWidth), int(imageHeight)))
         rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         convertToQtFormat = QtGui.QImage(rgbImage.data, rgbImage.shape[1], rgbImage.shape[0], QtGui.QImage.Format_RGB888)
         convertToQtFormat = QtGui.QPixmap.fromImage(convertToQtFormat)
-        pixmap = QPixmap(convertToQtFormat)
-        self.QTWidget.setPixmap(pixmap)
+        self.QTWidget.setPixmap(convertToQtFormat)
+        self.QTWidget.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
 
     def rightClickMenu(self, e):
         menu = QMenu()
