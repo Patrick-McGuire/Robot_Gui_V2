@@ -2,8 +2,19 @@
 Base class that all our widgets are derived off of
 """
 
+import random
+import webcolors
+
 from PyQt5.QtWidgets import QWidget, QMenu
 from PyQt5.QtCore import Qt
+
+
+def convertNameToRGB(name: str):
+    try:
+        rgb = webcolors.name_to_rgb(name.lower().replace(" ", ""))
+        return [rgb.red, rgb.green, rgb.blue]
+    except ValueError:
+        return False
 
 
 class CustomBaseWidget(object):
@@ -46,7 +57,8 @@ class CustomBaseWidget(object):
 
         menu = QMenu()
         menu.addMenu(colorMenu)
-        awesome = menu.addAction("Whack Patrick")
+        menu.addSeparator()
+        awesome = menu.addAction("Whack Patrick", lambda x=random.random() * 1500, y=random.random() * 1000: self.setPosition(x, y))  # This is silly
         menu.move(e.x() + self.x, e.y() + self.y + 90)
         action = menu.exec_()
 
@@ -62,6 +74,9 @@ class CustomBaseWidget(object):
             print("Patrick has been whacked!!!!!!!!!!!!!!!!!!")
 
     def setColor(self, color):
+        color = color.replace("Grey", "Gray")
+        color = color.replace("grey", "gray")
+
         if color == "white":
             self.setColorRGB(255, 255, 255)
         elif color == "blue":
@@ -73,6 +88,9 @@ class CustomBaseWidget(object):
         elif "rgb" in color:
             [red, green, blue] = color.split("[")[1].split("]")[0].split(",")
             self.setColorRGB(int(float(red)), int(float(green)), int(float(blue)))  # Going to float then string fixes issues if the number is 0.0 or similar
+        elif convertNameToRGB(color):
+            rgb = convertNameToRGB(color)
+            self.setColorRGB(rgb[0], rgb[1], rgb[2])
         else:
             self.QTWidget.setStyleSheet("color: black")
 

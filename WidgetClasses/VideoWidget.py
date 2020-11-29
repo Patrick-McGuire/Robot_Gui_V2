@@ -8,12 +8,16 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel, QMenu
 
 from .CustomBaseWidget import CustomBaseWidget
+from Constants import Constants
 
 
 class VideoWidget(CustomBaseWidget):
-    def __init__(self, tab, xPos, yPos, width, height):
+    def __init__(self, tab, xPos, yPos, widgetInfo):
         QTWidget = QLabel(tab)
         super().__init__(QTWidget, xPos, yPos)
+
+        width = int(float(widgetInfo[Constants.DIMENSIONS_ATTRIBUTE].split("x")[0]))
+        height = int(float(widgetInfo[Constants.DIMENSIONS_ATTRIBUTE].split("x")[1]))
 
         self.setSize(width, height)
 

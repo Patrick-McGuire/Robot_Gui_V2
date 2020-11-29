@@ -5,6 +5,7 @@ import time
 import copy
 
 from GUIMaker import GUIMaker
+from XmlParser import XmlParser
 
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QMouseEvent
@@ -31,6 +32,7 @@ class CoreGUI(threading.Thread):
 
         self.GUICreator = None
         self.mainWindow = None
+        self.XMLParser = None
 
         self.activeClickedWidget = None
         self.activeOffset = [0, 0]
@@ -53,6 +55,7 @@ class CoreGUI(threading.Thread):
         self.GUICreator.SetTitle("Pr0b0t__c0nTr0l")
         self.mainWindow = self.GUICreator.getMainWindow()
 
+        # Create menu bar
         menuBar = self.mainWindow.menuBar()
         fileMenu = menuBar.addMenu("File")
         fileMenu.addAction("New")
@@ -69,32 +72,21 @@ class CoreGUI(threading.Thread):
         colorSubMenu.addAction("Green", lambda color="rgb[0,100,0]": self.setColorOnALlWidgets(color))
         colorSubMenu.addAction("Gray", lambda color="rgb[50,50,50]": self.setColorOnALlWidgets(color))
         colorSubMenu.addAction("Default", lambda color="default": self.setColorOnALlWidgets(color))
+        colorSubMenu.addSeparator()
         colorSubMenu.addAction("Toggle Rainbow", self.toggleRainbow)
+        widgetMenu.addSeparator()
+        widgetMenu.addAction("Lock all widgets")
+        widgetMenu.addAction("Unlock all widgets")
+        widgetMenu.addAction("Disable hide on click")
+        widgetMenu.addAction("Enable hide on click")
 
         helpMenu = menuBar.addMenu("Help")
-        helpMenu.addAction("Whack Patrick")
+        helpMenu.addAction("Whack Patrick", self.toggleRainbow)
 
-        self.GUICreator.CreateTab("1")
-        self.GUICreator.CreateTab("2")
+        self.GUICreator.createTab("Settings")
+        self.GUICreator.createTextBoxDropDownWidget("Settings", 100, 100)
 
-        self.GUICreator.CreateVideoWidget("1", 0, 0, 1500, 1000)
-
-        self.GUICreator.CreateButton("1", "test", 100, 200)
-        self.GUICreator.CreateButton("1", "2", 100, 250)
-        self.GUICreator.CreateButton("1", "3", 100, 300)
-
-        self.GUICreator.CreateTextBox("1", 1200, 200)
-        self.GUICreator.CreateTextBox("1", 1200, 300)
-        self.GUICreator.CreateTextBox("1", 1200, 400)
-
-        self.GUICreator.CreateCompassWidget("1", 250, 150, 200)
-        self.GUICreator.CreateCompassWidget("1", 1200, 700, 150)
-
-        self.GUICreator.CreateSimpleDropDown("2", 100, 100)
-
-        self.GUICreator.CreateTextBoxDropDownWidget("1", 100, 400)
-        self.GUICreator.CreateTextBoxDropDownWidget("1", 100, 550)
-        self.GUICreator.CreateTextBoxDropDownWidget("1", 1200, 500)
+        self.XMLParser = XmlParser("config/BasicConfig.xml", self.GUICreator)
 
         self.setupEventHandler()
 
@@ -103,9 +95,9 @@ class CoreGUI(threading.Thread):
         timer.timeout.connect(self.updateGUI)
         timer.start(10)
 
+        # Start GUI thread
         self.GUIStarted = True
         self.GUICreator.start()
-
         self.GUIDone = True
 
     def stop(self):
@@ -162,7 +154,6 @@ class CoreGUI(threading.Thread):
 
     def mouseReleaseEvent(self, e):
         if self.activeClickedWidget is not None:
-            # self.activeClickedWidget.setPosition(self.x, self.y)
             self.activeClickedWidget = None
 
     def setColorOnALlWidgets(self, color):

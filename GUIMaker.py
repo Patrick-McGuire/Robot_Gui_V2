@@ -19,7 +19,7 @@ class GUIMaker(object):
     def __init__(self):
         self.application = QApplication([])
         self.mainWindow = QMainWindow()
-        self.mainWindow.setGeometry(0, 0, 1500, 1000)
+
         self.tabHolderWidget = QTabWidget()
         self.tabHolderWidget.resize(300, 200)
 
@@ -37,37 +37,40 @@ class GUIMaker(object):
     def SetTitle(self, title):
         self.mainWindow.setWindowTitle(title)
 
+    def setWindowGeometry(self, width, height):
+        self.mainWindow.setGeometry(0, 0, int(width), int(height))
+
     def GetWidgetList(self):
         return self.widgetList
 
-    def CreateTab(self, name):
+    def createTab(self, name):
         """Creates a tab with the specified name"""
         self.tabs[name] = QWidget()
 
         self.tabHolderWidget.addTab(self.tabs[name], name)
 
-    def CreateButton(self, tabName, text, x, y):
+    def createButton(self, tabName, text, x, y):
         """Creates a basic button widget in the tab name specified"""
         self.widgetList.append(SimpleButton.SimpleButton(self.tabs[tabName], text, x, y))
 
-    def CreateTextBox(self, tabName, x, y):
+    def createTextBox(self, tabName, x, y, widgetInfo):
         """Creates a text box widget in the tab name specified"""
-        self.widgetList.append(TextBoxWidget.TextBoxWidget(self.tabs[tabName], x, y))
+        self.widgetList.append(TextBoxWidget.TextBoxWidget(self.tabs[tabName], x, y, widgetInfo))
 
-    def CreateSimpleDropDown(self, tabName, x, y):
+    def createSimpleDropDown(self, tabName, x, y):
         """Creates a text box widget in the tab name specified"""
         self.widgetList.append(SimpleDropDown.SimpleDropDown(self.tabs[tabName], x, y))
 
-    def CreateVideoWidget(self, tabName, x, y, width, height):
+    def createVideoWidget(self, tabName, x, y, widgetInfo):
         """Creates a video widget in the tab name specified"""
-        self.widgetList.append(VideoWidget.VideoWidget(self.tabs[tabName], x, y, width, height))
+        self.widgetList.append(VideoWidget.VideoWidget(self.tabs[tabName], x, y, widgetInfo))
 
-    def CreateCompassWidget(self, tabName, x, y, size):
+    def createCompassWidget(self, tabName, x, y, widgetInfo):
         """Creates a compass widget"""
-        self.widgetList.append(CompassWidget(self.tabs[tabName], "compass{}".format(self.widgetsCreated), x, y, size))
+        self.widgetList.append(CompassWidget(self.tabs[tabName], "compass{}".format(self.widgetsCreated), x, y, widgetInfo))
         self.widgetsCreated += 1
 
-    def CreateTextBoxDropDownWidget(self, tabName, x, y):
+    def createTextBoxDropDownWidget(self, tabName, x, y):
         """Creates a textbox with a drop down in the tab name specified"""
         self.widgetList.append(TextBoxDropDownWidget.TextBoxDropDownWidget(self.tabs[tabName], "textBoxDropDown_{}".format(self.widgetsCreated), x, y))
         self.widgetsCreated = self.widgetsCreated + 1
