@@ -5,8 +5,11 @@ Base class that all our widgets are derived off of
 import random
 import webcolors
 
-from PyQt5.QtWidgets import QWidget, QMenu
 from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QWidget, QMenu
+from PyQt5.QtGui import QFont
+
+from Constants import Constants
 
 
 def convertNameToRGB(name: str):
@@ -18,11 +21,12 @@ def convertNameToRGB(name: str):
 
 
 class CustomBaseWidget(object):
-    def __init__(self, QTWidget: QWidget, x: float, y: float, hasReturnValue: bool = False, returnKey: str = None):
+    def __init__(self, QTWidget: QWidget, x: float, y: float, hasReturnValue: bool = False, returnKey: str = None, configInfo=None):
         self.QTWidget = QTWidget
         self.QTWidget.move(x, y)
         self.QTWidget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.QTWidget.customContextMenuRequested.connect(self.rightClickMenu)
+        self.tabName = self.QTWidget.parent().objectName()
 
         if hasReturnValue and returnKey is None:
             print("No ReturnDataDict key specified for a widget.  This widget won't return data")
@@ -38,6 +42,24 @@ class CustomBaseWidget(object):
         self.yBuffer = 20
         self.width = 50
         self.height = 50
+
+        # Generic parameters that many widgets might need
+        self.borderWidth = 1
+        self.font = "Arial"
+        self.fontSize = 12
+        self.hidden = False
+
+        if configInfo is not None:
+            if Constants.BORDER_WIDTH_ATTRIBUTE in configInfo:
+                self.borderWidth = int(configInfo[Constants.BORDER_WIDTH_ATTRIBUTE])
+            if Constants.FONT_ATTRIBUTE in configInfo:
+                self.font = configInfo[Constants.FONT_ATTRIBUTE]
+            if Constants.FONT_SIZE_ATTRIBUTE in configInfo:
+                self.fontSize = int(configInfo[Constants.FONT_SIZE_ATTRIBUTE])
+            if Constants.BACKGROUND_ATTRIBUTE in configInfo:
+                self.setColor(configInfo[Constants.BACKGROUND_ATTRIBUTE])
+
+        self.QTWidget.setFont(QFont(self.font, self.fontSize))
 
     def setSize(self, width, height):
         self.QTWidget.setMinimumWidth(width)
@@ -96,12 +118,18 @@ class CustomBaseWidget(object):
 
     def setColorRGB(self, red: int, green: int, blue: int):
         if max(red, green, blue) > 150:
-            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb({0}, {1}, {2}); color: black".format(red, green, blue))
+            self.QTWidget.setStyleSheet("border: {3}px solid black; background: rgb({0}, {1}, {2}); color: black".format(red, green, blue, self.borderWidth))
         else:
-            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb({0}, {1}, {2}); color: white".format(red, green, blue))
+            self.QTWidget.setStyleSheet("border: {3}px solid black; background: rgb({0}, {1}, {2}); color: white".format(red, green, blue, self.borderWidth))
 
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")
+
+    def hide(self):
+        self.hidden = True
+
+    def show(self):
+        self.hidden = False
 
     def returnsData(self):
         """Returns true if this widget has data to return"""
@@ -112,7 +140,21 @@ class CustomBaseWidget(object):
         return self.QTWidget
 
     def update(self, dataPassDict):
-        """Update the widget.  Should be overwritten."""
+        """
+        Code that has to run every update for every widget.  DON'T OVERWRITE THIS ONE, OVERWRITE customUpdate()
+        NEEDS TO BE CALLED FROM THE GUI THREAD WITH A QTIMER!!!
+        """
+
+        # Hide/show the widget
+        # Needs to run here for thread reasons
+        if self.QTWidget.isHidden() != self.hidden:
+            self.QTWidget.setHidden(self.hidden)
+
+        # Run the custom update code
+        self.customUpdate(dataPassDict)
+
+    def customUpdate(self, dataPassDict):
+        """Update the widget.  Should be overwritten to add custom functionality"""
         pass
 
     def getData(self):
@@ -122,6 +164,9 @@ class CustomBaseWidget(object):
     def getReturnKey(self):
         """Returns the dictionary key to put the return data into"""
         return self.returnKey
+
+    def getTabName(self):
+        return self.tabName
 
     def isPointInWidget(self, x, y):
         if self.x - self.xBuffer <= x <= (self.x + self.width + self.xBuffer):

@@ -40,6 +40,7 @@ class CoreGUI(threading.Thread):
         self.dataPassDict = {}
         self.returnDict = {}
         self.rainbow = False
+        self.hideOnClick = False
         self.hue = 0
 
         # Start the GUI
@@ -52,7 +53,6 @@ class CoreGUI(threading.Thread):
 
     def run(self):
         self.GUICreator = GUIMaker()
-        self.GUICreator.SetTitle("Pr0b0t__c0nTr0l")
         self.mainWindow = self.GUICreator.getMainWindow()
 
         # Create menu bar
@@ -77,8 +77,9 @@ class CoreGUI(threading.Thread):
         widgetMenu.addSeparator()
         widgetMenu.addAction("Lock all widgets")
         widgetMenu.addAction("Unlock all widgets")
-        widgetMenu.addAction("Disable hide on click")
-        widgetMenu.addAction("Enable hide on click")
+        widgetMenu.addAction("Disable hide on click", lambda enabled=False: self.setHideOnClick(enabled))
+        widgetMenu.addAction("Enable hide on click", lambda enabled=True: self.setHideOnClick(enabled))
+        widgetMenu.addAction("Show all widgets", self.showAllWidgets)
 
         helpMenu = menuBar.addMenu("Help")
         helpMenu.addAction("Whack Patrick", self.toggleRainbow)
@@ -144,12 +145,18 @@ class CoreGUI(threading.Thread):
 
     def mousePressEvent(self, e: QMouseEvent):
         """Determines if we clicked on a widget"""
+        currentTabIndex = self.mainWindow.centralWidget().currentIndex()
+        tabList = self.GUICreator.getTabNames()
+
         if self.activeClickedWidget is None and e.button() == 1:
             listOfWidgets = self.GUICreator.GetWidgetList()
             for widget in reversed(listOfWidgets):
-                if widget.isPointInWidget(float(e.x()), float(e.y())):
-                    self.activeClickedWidget = widget
-                    self.activeOffset = [float(e.x()) - widget.x, float(e.y()) - widget.y]
+                if widget.isPointInWidget(float(e.x()), float(e.y())) and tabList[currentTabIndex] == widget.getTabName():
+                    if self.hideOnClick:
+                        widget.hide()
+                    else:
+                        self.activeClickedWidget = widget
+                        self.activeOffset = [float(e.x()) - widget.x, float(e.y()) - widget.y]
                     return
 
     def mouseReleaseEvent(self, e):
@@ -165,3 +172,13 @@ class CoreGUI(threading.Thread):
 
     def toggleRainbow(self):
         self.rainbow = not self.rainbow
+
+    def setHideOnClick(self, enabled: bool):
+        self.hideOnClick = enabled
+
+    def showAllWidgets(self):
+        """Shows all widgets"""
+        listOfWidgets = self.GUICreator.GetWidgetList()
+
+        for widget in listOfWidgets:
+            widget.show()

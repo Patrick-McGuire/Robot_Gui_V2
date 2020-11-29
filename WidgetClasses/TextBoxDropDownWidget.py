@@ -27,7 +27,7 @@ class TextBoxDropDownWidget(CustomBaseWidget):
 
         self.setMenuItems(["thing1", "thing2", "patrick"])
 
-    def update(self, dataPassDict):
+    def customUpdate(self, dataPassDict):
         outString = "Title:"
         lines = 1
         maxLineLength = len(outString)
@@ -43,14 +43,11 @@ class TextBoxDropDownWidget(CustomBaseWidget):
             if len(newLine) > maxLineLength:
                 maxLineLength = len(newLine)
 
-        self.QTWidget.setMinimumWidth(maxLineLength * 7 + 10)
-        self.QTWidget.setMaximumWidth(maxLineLength * 7 + 10)
-        self.QTWidget.setMinimumHeight(lines * 20 + 50)
-        self.QTWidget.setMaximumHeight(lines * 20 + 50)
+        self.QTWidget.adjustSize()
         self.textBoxWidget.setText(outString)
 
-        self.width = float(self.QTWidget.minimumWidth())
-        self.height = float(self.QTWidget.minimumHeight())
+        self.width = float(self.QTWidget.size().width())
+        self.height = float(self.QTWidget.size().height())
 
     def setMenuItems(self, menuItemList):
         self.dropDownWidget.clear()

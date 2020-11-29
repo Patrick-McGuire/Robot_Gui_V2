@@ -32,7 +32,7 @@ class CompassWidget(CustomBaseWidget):
 
         self.a = 0
 
-    def update(self, dataPassDict):
+    def customUpdate(self, dataPassDict):
         self.a = self.a + 1
         img = imutils.rotate(self.arrowImg, self.a)
         convertToQtFormat = QtGui.QImage(img.data, img.shape[1], img.shape[0], QtGui.QImage.Format_ARGB32)

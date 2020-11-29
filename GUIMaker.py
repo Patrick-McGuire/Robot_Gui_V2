@@ -14,6 +14,7 @@ from WidgetClasses import TextBoxDropDownWidget
 
 class GUIMaker(object):
     tabs = {}
+    tabNames = []
     widgetList = []
 
     def __init__(self):
@@ -46,8 +47,10 @@ class GUIMaker(object):
     def createTab(self, name):
         """Creates a tab with the specified name"""
         self.tabs[name] = QWidget()
+        self.tabs[name].setObjectName(name)
 
         self.tabHolderWidget.addTab(self.tabs[name], name)
+        self.tabNames.append(name)
 
     def createButton(self, tabName, text, x, y):
         """Creates a basic button widget in the tab name specified"""
@@ -77,3 +80,7 @@ class GUIMaker(object):
 
     def getMainWindow(self):
         return self.mainWindow
+
+    def getTabNames(self):
+        """Returns a list of tab names IN ORDER!!!"""
+        return self.tabNames

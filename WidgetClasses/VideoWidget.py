@@ -21,7 +21,7 @@ class VideoWidget(CustomBaseWidget):
 
         self.setSize(width, height)
 
-    def update(self, dataPassDict):
+    def customUpdate(self, dataPassDict):
         if "image" not in dataPassDict:
             return
 
