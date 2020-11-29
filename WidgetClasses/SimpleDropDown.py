@@ -24,3 +24,11 @@ class SimpleDropDown(CustomBaseWidget):
 
     def getData(self):
         return self.getCurrentText()
+
+    def setColorRGB(self, red: int, green: int, blue: int):
+        colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
+
+        if max(red, green, blue) > 127:
+            self.QTWidget.setStyleSheet(colorString + " color: black")
+        else:
+            self.QTWidget.setStyleSheet(colorString + " color: white")

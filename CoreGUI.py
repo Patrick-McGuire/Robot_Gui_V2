@@ -58,11 +58,10 @@ class CoreGUI(threading.Thread):
         # Create menu bar
         menuBar = self.mainWindow.menuBar()
         fileMenu = menuBar.addMenu("File")
-        fileMenu.addAction("New")
         fileMenu.addAction("Open")
         fileMenu.addAction("Save")
         fileMenu.addSeparator()
-        fileMenu.addAction("Quit")
+        fileMenu.addAction("Quit", self.stop)
 
         widgetMenu = menuBar.addMenu("Widgets")
         colorSubMenu = widgetMenu.addMenu("Set Color")
@@ -81,11 +80,19 @@ class CoreGUI(threading.Thread):
         widgetMenu.addAction("Enable hide on click", lambda enabled=True: self.setHideOnClick(enabled))
         widgetMenu.addAction("Show all widgets", self.showAllWidgets)
 
+        themeMenu = menuBar.addMenu("Theme")
+        themeMenu.addAction("Light", lambda theme="light": self.setTheme(theme))
+        themeMenu.addAction("Dark", lambda theme="dark": self.setTheme(theme))
+        themeMenu.addAction("Blue", lambda theme="blue": self.setTheme(theme))
+
         helpMenu = menuBar.addMenu("Help")
         helpMenu.addAction("Whack Patrick", self.toggleRainbow)
 
+        # PlaceHolders
         self.GUICreator.createTab("Settings")
         self.GUICreator.createTextBoxDropDownWidget("Settings", 100, 100)
+        self.GUICreator.createButton("Settings", "Whack Patrick", 100, 300)
+        self.GUICreator.createSimpleDropDown("Settings", 400, 100)
 
         self.XMLParser = XmlParser("config/BasicConfig.xml", self.GUICreator)
 
@@ -109,6 +116,17 @@ class CoreGUI(threading.Thread):
 
     def getReturnDict(self):
         return self.returnDict
+
+    def setTheme(self, theme: str):
+        if theme == "dark":
+            self.setColorOnALlWidgets("grey")
+            self.GUICreator.setGUIColor(50, 50, 50)
+        elif theme == "light":
+            self.setColorOnALlWidgets("default")
+            self.GUICreator.setGUIColor(255, 255, 255)
+        elif theme == "blue":
+            self.setColorOnALlWidgets("rgb[0,0,50]")
+            self.GUICreator.setGUIColor(0, 0, 40)
 
     def updateGUI(self):
         listOfWidgets = self.GUICreator.GetWidgetList()

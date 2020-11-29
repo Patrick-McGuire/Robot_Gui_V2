@@ -15,9 +15,10 @@ class TextBoxWidget(CustomBaseWidget):
         self.yBuffer = 0
 
         self.boxFormat = widgetInfo[Constants.CONFIG_ATTRIBUTE]
+        self.title = widgetInfo[Constants.TITLE_ATTRIBUTE]
 
     def customUpdate(self, dataPassDict):
-        outString = "Title:"
+        outString = self.title
         lines = 1
         maxLineLength = len(outString)
 
@@ -34,6 +35,3 @@ class TextBoxWidget(CustomBaseWidget):
 
         self.QTWidget.setText(outString)
         self.QTWidget.adjustSize()
-
-        self.width = float(self.QTWidget.size().width())
-        self.height = float(self.QTWidget.size().height())

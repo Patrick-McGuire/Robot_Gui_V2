@@ -14,7 +14,7 @@ class Constants:
     TAB_ATTRIBUTE = "tab"
     LABEL_ATTRIBUTE = "label"
     VALUE_ATTRIBUTE = "value"
-    TITTLE_ATTRIBUTE = "title"
+    TITLE_ATTRIBUTE = "title"
     TYPE_ATTRIBUTE = "type"
     FONT_ATTRIBUTE = "font"
     FONT_SIZE_ATTRIBUTE = "fontsize"

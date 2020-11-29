@@ -153,6 +153,10 @@ class CustomBaseWidget(object):
         # Run the custom update code
         self.customUpdate(dataPassDict)
 
+        # Update the size
+        self.width = float(self.QTWidget.size().width())
+        self.height = float(self.QTWidget.size().height())
+
     def customUpdate(self, dataPassDict):
         """Update the widget.  Should be overwritten to add custom functionality"""
         pass
@@ -170,7 +174,7 @@ class CustomBaseWidget(object):
 
     def isPointInWidget(self, x, y):
         if self.x - self.xBuffer <= x <= (self.x + self.width + self.xBuffer):
-            if (self.y + 30 - self.yBuffer) <= y <= (self.y + self.height + 30 + self.yBuffer):
+            if (self.y + 50 - self.yBuffer) <= y <= (self.y + self.height + 50 + self.yBuffer):
                 return True
         return False
 

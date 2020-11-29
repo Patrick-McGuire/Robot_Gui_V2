@@ -46,9 +46,6 @@ class TextBoxDropDownWidget(CustomBaseWidget):
         self.QTWidget.adjustSize()
         self.textBoxWidget.setText(outString)
 
-        self.width = float(self.QTWidget.size().width())
-        self.height = float(self.QTWidget.size().height())
-
     def setMenuItems(self, menuItemList):
         self.dropDownWidget.clear()
         self.dropDownWidget.addItems(menuItemList)
@@ -59,11 +56,11 @@ class TextBoxDropDownWidget(CustomBaseWidget):
         if max(red, green, blue) > 127:
             self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: black}")
             self.textBoxWidget.setStyleSheet("border: 1px solid black; " + colorString + " color: black")
-            self.dropDownWidget.setStyleSheet("color: black")
+            self.dropDownWidget.setStyleSheet(colorString + " color: black")
         else:
             self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: white}")
             self.textBoxWidget.setStyleSheet("border: 1px solid black; " + colorString + " color: white")
-            self.dropDownWidget.setStyleSheet("color: black")
+            self.dropDownWidget.setStyleSheet(colorString + " color: white")
 
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")

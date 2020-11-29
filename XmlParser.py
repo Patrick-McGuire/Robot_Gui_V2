@@ -16,7 +16,7 @@ class XmlParser:
         self.document = xml.dom.minidom.parse(filename)
 
         # Get attributes that will apply to the entire window
-        self.guiName = self.document.getElementsByTagName(Constants.WINDOW_NAME)[0].getAttribute(Constants.TITTLE_ATTRIBUTE)
+        self.guiName = self.document.getElementsByTagName(Constants.WINDOW_NAME)[0].getAttribute(Constants.TITLE_ATTRIBUTE)
         windowHeight = self.document.getElementsByTagName(Constants.WINDOW_NAME)[0].getAttribute(Constants.HEIGHT_ATTRIBUTE)
         windowWidth = self.document.getElementsByTagName(Constants.WINDOW_NAME)[0].getAttribute(Constants.WIDTH_ATTRIBUTE)
 
@@ -29,7 +29,7 @@ class XmlParser:
         # Generate all of the tabs
         for i in range(0, len(tabs)):
             # Add a new tab for every tab in the xml file
-            tabName = tabs[i].getAttribute(Constants.TITTLE_ATTRIBUTE)
+            tabName = tabs[i].getAttribute(Constants.TITLE_ATTRIBUTE)
             self.guiGenerator.createTab(tabName)
 
             # Get a list of widgets for the current tab
@@ -38,7 +38,7 @@ class XmlParser:
                 self.createWidget(widget, tabName)
 
     def createWidget(self, widget, tab):
-        title = self.getAttribute(widget, Constants.TITTLE_ATTRIBUTE, "Error: no title")
+        title = self.getAttribute(widget, Constants.TITLE_ATTRIBUTE, "Error: no title")
         font = self.getAttribute(widget, Constants.FONT_ATTRIBUTE, "Arial")
         fontSize = self.getAttribute(widget, Constants.FONT_SIZE_ATTRIBUTE, "20")
         xPos = int(float(self.getAttribute(widget, Constants.X_POS_ATTRIBUTE, "0")))
@@ -51,7 +51,7 @@ class XmlParser:
         relief = self.getAttribute(widget, Constants.RELIEF_ATTRIBUTE, "raised")
 
         widgetInfo = {
-            Constants.TITTLE_ATTRIBUTE: title,
+            Constants.TITLE_ATTRIBUTE: title,
             Constants.FONT_ATTRIBUTE: font,
             Constants.TAB_ATTRIBUTE: tab,
             Constants.FONT_SIZE_ATTRIBUTE: fontSize,

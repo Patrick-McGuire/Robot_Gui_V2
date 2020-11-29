@@ -2,7 +2,7 @@
 Function calls to actually create GUI elements
 """
 
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget, QTabBar
 
 from WidgetClasses import SimpleButton
 from WidgetClasses import TextBoxWidget
@@ -20,8 +20,13 @@ class GUIMaker(object):
     def __init__(self):
         self.application = QApplication([])
         self.mainWindow = QMainWindow()
+        self.mainWindow.setObjectName("Main_Window")
+        self.application.setObjectName("Application")
+        self.mainWindow.menuBar().setObjectName("Menu_Bar")
 
         self.tabHolderWidget = QTabWidget()
+        self.tabHolderWidget.setObjectName("Tab_Holder")
+        self.tabHolderWidget.tabBar().setObjectName("Tab_Bar")
         self.tabHolderWidget.resize(300, 200)
 
         self.widgetsCreated = 0
@@ -84,3 +89,20 @@ class GUIMaker(object):
     def getTabNames(self):
         """Returns a list of tab names IN ORDER!!!"""
         return self.tabNames
+
+    def setGUIColor(self, red, green, blue):
+        colorString = " background: rgb({0}, {1}, {2});".format(red, green, blue)
+        slightlyDarkerColor = " background: rgb({0}, {1}, {2});".format(max(red - 10, 0), max(green - 10, 0), max(blue - 10, 0))
+
+        if max(red, green, blue) > 127:
+            textColorString = " color: black"
+        else:
+            textColorString = " color: white"
+
+        self.mainWindow.setStyleSheet("QWidget#" + self.mainWindow.objectName() + "{" + slightlyDarkerColor + textColorString + "}")
+        self.tabHolderWidget.setStyleSheet("QWidget#" + self.tabHolderWidget.objectName() + "{" + colorString + textColorString + "}")
+        self.mainWindow.menuBar().setStyleSheet("QWidget#" + self.mainWindow.menuBar().objectName() + "{" + slightlyDarkerColor + textColorString + "}")
+        self.tabHolderWidget.tabBar().setStyleSheet("QWidget#" + self.tabHolderWidget.tabBar().objectName() + "{" + slightlyDarkerColor + textColorString + "}")
+
+        for tab in self.tabs:
+            self.tabs[tab].setStyleSheet("QWidget#" + self.tabs[tab].objectName() + "{" + colorString + textColorString + "}")
