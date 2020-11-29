@@ -39,9 +39,10 @@ class CustomBaseWidget(object):
 
     def rightClickMenu(self, e):
         colorMenu = QMenu("Set color")
-        whiteAction = colorMenu.addAction("white")
-        blueAction = colorMenu.addAction("blue")
-        defaultAction = colorMenu.addAction("default")
+        whiteAction = colorMenu.addAction("White")
+        blueAction = colorMenu.addAction("Blue")
+        greyAction = colorMenu.addAction("Grey")
+        defaultAction = colorMenu.addAction("Default")
 
         menu = QMenu()
         menu.addMenu(colorMenu)
@@ -55,6 +56,8 @@ class CustomBaseWidget(object):
             self.setColor("default")
         elif action == blueAction:
             self.setColor("blue")
+        elif action == greyAction:
+            self.setColor("grey")
         elif action == awesome:
             print("Patrick has been whacked!!!!!!!!!!!!!!!!!!")
 
@@ -63,16 +66,18 @@ class CustomBaseWidget(object):
             self.setColorRGB(255, 255, 255)
         elif color == "blue":
             self.setColorRGB(0, 0, 100)
+        elif color == "grey" or color == "gray":
+            self.setColorRGB(50, 50, 50)
         elif color == "default":
             self.setDefaultAppearance()
         elif "rgb" in color:
             [red, green, blue] = color.split("[")[1].split("]")[0].split(",")
-            self.setColorRGB(int(red), int(green), int(blue))
+            self.setColorRGB(int(float(red)), int(float(green)), int(float(blue)))  # Going to float then string fixes issues if the number is 0.0 or similar
         else:
             self.QTWidget.setStyleSheet("color: black")
 
     def setColorRGB(self, red: int, green: int, blue: int):
-        if max(red, green, blue) > 127:
+        if max(red, green, blue) > 150:
             self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb({0}, {1}, {2}); color: black".format(red, green, blue))
         else:
             self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb({0}, {1}, {2}); color: white".format(red, green, blue))

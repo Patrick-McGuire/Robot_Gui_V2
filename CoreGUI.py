@@ -1,3 +1,4 @@
+import colorsys
 import threading
 
 import time
@@ -36,6 +37,8 @@ class CoreGUI(threading.Thread):
 
         self.dataPassDict = {}
         self.returnDict = {}
+        self.rainbow = False
+        self.hue = 0
 
         # Start the GUI
         threading.Thread.__init__(self)
@@ -66,6 +69,7 @@ class CoreGUI(threading.Thread):
         colorSubMenu.addAction("Green", lambda color="rgb[0,100,0]": self.setColorOnALlWidgets(color))
         colorSubMenu.addAction("Gray", lambda color="rgb[50,50,50]": self.setColorOnALlWidgets(color))
         colorSubMenu.addAction("Default", lambda color="default": self.setColorOnALlWidgets(color))
+        colorSubMenu.addAction("Toggle Rainbow", self.toggleRainbow)
 
         helpMenu = menuBar.addMenu("Help")
         helpMenu.addAction("Whack Patrick")
@@ -125,6 +129,14 @@ class CoreGUI(threading.Thread):
 
         self.returnDict = copy.deepcopy(returnDict)
 
+        if self.rainbow:
+            self.hue += 0.01
+            if self.hue > 1:
+                self.hue = 0
+
+            [red, green, blue] = colorsys.hsv_to_rgb(self.hue, 1, 1)
+            self.setColorOnALlWidgets("rgb[{0},{1},{2}]".format(red * 255, green * 255, blue * 255))
+
     def setupEventHandler(self):
         """Overwrites mainWindow's event handlers to ones in this class"""
         self.mainWindow.mouseMoveEvent = self.mouseMoveEvent
@@ -154,6 +166,11 @@ class CoreGUI(threading.Thread):
             self.activeClickedWidget = None
 
     def setColorOnALlWidgets(self, color):
+        """Sets colors on all widgets"""
         listOfWidgets = self.GUICreator.GetWidgetList()
+
         for widget in listOfWidgets:
             widget.setColor(color)
+
+    def toggleRainbow(self):
+        self.rainbow = not self.rainbow
