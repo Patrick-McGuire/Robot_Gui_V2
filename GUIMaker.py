@@ -1,8 +1,8 @@
 """
 Function calls to actually create GUI elements
 """
-import PyQt5.QtGui as QtGui
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget, QMenuBar
+
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget
 
 from WidgetClasses import SimpleButton
 from WidgetClasses import TextBoxWidget
@@ -22,19 +22,6 @@ class GUIMaker(object):
         self.mainWindow.setGeometry(0, 0, 1500, 1000)
         self.tabHolderWidget = QTabWidget()
         self.tabHolderWidget.resize(300, 200)
-
-        menuBar = self.mainWindow.menuBar()
-        fileMenu = menuBar.addMenu("File")
-        fileMenu.addAction("New")
-        fileMenu.addAction("Open")
-        fileMenu.addAction("Save")
-        fileMenu.addSeparator()
-        fileMenu.addAction("Quit")
-
-        menuBar.addMenu("Edit")
-        menuBar.addMenu("View")
-        helpMenu = menuBar.addMenu("Help")
-        helpMenu.addAction("Whack Patrick")
 
         self.widgetsCreated = 0
 
@@ -76,7 +63,9 @@ class GUIMaker(object):
         self.widgetList.append(VideoWidget.VideoWidget(self.tabs[tabName], x, y, width, height))
 
     def CreateCompassWidget(self, tabName, x, y, size):
-        self.widgetList.append(CompassWidget(self.tabs[tabName], x, y, size))
+        """Creates a compass widget"""
+        self.widgetList.append(CompassWidget(self.tabs[tabName], "compass{}".format(self.widgetsCreated), x, y, size))
+        self.widgetsCreated += 1
 
     def CreateTextBoxDropDownWidget(self, tabName, x, y):
         """Creates a textbox with a drop down in the tab name specified"""

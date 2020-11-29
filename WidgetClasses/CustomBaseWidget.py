@@ -60,13 +60,25 @@ class CustomBaseWidget(object):
 
     def setColor(self, color):
         if color == "white":
-            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb(255, 255, 255); color: black")
+            self.setColorRGB(255, 255, 255)
         elif color == "blue":
-            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb(0, 0, 100); color: white")
+            self.setColorRGB(0, 0, 100)
         elif color == "default":
-            self.QTWidget.setStyleSheet("color: black")
+            self.setDefaultAppearance()
+        elif "rgb" in color:
+            [red, green, blue] = color.split("[")[1].split("]")[0].split(",")
+            self.setColorRGB(int(red), int(green), int(blue))
         else:
             self.QTWidget.setStyleSheet("color: black")
+
+    def setColorRGB(self, red: int, green: int, blue: int):
+        if max(red, green, blue) > 127:
+            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb({0}, {1}, {2}); color: black".format(red, green, blue))
+        else:
+            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb({0}, {1}, {2}); color: white".format(red, green, blue))
+
+    def setDefaultAppearance(self):
+        self.QTWidget.setStyleSheet("color: black")
 
     def returnsData(self):
         """Returns true if this widget has data to return"""

@@ -30,14 +30,16 @@ class VideoWidget(CustomBaseWidget):
         # Fix aspect ratio
         if aspectRatio >= widgetAspectRatio:
             imageWidth = self.width
-            imageHeight = self.width / aspectRatio
+            imageHeight = int(self.width / aspectRatio)
         else:
             imageHeight = self.height
-            imageWidth = self.height * aspectRatio
+            imageWidth = int(self.height * aspectRatio)
 
+        if imageWidth == self.width + 1:
+            imageWidth = self.width
 
         # Resize image
-        frame = cv2.resize(frame, (int(imageWidth-1), int(imageHeight-1)))
+        frame = cv2.resize(frame, (int(imageWidth), int(imageHeight)))
         rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         convertToQtFormat = QtGui.QImage(rgbImage.data, rgbImage.shape[1], rgbImage.shape[0], QtGui.QImage.Format_RGB888)
         convertToQtFormat = QtGui.QPixmap.fromImage(convertToQtFormat)
@@ -52,3 +54,6 @@ class VideoWidget(CustomBaseWidget):
 
         if action == awesome:
             print("Patrick has been whacked!!!!!!!!!!!!!!!!!!")
+
+    def setColor(self, color):
+        pass

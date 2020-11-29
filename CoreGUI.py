@@ -48,6 +48,28 @@ class CoreGUI(threading.Thread):
     def run(self):
         self.GUICreator = GUIMaker()
         self.GUICreator.SetTitle("Pr0b0t__c0nTr0l")
+        self.mainWindow = self.GUICreator.getMainWindow()
+
+        menuBar = self.mainWindow.menuBar()
+        fileMenu = menuBar.addMenu("File")
+        fileMenu.addAction("New")
+        fileMenu.addAction("Open")
+        fileMenu.addAction("Save")
+        fileMenu.addSeparator()
+        fileMenu.addAction("Quit")
+
+        widgetMenu = menuBar.addMenu("Widgets")
+        colorSubMenu = widgetMenu.addMenu("Set Color")
+        colorSubMenu.addAction("White", lambda color="white": self.setColorOnALlWidgets(color))
+        colorSubMenu.addAction("Blue", lambda color="blue": self.setColorOnALlWidgets(color))
+        colorSubMenu.addAction("Red", lambda color="rgb[255,0,0]": self.setColorOnALlWidgets(color))
+        colorSubMenu.addAction("Green", lambda color="rgb[0,100,0]": self.setColorOnALlWidgets(color))
+        colorSubMenu.addAction("Gray", lambda color="rgb[50,50,50]": self.setColorOnALlWidgets(color))
+        colorSubMenu.addAction("Default", lambda color="default": self.setColorOnALlWidgets(color))
+
+        helpMenu = menuBar.addMenu("Help")
+        helpMenu.addAction("Whack Patrick")
+
         self.GUICreator.CreateTab("1")
         self.GUICreator.CreateTab("2")
 
@@ -61,16 +83,15 @@ class CoreGUI(threading.Thread):
         self.GUICreator.CreateTextBox("1", 1200, 300)
         self.GUICreator.CreateTextBox("1", 1200, 400)
 
-        self.GUICreator.CreateCompassWidget("1", 100, 100, 200)
-        self.GUICreator.CreateCompassWidget("1", 100, 100, 150)
+        self.GUICreator.CreateCompassWidget("1", 250, 150, 200)
+        self.GUICreator.CreateCompassWidget("1", 1200, 700, 150)
 
         self.GUICreator.CreateSimpleDropDown("2", 100, 100)
 
-        self.GUICreator.CreateTextBoxDropDownWidget("1", 500, 500)
-        self.GUICreator.CreateTextBoxDropDownWidget("1", 500, 500)
-        self.GUICreator.CreateTextBoxDropDownWidget("1", 500, 500)
+        self.GUICreator.CreateTextBoxDropDownWidget("1", 100, 400)
+        self.GUICreator.CreateTextBoxDropDownWidget("1", 100, 550)
+        self.GUICreator.CreateTextBoxDropDownWidget("1", 1200, 500)
 
-        self.mainWindow = self.GUICreator.getMainWindow()
         self.setupEventHandler()
 
         # QTimer to run the update method
@@ -131,3 +152,8 @@ class CoreGUI(threading.Thread):
         if self.activeClickedWidget is not None:
             # self.activeClickedWidget.setPosition(self.x, self.y)
             self.activeClickedWidget = None
+
+    def setColorOnALlWidgets(self, color):
+        listOfWidgets = self.GUICreator.GetWidgetList()
+        for widget in listOfWidgets:
+            widget.setColor(color)

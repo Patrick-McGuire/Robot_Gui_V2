@@ -56,20 +56,19 @@ class TextBoxDropDownWidget(CustomBaseWidget):
         self.dropDownWidget.clear()
         self.dropDownWidget.addItems(menuItemList)
 
-    def setColor(self, color):
-        if color == "white":
-            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; background: rgb(255, 255, 255); color: black}")
-            self.textBoxWidget.setStyleSheet("border: 1px solid black; background: rgb(255, 255, 255); color: black")
-            self.dropDownWidget.setStyleSheet("color: black")
-        elif color == "blue":
-            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; background: rgb(0, 0, 100); color: black}")
-            self.textBoxWidget.setStyleSheet("border: 1px solid black; background: rgb(0, 0, 100); color: white")
-            self.dropDownWidget.setStyleSheet("color: black")
-        elif color == "default":
-            self.QTWidget.setStyleSheet("color: black")
-            self.textBoxWidget.setStyleSheet("color: black")
+    def setColorRGB(self, red, green, blue):
+        colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
+
+        if max(red, green, blue) > 127:
+            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: black}")
+            self.textBoxWidget.setStyleSheet("border: 1px solid black; " + colorString + " color: black")
             self.dropDownWidget.setStyleSheet("color: black")
         else:
-            self.QTWidget.setStyleSheet("color: black")
-            self.textBoxWidget.setStyleSheet("color: black")
+            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: white}")
+            self.textBoxWidget.setStyleSheet("border: 1px solid black; " + colorString + " color: white")
             self.dropDownWidget.setStyleSheet("color: black")
+
+    def setDefaultAppearance(self):
+        self.QTWidget.setStyleSheet("color: black")
+        self.textBoxWidget.setStyleSheet("color: black")
+        self.dropDownWidget.setStyleSheet("color: black")

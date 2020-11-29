@@ -1,17 +1,17 @@
 import PyQt5.QtGui as QtGui
 import cv2
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QLabel, QMenu, QWidget, QStackedLayout
-import numpy
+from PyQt5.QtWidgets import QLabel
 import imutils
 
 from .CustomBaseWidget import CustomBaseWidget
 
-class CompassWidget(CustomBaseWidget):
 
-    def __init__(self, tab, x, y, size):
+class CompassWidget(CustomBaseWidget):
+    def __init__(self, tab, name, x, y, size):
         QTWidget = QLabel(tab)
         super().__init__(QTWidget, x, y)
+        self.QTWidget.setObjectName(name)
         self.size = size
         self.arrow = QLabel(self.QTWidget)
 
@@ -28,8 +28,6 @@ class CompassWidget(CustomBaseWidget):
 
         self.a = 0
 
-
-
     def update(self, dataPassDict):
         self.a = self.a + 1
         img = imutils.rotate(self.arrowImg, self.a)
@@ -38,4 +36,17 @@ class CompassWidget(CustomBaseWidget):
         pixmap = QPixmap(convertToQtFormat)
         self.arrow.setPixmap(pixmap)
         self.arrow.setStyleSheet("color: black")
-        pass
+
+    def setColorRGB(self, red, green, blue):
+        colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
+
+        if max(red, green, blue) > 127:
+            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: black}")
+            self.arrow.setStyleSheet("color: black")
+        else:
+            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: white}")
+            self.arrow.setStyleSheet("color: black")
+
+    def setDefaultAppearance(self):
+        self.QTWidget.setStyleSheet("color: black")
+        self.arrow.setStyleSheet("color: black")
