@@ -10,6 +10,8 @@ from XmlParser import XmlParser
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QMouseEvent
 
+from Constants import Constants
+
 
 # This class handles the underlying functionality of updating widgets, running, and creating the GUI
 def clamp(value, minValue, maxValue):
@@ -63,6 +65,7 @@ class CoreGUI(threading.Thread):
         fileMenu.addSeparator()
         fileMenu.addAction("Quit", self.stop)
 
+        # Menu bar for widgets
         widgetMenu = menuBar.addMenu("Widgets")
         colorSubMenu = widgetMenu.addMenu("Set Color")
         colorSubMenu.addAction("White", lambda color="white": self.setColorOnALlWidgets(color))
@@ -74,16 +77,20 @@ class CoreGUI(threading.Thread):
         colorSubMenu.addSeparator()
         colorSubMenu.addAction("Toggle Rainbow", self.toggleRainbow)
         widgetMenu.addSeparator()
-        widgetMenu.addAction("Lock all widgets")
-        widgetMenu.addAction("Unlock all widgets")
+        widgetMenu.addAction("Lock all widgets", lambda draggable=False: self.setDraggingOnALlWidgets(draggable))
+        widgetMenu.addAction("Unlock all widgets", lambda draggable=True: self.setDraggingOnALlWidgets(draggable))
         widgetMenu.addAction("Disable hide on click", lambda enabled=False: self.setHideOnClick(enabled))
         widgetMenu.addAction("Enable hide on click", lambda enabled=True: self.setHideOnClick(enabled))
         widgetMenu.addAction("Show all widgets", self.showAllWidgets)
 
+        # Menu bar for themes
         themeMenu = menuBar.addMenu("Theme")
         themeMenu.addAction("Light", lambda theme="light": self.setTheme(theme))
         themeMenu.addAction("Dark", lambda theme="dark": self.setTheme(theme))
         themeMenu.addAction("Blue", lambda theme="blue": self.setTheme(theme))
+        themeMenu.addSection("Experimental")
+        themeMenu.addAction("Red", lambda theme="rgb[100,0,0]": self.setTheme(theme))
+        themeMenu.addAction("Black", lambda theme="rgb[0,0,0]": self.setTheme(theme))
 
         helpMenu = menuBar.addMenu("Help")
         helpMenu.addAction("Whack Patrick", self.toggleRainbow)
@@ -95,6 +102,9 @@ class CoreGUI(threading.Thread):
         self.GUICreator.createSimpleDropDown("Settings", 400, 100)
 
         self.XMLParser = XmlParser("config/BasicConfig.xml", self.GUICreator)
+
+        returnData = self.XMLParser.getConfigData()
+        self.setTheme(returnData[Constants.THEME_ATTRIBUTE])
 
         self.setupEventHandler()
 
@@ -125,10 +135,14 @@ class CoreGUI(threading.Thread):
             self.GUICreator.setGUIColor(30, 30, 30)
         elif theme == "light":
             self.setColorOnALlWidgets("default")
-            self.GUICreator.setGUIColor(255, 255, 255)
+            self.GUICreator.setGUIColor(250, 250, 250)
         elif theme == "blue":
             self.setColorOnALlWidgets("rgb[0,0,50]")
             self.GUICreator.setGUIColor(0, 0, 40)
+        elif "rgb" in theme:
+            self.setColorOnALlWidgets(theme)
+            [red, green, blue] = theme.split("[")[1].split("]")[0].split(",")
+            self.GUICreator.setGUIColor(int(float(red)), int(float(green)), int(float(blue)))
 
     def updateGUI(self):
         listOfWidgets = self.GUICreator.GetWidgetList()
@@ -158,7 +172,7 @@ class CoreGUI(threading.Thread):
 
     def mouseMoveEvent(self, e):
         """Moves the active widget to the position of the mouse if we are currently clicked"""
-        if self.activeClickedWidget is not None:
+        if self.activeClickedWidget is not None and self.activeClickedWidget.isDraggable():
             x = clamp(e.x() - self.activeOffset[0], 0, float(self.mainWindow.width()) - 30)
             y = clamp(e.y() - self.activeOffset[1], 0, float(self.mainWindow.height()) - 50)
             self.activeClickedWidget.setPosition(x, y)
@@ -189,6 +203,13 @@ class CoreGUI(threading.Thread):
 
         for widget in listOfWidgets:
             widget.setColor(color)
+
+    def setDraggingOnALlWidgets(self, draggable):
+        """Sets colors on all widgets"""
+        listOfWidgets = self.GUICreator.GetWidgetList()
+
+        for widget in listOfWidgets:
+            widget.setDraggable(draggable)
 
     def toggleRainbow(self):
         self.rainbow = not self.rainbow

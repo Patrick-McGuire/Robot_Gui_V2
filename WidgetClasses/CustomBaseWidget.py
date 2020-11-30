@@ -42,6 +42,7 @@ class CustomBaseWidget(object):
         self.yBuffer = 20
         self.width = 50
         self.height = 50
+        self.draggable = True
 
         # Generic parameters that many widgets might need
         self.borderWidth = 1
@@ -80,6 +81,8 @@ class CustomBaseWidget(object):
         menu = QMenu()
         menu.addMenu(colorMenu)
         menu.addSeparator()
+        menu.addAction("Enable dragging", lambda draggable=True: self.setDraggable(draggable))
+        menu.addAction("Disable dragging", lambda draggable=False: self.setDraggable(draggable))
         awesome = menu.addAction("Whack Patrick", lambda x=random.random() * 1500, y=random.random() * 1000: self.setPosition(x, y))  # This is silly
         menu.move(e.x() + self.x, e.y() + self.y + 90)
         action = menu.exec_()
@@ -130,6 +133,12 @@ class CustomBaseWidget(object):
 
     def show(self):
         self.hidden = False
+
+    def setDraggable(self, draggable):
+        self.draggable = draggable
+
+    def isDraggable(self):
+        return self.draggable
 
     def returnsData(self):
         """Returns true if this widget has data to return"""

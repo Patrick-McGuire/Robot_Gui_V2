@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<window height="993" title="Probot Control" width="1920">
+<window height="993" title="Probot Control" width="1920" theme="dark">
     <tab title="Dashboard">
         <widget dimensions="800x600" draggable="True" fullscreen="True" hidden="False" lockAspectRatio="True" source="webcam" title="test" type="video" x="82.85" y="0"/>
 

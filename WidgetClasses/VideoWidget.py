@@ -4,7 +4,6 @@ Text box widget
 
 import PyQt5.QtGui as QtGui
 import cv2
-from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel, QMenu, QSizePolicy
 
 from .CustomBaseWidget import CustomBaseWidget
@@ -20,15 +19,16 @@ class VideoWidget(CustomBaseWidget):
         height = int(float(widgetInfo[Constants.DIMENSIONS_ATTRIBUTE].split("x")[1]))
 
         self.setSize(width, height)
+        self.draggable = False
 
     def customUpdate(self, dataPassDict):
         if "image" not in dataPassDict:
             return
 
-        frame = dataPassDict["image"]
         screenWidth = self.QTWidget.parent().size().width()
         screenHeight = self.QTWidget.parent().size().height()
 
+        frame = dataPassDict["image"]
         height, width, channels = frame.shape
         aspectRatio = float(width) / float(height)
         screenAspectRatio = float(screenWidth) / float(screenHeight)
@@ -66,4 +66,7 @@ class VideoWidget(CustomBaseWidget):
             print("Patrick has been whacked!!!!!!!!!!!!!!!!!!")
 
     def setColor(self, color):
+        pass
+
+    def setDraggable(self, draggable):
         pass

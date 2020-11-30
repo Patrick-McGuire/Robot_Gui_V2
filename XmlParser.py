@@ -19,6 +19,7 @@ class XmlParser:
         self.guiName = self.document.getElementsByTagName(Constants.WINDOW_NAME)[0].getAttribute(Constants.TITLE_ATTRIBUTE)
         windowHeight = self.document.getElementsByTagName(Constants.WINDOW_NAME)[0].getAttribute(Constants.HEIGHT_ATTRIBUTE)
         windowWidth = self.document.getElementsByTagName(Constants.WINDOW_NAME)[0].getAttribute(Constants.WIDTH_ATTRIBUTE)
+        self.theme = self.document.getElementsByTagName(Constants.WINDOW_NAME)[0].getAttribute(Constants.THEME_ATTRIBUTE)
 
         self.guiGenerator.SetTitle(self.guiName)
         self.guiGenerator.setWindowGeometry(windowWidth, windowHeight)
@@ -107,3 +108,6 @@ class XmlParser:
         if data == "":
             return default
         return data
+
+    def getConfigData(self):
+        return {Constants.THEME_ATTRIBUTE: self.theme}

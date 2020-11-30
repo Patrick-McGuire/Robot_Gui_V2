@@ -33,6 +33,7 @@ class Constants:
     FULLSCREEN_ATTRIBUTE = "fullscreen"
     LOCK_ASPECT_RATIO_ATTRIBUTE = "lockAspectRatio"
     SIZE_ATTRIBUTE = "size"
+    THEME_ATTRIBUTE = "theme"
     # ATTRIBUTE
     BATTERY_VOLTAGE_VALUE = "batteryVoltage"
     V5_VOLTAGE_VALUE = "v5Voltage"
