@@ -13,6 +13,7 @@ class RobotGUI2:
         self.coreGui.updateDataPassDict(dataPassDict)
 
     def getDataPassDict(self):
+        """Doesn't really do anything yet"""
         return self.dataPassDict
 
     def stop(self):

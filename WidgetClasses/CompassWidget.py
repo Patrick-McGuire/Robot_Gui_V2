@@ -37,7 +37,11 @@ class CompassWidget(CustomBaseWidget):
         self.setColor("grey")
 
     def customUpdate(self, dataPassDict):
-        rotation = -(float(dataPassDict[self.source]) + 90)  # Convert to actual compass heading
+        if self.source not in dataPassDict:
+            rotation = 0
+        else:
+            rotation = -(float(dataPassDict[self.source]) + 90)  # Convert to actual compass heading
+
         img = imutils.rotate(self.arrowImg, rotation)
         convertToQtFormat = QtGui.QImage(img.data, img.shape[1], img.shape[0], QtGui.QImage.Format_ARGB32)
         convertToQtFormat = QtGui.QPixmap.fromImage(convertToQtFormat)

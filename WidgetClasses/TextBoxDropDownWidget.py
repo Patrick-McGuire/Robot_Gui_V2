@@ -2,9 +2,8 @@
 Text box widget
 """
 
-import random
-
 from PyQt5.QtWidgets import QLabel, QWidget, QGridLayout, QComboBox
+from PyQt5.QtGui import QFont
 
 from .CustomBaseWidget import CustomBaseWidget
 
@@ -18,6 +17,7 @@ class TextBoxDropDownWidget(CustomBaseWidget):
 
         self.textBoxWidget = QLabel()
         self.dropDownWidget = QComboBox()
+        self.textBoxWidget.setFont(QFont("Monospace", self.fontSize))
 
         layout = QGridLayout()
         layout.addWidget(self.dropDownWidget)
@@ -29,25 +29,46 @@ class TextBoxDropDownWidget(CustomBaseWidget):
 
         self.boxFormat = [["line1", "test"], ["bbb", "test1"]]
 
-        self.setMenuItems(["thing1", "thing2", "patrick"])
+        self.menuItems = []
+        self.setMenuItems(["No data"])
 
     def customUpdate(self, dataPassDict):
-        outString = "Title:"
+        if "diagnostics_agg" not in dataPassDict:
+            return
+        dataStruct = dataPassDict["diagnostics_agg"]
 
-        for line in self.boxFormat:
-            if line[1] in dataPassDict:
-                newLine = "\n{0:<15}{1}".format(line[0], dataPassDict[line[1]])
-            else:
-                newLine = "\n{0:<15}{1}".format(line[0], "No Data")
+        selectedTarget = self.dropDownWidget.currentText()
+        menuItems = []
+        for item in dataStruct:
+            menuItems.append(item)
+        self.setMenuItems(menuItems)
+
+        if selectedTarget not in dataStruct:
+            return
+        dataToPrint = dataStruct[selectedTarget]
+
+        outString = ""
+
+        longestLine = 0
+        for line in dataToPrint:
+            longestLine = max(longestLine, len(line[0]))
+
+        for line in dataToPrint:
+            spaces = " " * (longestLine - len(line[0]) + 1)
+            newLine = "{0}{2}\t{1}\n".format(line[0], line[1], spaces)
 
             outString = outString + newLine
+
+        outString = outString[:-1]  # Remove last character
 
         self.textBoxWidget.setText(outString)
         self.QTWidget.adjustSize()
 
     def setMenuItems(self, menuItemList):
-        self.dropDownWidget.clear()
-        self.dropDownWidget.addItems(menuItemList)
+        if menuItemList != self.menuItems:
+            self.dropDownWidget.clear()
+            self.dropDownWidget.addItems(menuItemList)
+        self.menuItems = menuItemList
 
     def setColorRGB(self, red, green, blue):
         colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)

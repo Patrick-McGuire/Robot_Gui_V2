@@ -10,6 +10,7 @@ from Constants import Constants
 
 class TextBoxWidget(CustomBaseWidget):
     def __init__(self, tab, x, y, widgetInfo):
+        widgetInfo[Constants.FONT_ATTRIBUTE] = "Monospace"  # Forcing a monospace font fixes some formatting
         super().__init__(QLabel(tab), x, y, configInfo=widgetInfo)
         self.xBuffer = 0
         self.yBuffer = 0
@@ -25,9 +26,9 @@ class TextBoxWidget(CustomBaseWidget):
         for line in self.boxFormat:
             lines = lines + 1
             if line[1] in dataPassDict:
-                newLine = "\n{0:1}\t\t{1}".format(line[0], dataPassDict[line[1]])
+                newLine = "\n{0:20}{1}".format(line[0], dataPassDict[line[1]])
             else:
-                newLine = "\n{0:1}\t\t{1}".format(line[0], "No Data")
+                newLine = "\n{0:20}{1}".format(line[0], "No Data")
 
             outString = outString + newLine
             if len(newLine) > maxLineLength:
