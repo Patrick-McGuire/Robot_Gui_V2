@@ -101,9 +101,9 @@ class CoreGUI(threading.Thread):
         self.GUICreator.createButton("Settings", "Whack Patrick", 100, 300)
         self.GUICreator.createSimpleDropDown("Settings", 400, 100)
 
-        self.XMLParser = XmlParser("config/BasicConfig.xml", self.GUICreator)
-
+        self.XMLParser = XmlParser(self.filePath, self.GUICreator)
         returnData = self.XMLParser.getConfigData()
+
         self.setTheme(returnData[Constants.THEME_ATTRIBUTE])
 
         self.setupEventHandler()

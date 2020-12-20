@@ -10,6 +10,7 @@ from WidgetClasses import SimpleDropDown
 from WidgetClasses import VideoWidget
 from WidgetClasses.CompassWidget import CompassWidget
 from WidgetClasses import TextBoxDropDownWidget
+from WidgetClasses import FrameRateCounter
 
 
 class GUIMaker(object):
@@ -56,6 +57,7 @@ class GUIMaker(object):
 
         self.tabHolderWidget.addTab(self.tabs[name], name)
         self.tabNames.append(name)
+        self.createFrameRateCounterWidget(name, -100, -400)  # We need something on the tab to be updating if in order for the GUI to keep running
 
     def createButton(self, tabName, text, x, y):
         """Creates a basic button widget in the tab name specified"""
@@ -82,6 +84,9 @@ class GUIMaker(object):
         """Creates a textbox with a drop down in the tab name specified"""
         self.widgetList.append(TextBoxDropDownWidget.TextBoxDropDownWidget(self.tabs[tabName], "textBoxDropDown_{}".format(self.widgetsCreated), x, y))
         self.widgetsCreated = self.widgetsCreated + 1
+
+    def createFrameRateCounterWidget(self, tabName, x, y):
+        self.widgetList.append(FrameRateCounter.FrameRateCounter(self.tabs[tabName], x, y))
 
     def getMainWindow(self):
         return self.mainWindow

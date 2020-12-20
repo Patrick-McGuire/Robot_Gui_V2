@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<window height="993" title="Probot Control" width="1920">
+	<tab title="Dashboard">
+		<widget dimensions="1324x993" draggable="True" fullscreen="True" hidden="False" lockAspectRatio="True" source="robotCam1" title="VideoWindow" type="video" x="298.0" y="0"/>
+		<widget draggable="True" hidden="False" size="200" source="heading" title="Compass" type="compass" x="1675" y="15"/>
+		<widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Commanded values" type="ConfigurableTextBox" x="1647" y="549">
+			<line label="Roll" value="rollPower"/>
+			<line label="Pitch" value="pitchPower"/>
+			<line label="Yaw" value="yawPower"/>
+			<line label="Surge" value="surge"/>
+			<line label="Sway" value="sway"/>
+			<line label="Heave" value="heave"/>
+			<line label="Lights" value="lights"/>
+			<line label="Camera" value="cameraTilt"/>
+		</widget>
+		<widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Crucial Information" type="ConfigurableTextBox" x="1660" y="247">
+			<line label="Armed" value="armed"/>
+			<line label="Mode" value="driveMode"/>
+			<line label="Heading" value="heading"/>
+			<line label="Depth" value="depth"/>
+			<line label="Voltage" value="voltage"/>
+			<line label="Current" value="current"/>
+			<line label="Health" value="status"/>
+			<line label="IMU Cal" value="imuCal"/>
+		</widget>
+		<widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="General Data" type="ConfigurableTextBox" x="21" y="282">
+			<line label="Housing Pressure" value="housingPressure"/>
+			<line label="BNO Temp" value="bnoTemp"/>
+			<line label="MPL Temp" value="mplTemp"/>
+			<line label="Water Pressure" value="waterPressure"/>
+			<line label="Water Temp" value="waterTemp"/>
+			<line label="CPU Temp" value="cpuTemp"/>
+			<line label="CPU usage" value="cpu"/>
+			<line label="RAM usage" value="ram"/>
+		</widget>
+	</tab>
+	<tab title="Info">
+		<widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="ROS out" type="ConfigurableTextBox" x="25" y="780">
+			<line label="" value="rosout_agg"/>
+		</widget>
+	</tab>
+</window>

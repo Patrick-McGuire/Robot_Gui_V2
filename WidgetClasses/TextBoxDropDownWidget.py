@@ -2,12 +2,16 @@
 Text box widget
 """
 
+import random
+
 from PyQt5.QtWidgets import QLabel, QWidget, QGridLayout, QComboBox
 
 from .CustomBaseWidget import CustomBaseWidget
 
 
 class TextBoxDropDownWidget(CustomBaseWidget):
+    i = 0.0
+
     def __init__(self, tab, name, x, y):
         super().__init__(QWidget(tab), x, y)
         self.QTWidget.setObjectName(name)
@@ -29,22 +33,17 @@ class TextBoxDropDownWidget(CustomBaseWidget):
 
     def customUpdate(self, dataPassDict):
         outString = "Title:"
-        lines = 1
-        maxLineLength = len(outString)
 
         for line in self.boxFormat:
-            lines = lines + 1
             if line[1] in dataPassDict:
                 newLine = "\n{0:<15}{1}".format(line[0], dataPassDict[line[1]])
             else:
                 newLine = "\n{0:<15}{1}".format(line[0], "No Data")
 
             outString = outString + newLine
-            if len(newLine) > maxLineLength:
-                maxLineLength = len(newLine)
 
-        self.QTWidget.adjustSize()
         self.textBoxWidget.setText(outString)
+        self.QTWidget.adjustSize()
 
     def setMenuItems(self, menuItemList):
         self.dropDownWidget.clear()

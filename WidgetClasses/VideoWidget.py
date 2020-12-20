@@ -17,18 +17,22 @@ class VideoWidget(CustomBaseWidget):
 
         width = int(float(widgetInfo[Constants.DIMENSIONS_ATTRIBUTE].split("x")[0]))
         height = int(float(widgetInfo[Constants.DIMENSIONS_ATTRIBUTE].split("x")[1]))
+        self.source = str(widgetInfo[Constants.SOURCE_ATTRIBUTE])
 
         self.setSize(width, height)
         self.draggable = False
 
     def customUpdate(self, dataPassDict):
-        if "image" not in dataPassDict:
+        if self.source not in dataPassDict:
+            return
+
+        if type(dataPassDict[self.source]) == int:
             return
 
         screenWidth = self.QTWidget.parent().size().width()
         screenHeight = self.QTWidget.parent().size().height()
 
-        frame = dataPassDict["image"]
+        frame = dataPassDict[self.source]
         height, width, channels = frame.shape
         aspectRatio = float(width) / float(height)
         screenAspectRatio = float(screenWidth) / float(screenHeight)
