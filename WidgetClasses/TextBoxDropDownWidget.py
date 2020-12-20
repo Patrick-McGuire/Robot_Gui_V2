@@ -12,12 +12,11 @@ class TextBoxDropDownWidget(CustomBaseWidget):
     i = 0.0
 
     def __init__(self, tab, name, x, y):
-        super().__init__(QWidget(tab), x, y)
-        self.QTWidget.setObjectName(name)
-
         self.textBoxWidget = QLabel()
         self.dropDownWidget = QComboBox()
-        self.textBoxWidget.setFont(QFont("Monospace", self.fontSize))
+
+        super().__init__(QWidget(tab), x, y)
+        self.QTWidget.setObjectName(name)
 
         layout = QGridLayout()
         layout.addWidget(self.dropDownWidget)
@@ -86,3 +85,8 @@ class TextBoxDropDownWidget(CustomBaseWidget):
         self.QTWidget.setStyleSheet("color: black")
         self.textBoxWidget.setStyleSheet("color: black")
         self.dropDownWidget.setStyleSheet("color: black")
+
+    def setFontInfo(self):
+        self.QTWidget.setFont(QFont(self.font, self.fontSize))
+        # self.dropDownWidget.setFont(QFont(self.font, self.fontSize))
+        self.textBoxWidget.setFont(QFont("Monospace", self.fontSize))

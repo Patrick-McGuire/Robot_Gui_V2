@@ -60,7 +60,8 @@ class CustomBaseWidget(object):
             if Constants.BACKGROUND_ATTRIBUTE in configInfo:
                 self.setColor(configInfo[Constants.BACKGROUND_ATTRIBUTE])
 
-        self.QTWidget.setFont(QFont(self.font, self.fontSize))
+        self.defaultFontSize = self.fontSize
+        self.setFontInfo()
 
     def setSize(self, width, height):
         self.QTWidget.setMinimumWidth(width)
@@ -81,8 +82,13 @@ class CustomBaseWidget(object):
         menu = QMenu()
         menu.addMenu(colorMenu)
         menu.addSeparator()
+        increaseFontSizeAction = menu.addAction("Increase Font Size")
+        decreaseFontSizeAction = menu.addAction("Decrease Font Size")
+        defaultFontSizeAction = menu.addAction("Default Font Size")
+        menu.addSeparator()
         menu.addAction("Enable dragging", lambda draggable=True: self.setDraggable(draggable))
         menu.addAction("Disable dragging", lambda draggable=False: self.setDraggable(draggable))
+        menu.addSeparator()
         awesome = menu.addAction("Whack Patrick", lambda x=random.random() * 1500, y=random.random() * 1000: self.setPosition(x, y))  # This is silly
         menu.move(e.x() + self.x, e.y() + self.y + 90)
         action = menu.exec_()
@@ -97,6 +103,15 @@ class CustomBaseWidget(object):
             self.setColor("grey")
         elif action == awesome:
             print("Patrick has been whacked!!!!!!!!!!!!!!!!!!")
+        elif action == increaseFontSizeAction:
+            self.fontSize += 2
+            self.setFontInfo()
+        elif action == decreaseFontSizeAction:
+            self.fontSize -= 2
+            self.setFontInfo()
+        elif action == defaultFontSizeAction:
+            self.fontSize = self.defaultFontSize
+            self.setFontInfo()
 
     def setColor(self, color):
         color = color.replace("Grey", "Gray")
@@ -127,6 +142,9 @@ class CustomBaseWidget(object):
 
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")
+
+    def setFontInfo(self):
+        self.QTWidget.setFont(QFont(self.font, self.fontSize))
 
     def hide(self):
         self.hidden = True
