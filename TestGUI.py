@@ -13,6 +13,10 @@ while not GUI.isDone():
     ret, frame = cap.read()
 
     dataPassDict = {"test": "{}".format(random.random()), "webcam": frame, "batteryVoltage": "{}".format(random.random())}
+
+    testDict = {"aaa": [["hi", "aaa"], ["bbb", random.random()]], "bbb": [["aa", "  {}".format(random.random())], ["bbb", random.random()], ["c", random.random()], ["ddddddddd", random.random()]]}
+    dataPassDict["diagnostics_agg"] = testDict
+
     GUI.updateInfo(dataPassDict)
 
     # print(self.coreGui.getReturnDict())

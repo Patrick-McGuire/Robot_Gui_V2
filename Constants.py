@@ -7,6 +7,7 @@ class Constants:
     LINE_NAME = "line"
 
     CONFIGURABLE_TEXT_BOX_TYPE = "ConfigurableTextBox"
+    DROP_DOWN_TEXT_BOX_TYPE = "DropDownTextBox"
     VIDEO_WINDOW_TYPE = "video"
     COMPASS_TYPE = "compass"
 

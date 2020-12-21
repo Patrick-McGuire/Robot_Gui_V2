@@ -6,16 +6,17 @@ from PyQt5.QtWidgets import QLabel, QWidget, QGridLayout, QComboBox
 from PyQt5.QtGui import QFont
 
 from .CustomBaseWidget import CustomBaseWidget
+from Constants import Constants
 
 
 class TextBoxDropDownWidget(CustomBaseWidget):
     i = 0.0
 
-    def __init__(self, tab, name, x, y):
+    def __init__(self, tab, name, x, y, widgetInfo):
         self.textBoxWidget = QLabel()
         self.dropDownWidget = QComboBox()
 
-        super().__init__(QWidget(tab), x, y)
+        super().__init__(QWidget(tab), x, y, configInfo=widgetInfo)
         self.QTWidget.setObjectName(name)
 
         layout = QGridLayout()
@@ -26,15 +27,19 @@ class TextBoxDropDownWidget(CustomBaseWidget):
         self.xBuffer = 0
         self.yBuffer = 0
 
-        self.boxFormat = [["line1", "test"], ["bbb", "test1"]]
+        self.source = "_"
+        if widgetInfo is not None:
+            if Constants.SOURCE_ATTRIBUTE in widgetInfo:
+                self.source = widgetInfo[Constants.SOURCE_ATTRIBUTE]
 
         self.menuItems = []
         self.setMenuItems(["No data"])
 
     def customUpdate(self, dataPassDict):
-        if "diagnostics_agg" not in dataPassDict:
+        if self.source not in dataPassDict:
+            self.textBoxWidget.setText("No Data")
             return
-        dataStruct = dataPassDict["diagnostics_agg"]
+        dataStruct = dataPassDict[self.source]
 
         selectedTarget = self.dropDownWidget.currentText()
         menuItems = []
@@ -47,14 +52,14 @@ class TextBoxDropDownWidget(CustomBaseWidget):
         dataToPrint = dataStruct[selectedTarget]
 
         outString = ""
-
         longestLine = 0
         for line in dataToPrint:
+            line[0] = line[0].replace("\t", "     ").rstrip()  # Do some formatting to convert tabs to spaces and ditch trailing spaces
             longestLine = max(longestLine, len(line[0]))
 
         for line in dataToPrint:
-            spaces = " " * (longestLine - len(line[0]) + 1)
-            newLine = "{0}{2}\t{1}\n".format(line[0], line[1], spaces)
+            spaces = " " * (longestLine - len(line[0]) + 2)  # Add two extra spaces to everything
+            newLine = "{0}{2}{1}\n".format(line[0], str(line[1]).lstrip(), spaces)
 
             outString = outString + newLine
 
@@ -88,5 +93,7 @@ class TextBoxDropDownWidget(CustomBaseWidget):
 
     def setFontInfo(self):
         self.QTWidget.setFont(QFont(self.font, self.fontSize))
-        # self.dropDownWidget.setFont(QFont(self.font, self.fontSize))
+        self.dropDownWidget.setFont(QFont(self.font, self.fontSize))
         self.textBoxWidget.setFont(QFont("Monospace", self.fontSize))
+        self.dropDownWidget.adjustSize()
+        self.QTWidget.adjustSize()

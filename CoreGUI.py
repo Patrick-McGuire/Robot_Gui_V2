@@ -9,6 +9,7 @@ from XmlParser import XmlParser
 
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QMouseEvent
+from PyQt5.QtWidgets import QFileDialog
 
 from Constants import Constants
 
@@ -60,8 +61,9 @@ class CoreGUI(threading.Thread):
         # Create menu bar
         menuBar = self.mainWindow.menuBar()
         fileMenu = menuBar.addMenu("File")
-        fileMenu.addAction("Open")
-        fileMenu.addAction("Save")
+        fileMenu.addAction("Open")  # Reload GUI from scratch??? OUCH!
+        fileMenu.addAction("Save", self.saveGUI)  # Save to XML
+        fileMenu.addAction("Save As", self.saveGUIAs)
         fileMenu.addSeparator()
         fileMenu.addAction("Quit", self.stop)
 
@@ -223,3 +225,16 @@ class CoreGUI(threading.Thread):
 
         for widget in listOfWidgets:
             widget.show()
+
+    def saveGUI(self, fileName=None):
+        """Generates output XML, and writes that to a file"""
+        if fileName is None:
+            fileName = self.filePath
+
+        print(fileName)
+        # TODO: add xml output function here
+
+    def saveGUIAs(self):
+        """Opens a file dialog, then calls the save function with the full filename"""
+        name = QFileDialog.getSaveFileName(self.mainWindow, 'Save File')
+        self.saveGUI(name[0])

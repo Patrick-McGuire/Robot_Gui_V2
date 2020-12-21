@@ -6,7 +6,9 @@
         <widget draggable="True" hidden="False" size="200" source="spinny" title="Spinny" type="compass" x="1000" y="221"/>
         <widget draggable="True" hidden="False" size="200" source="current" title="Spinny" type="compass" x="1200" y="221"/>
 
-        <widget background="Red" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Yellow" hidden="False" relief="solid" title="Power Stats" type="ConfigurableTextBox" x="500" y="500">
+        <widget draggable="True" hidden="False" size="200" title="Spinny" type="DropDownTextBox" x="200" y="200"/>
+
+        <widget background="Red" borderwidth="4" draggable="True" font="Arial" foreground="Yellow" hidden="False" relief="solid" title="Power Stats" type="ConfigurableTextBox" x="500" y="500">
             <line label="Battery Voltage" value="batteryVoltage"/>
             <line label="5v Bus Voltage" value="v5Voltage"/>
             <line label="3.3v Bus Voltage" value="v33Voltage"/>

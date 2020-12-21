@@ -41,7 +41,7 @@ class XmlParser:
     def createWidget(self, widget, tab):
         title = self.getAttribute(widget, Constants.TITLE_ATTRIBUTE, "Error: no title")
         font = self.getAttribute(widget, Constants.FONT_ATTRIBUTE, "Arial")
-        fontSize = self.getAttribute(widget, Constants.FONT_SIZE_ATTRIBUTE, "20")
+        fontSize = self.getAttribute(widget, Constants.FONT_SIZE_ATTRIBUTE, "12")
         xPos = int(float(self.getAttribute(widget, Constants.X_POS_ATTRIBUTE, "0")))
         yPos = int(float(self.getAttribute(widget, Constants.Y_POS_ATTRIBUTE, "0")))
         foregroundColor = self.getAttribute(widget, Constants.FOREGROUND_ATTRIBUTE, "Black")
@@ -76,8 +76,6 @@ class XmlParser:
                 value = line.getAttribute(Constants.VALUE_ATTRIBUTE)
                 configInfo.append([label, value])
 
-                # self.dataPassDictionary[value] = 0
-
             widgetInfo[Constants.CONFIG_ATTRIBUTE] = configInfo
             self.guiGenerator.createTextBox(tab, int(xPos), int(yPos), widgetInfo)
         elif widgetType == Constants.VIDEO_WINDOW_TYPE:
@@ -100,6 +98,9 @@ class XmlParser:
 
             widgetInfo[Constants.CONFIG_ATTRIBUTE] = configInfo
             # self.guiGenerator.createConfigurableGraph(widgetInfo)
+        elif widgetType == Constants.DROP_DOWN_TEXT_BOX_TYPE:
+            widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "diagnostics_agg")
+            self.guiGenerator.createTextBoxDropDownWidget(tab, int(xPos), int(yPos), widgetInfo)
         else:
             print("Could not create widget {0}: type {1} not supported".format(title, widgetType))
 

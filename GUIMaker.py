@@ -2,7 +2,7 @@
 Function calls to actually create GUI elements
 """
 
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget, QTabBar
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget
 
 from WidgetClasses import SimpleButton
 from WidgetClasses import TextBoxWidget
@@ -80,9 +80,11 @@ class GUIMaker(object):
         self.widgetList.append(CompassWidget(self.tabs[tabName], "compass{}".format(self.widgetsCreated), x, y, widgetInfo))
         self.widgetsCreated += 1
 
-    def createTextBoxDropDownWidget(self, tabName, x, y):
+    def createTextBoxDropDownWidget(self, tabName, x, y, widgetInfo=None):
         """Creates a textbox with a drop down in the tab name specified"""
-        self.widgetList.append(TextBoxDropDownWidget.TextBoxDropDownWidget(self.tabs[tabName], "textBoxDropDown_{}".format(self.widgetsCreated), x, y))
+        if widgetInfo is None:
+            widgetInfo = {}
+        self.widgetList.append(TextBoxDropDownWidget.TextBoxDropDownWidget(self.tabs[tabName], "textBoxDropDown_{}".format(self.widgetsCreated), x, y, widgetInfo))
         self.widgetsCreated = self.widgetsCreated + 1
 
     def createFrameRateCounterWidget(self, tabName, x, y):
