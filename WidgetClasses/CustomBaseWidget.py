@@ -62,6 +62,8 @@ class CustomBaseWidget(object):
                 self.fontSize = int(configInfo[Constants.FONT_SIZE_ATTRIBUTE])
             if Constants.BACKGROUND_ATTRIBUTE in configInfo:
                 self.setColor(configInfo[Constants.BACKGROUND_ATTRIBUTE])
+            if Constants.DRAGGABLE_ATTRIBUTE in configInfo:
+                self.draggable = configInfo[Constants.DRAGGABLE_ATTRIBUTE]
 
         self.defaultFontSize = self.fontSize
         self.setFontInfo()
@@ -105,6 +107,7 @@ class CustomBaseWidget(object):
         elif action == greyAction:
             self.setColor("grey")
         elif action == awesome:
+            self.draggable = False
             print("Patrick has been whacked!!!!!!!!!!!!!!!!!!")
         elif action == increaseFontSizeAction:
             self.fontSize += 2
@@ -214,6 +217,8 @@ class CustomBaseWidget(object):
         self.QTWidget.move(self.x, self.y)
 
     def getXMLStuff(self, item):
+        """Default function to fill out the XML tag for an item.  DO NOT OVERWRITE UNLESS YOU KNOW WHAT YOU ARE DOING.  Calls customXMLStuff().  PUT YOUR CODE THERE INSTEAD"""
+
         tag = ElementTree.SubElement(item, Constants.WIDGET_NAME)
         tag.set(Constants.X_POS_ATTRIBUTE, str(self.x))
         tag.set(Constants.Y_POS_ATTRIBUTE, str(self.y))
@@ -227,5 +232,5 @@ class CustomBaseWidget(object):
         self.customXMLStuff(tag)
 
     def customXMLStuff(self, tag):
-        """Placeholder"""
+        """Called during save operation.  Overwrite this method and put widget specific xml code here"""
         return tag

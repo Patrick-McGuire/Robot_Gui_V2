@@ -26,4 +26,5 @@ class FrameRateCounter(CustomBaseWidget):
         self.QTWidget.adjustSize()
 
     def getXMLStuff(self, item):
+        """We don't want this widget saved out"""
         return
