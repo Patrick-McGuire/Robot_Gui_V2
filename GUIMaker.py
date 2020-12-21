@@ -47,7 +47,7 @@ class GUIMaker(object):
     def setWindowGeometry(self, width, height):
         self.mainWindow.setGeometry(0, 0, int(width), int(height))
 
-    def GetWidgetList(self):
+    def getWidgetList(self):
         return self.widgetList
 
     def createTab(self, name):

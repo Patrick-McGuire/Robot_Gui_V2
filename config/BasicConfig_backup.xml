@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<window height="993" title="Probot Control" width="1920" theme="dark">
+    <tab title="Dashboard">
+        <widget dimensions="800x600" draggable="True" fullscreen="True" hidden="False" lockAspectRatio="True" source="webcam" title="test" type="video" x="82.85" y="0"/>
+
+        <widget draggable="True" hidden="False" size="200" source="spinny" title="Spinny" type="compass" x="1000" y="221"/>
+        <widget draggable="True" hidden="False" size="200" source="current" title="Spinny" type="compass" x="1200" y="221"/>
+
+        <widget draggable="True" hidden="False" size="200" type="DropDownTextBox" x="200" y="200"/>
+
+        <widget background="Red" borderwidth="4" draggable="True" font="Arial" foreground="Yellow" hidden="False" relief="solid" title="Power Stats" type="ConfigurableTextBox" x="500" y="500">
+            <line label="Battery Voltage" value="batteryVoltage"/>
+            <line label="5v Bus Voltage" value="v5Voltage"/>
+            <line label="3.3v Bus Voltage" value="v33Voltage"/>
+            <line label="Current Draw" value="current"/>
+            <line label="Loop Time" value="fullLoopTime"/>
+            <line label="Frame Rate" value="frameRate"/>
+        </widget>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Powerasdff Stats" type="ConfigurableTextBox" x="300" y="300"/>
+    </tab>
+    <tab title="Config">
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Power Stats2" type="ConfigurableTextBox" x="1000" y="100">
+            <line label="Battery Voltage2" value="batteryVoltage"/>
+            <line label="5v Bus Voltage2" value="v5Voltage"/>
+            <line label="3.3v Bus Voltage2" value="v33Voltage"/>
+            <line label="Current Draw2" value="current"/>
+        </widget>
+
+        <widget draggable="True" hidden="False" title="Frame Rate Graph" type="ConfigurableGraph" x="300" y="300">
+            <line label="Framerate" value="frameRate"/>
+        </widget>
+
+        <widget draggable="True" hidden="False" title="Configurable Graph 2" type="ConfigurableGraph" x="600" y="300">
+            <line label="Battery Voltage" value="batteryVoltage"/>
+            <line label="5v Bus Voltage2" value="v5Voltage"/>
+            <line label="Spinny" value="spinny"/>
+        </widget>
+
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Po1werasdff Stats" type="ConfigurableTextBox" x="300" y="800"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Pow2erasdff Stats" type="ConfigurableTextBox" x="310" y="810"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Powe3rasdff Stats" type="ConfigurableTextBox" x="319" y="820"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Power4asdff Stats" type="ConfigurableTextBox" x="822" y="810"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Powera5sdff Stats" type="ConfigurableTextBox" x="657" y="800"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Poweras6dff Stats" type="ConfigurableTextBox" x="338" y="800"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Poweras6dff Stats" type="ConfigurableTextBox" x="350" y="800"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Powerasd7ff Stats" type="ConfigurableTextBox" x="360" y="800"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Powerasdff Stats" type="ConfigurableTextBox" x="370" y="800"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Po1werasdff Stats" type="ConfigurableTextBox" x="380" y="800"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Pow2erasdff Stats" type="ConfigurableTextBox" x="390" y="800"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Powe3rasdff Stats" type="ConfigurableTextBox" x="400" y="800"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Power4asdff Stats" type="ConfigurableTextBox" x="410" y="800"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Powera5sdff Stats" type="ConfigurableTextBox" x="420" y="800"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Poweras6dff Stats" type="ConfigurableTextBox" x="430" y="800"/>
+        <widget background="Light Grey" borderwidth="4" draggable="True" font="Arial" fontsize="20" foreground="Black" hidden="False" relief="raised" title="Powerasd7ff Stats" type="ConfigurableTextBox" x="440" y="800"/>
+    </tab>
+</window>

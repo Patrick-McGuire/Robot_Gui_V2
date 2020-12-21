@@ -8,6 +8,8 @@ class Constants:
 
     CONFIGURABLE_TEXT_BOX_TYPE = "ConfigurableTextBox"
     DROP_DOWN_TEXT_BOX_TYPE = "DropDownTextBox"
+    SIMPLE_DROP_DOWN_TYPE = "SimpleDropDown"
+    SIMPLE_BUTTON_TYPE = "SimpleButton"
     VIDEO_WINDOW_TYPE = "video"
     COMPASS_TYPE = "compass"
 

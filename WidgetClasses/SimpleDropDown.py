@@ -4,13 +4,14 @@ Text box widget
 from PyQt5.QtWidgets import QComboBox
 
 from .CustomBaseWidget import CustomBaseWidget
+from Constants import Constants
 
 
 class SimpleDropDown(CustomBaseWidget):
     def __init__(self, tab, xPos, yPos):
         QTWidget = QComboBox(tab)
 
-        super().__init__(QTWidget, xPos, yPos, hasReturnValue=True, returnKey="drop_down_one")
+        super().__init__(QTWidget, xPos, yPos, hasReturnValue=True, returnKey="drop_down_one", widgetType=Constants.SIMPLE_DROP_DOWN_TYPE)
 
         self.setMenuItems()
 

@@ -13,7 +13,7 @@ from Constants import Constants
 class VideoWidget(CustomBaseWidget):
     def __init__(self, tab, xPos, yPos, widgetInfo):
         QTWidget = QLabel(tab)
-        super().__init__(QTWidget, xPos, yPos)
+        super().__init__(QTWidget, xPos, yPos, widgetType=Constants.VIDEO_WINDOW_TYPE)
 
         width = int(float(widgetInfo[Constants.DIMENSIONS_ATTRIBUTE].split("x")[0]))
         height = int(float(widgetInfo[Constants.DIMENSIONS_ATTRIBUTE].split("x")[1]))
@@ -74,3 +74,9 @@ class VideoWidget(CustomBaseWidget):
 
     def setDraggable(self, draggable):
         pass
+
+    def customXMLStuff(self, tag):
+        tag.set(Constants.FULLSCREEN_ATTRIBUTE, "true")
+        tag.set(Constants.LOCK_ASPECT_RATIO_ATTRIBUTE, "true")
+        tag.set(Constants.SOURCE_ATTRIBUTE, self.source)
+        tag.set(Constants.DIMENSIONS_ATTRIBUTE, "{0}x{1}".format(self.width, self.height))

@@ -12,7 +12,7 @@ from Constants import Constants
 class CompassWidget(CustomBaseWidget):
     def __init__(self, tab, name, x, y, widgetInfo):
         QTWidget = QLabel(tab)
-        super().__init__(QTWidget, x, y)
+        super().__init__(QTWidget, x, y, widgetType=Constants.COMPASS_TYPE)
 
         self.size = int(widgetInfo["size"])
         self.source = str(widgetInfo[Constants.SOURCE_ATTRIBUTE])
@@ -62,3 +62,7 @@ class CompassWidget(CustomBaseWidget):
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")
         self.arrow.setStyleSheet("color: black")
+
+    def customXMLStuff(self, tag):
+        tag.set(Constants.SOURCE_ATTRIBUTE, self.source)
+        tag.set(Constants.SIZE_ATTRIBUTE, str(self.size))

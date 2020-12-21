@@ -24,3 +24,6 @@ class FrameRateCounter(CustomBaseWidget):
 
         self.QTWidget.setText(outString)
         self.QTWidget.adjustSize()
+
+    def getXMLStuff(self, item):
+        return

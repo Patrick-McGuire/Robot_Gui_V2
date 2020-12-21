@@ -6,6 +6,7 @@ import copy
 
 from GUIMaker import GUIMaker
 from XmlParser import XmlParser
+from XMLOutput import XMLOutput
 
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QMouseEvent
@@ -45,6 +46,7 @@ class CoreGUI(threading.Thread):
         self.rainbow = False
         self.hideOnClick = False
         self.hue = 0
+        self.theme = "none"
 
         # Start the GUI
         threading.Thread.__init__(self)
@@ -131,6 +133,7 @@ class CoreGUI(threading.Thread):
 
     def setTheme(self, theme: str):
         """Function to set a theme for the whole GUI"""
+        self.theme = theme
 
         if theme == "dark":
             self.setColorOnALlWidgets("grey")
@@ -147,7 +150,7 @@ class CoreGUI(threading.Thread):
             self.GUICreator.setGUIColor(int(float(red)), int(float(green)), int(float(blue)))
 
     def updateGUI(self):
-        listOfWidgets = self.GUICreator.GetWidgetList()
+        listOfWidgets = self.GUICreator.getWidgetList()
         returnDict = {}
 
         for widget in listOfWidgets:
@@ -185,7 +188,7 @@ class CoreGUI(threading.Thread):
         tabList = self.GUICreator.getTabNames()
 
         if self.activeClickedWidget is None and e.button() == 1:
-            listOfWidgets = self.GUICreator.GetWidgetList()
+            listOfWidgets = self.GUICreator.getWidgetList()
             for widget in reversed(listOfWidgets):
                 if widget.isPointInWidget(float(e.x()), float(e.y())) and tabList[currentTabIndex] == widget.getTabName():
                     if self.hideOnClick:
@@ -201,14 +204,14 @@ class CoreGUI(threading.Thread):
 
     def setColorOnALlWidgets(self, color):
         """Sets colors on all widgets"""
-        listOfWidgets = self.GUICreator.GetWidgetList()
+        listOfWidgets = self.GUICreator.getWidgetList()
 
         for widget in listOfWidgets:
             widget.setColor(color)
 
     def setDraggingOnALlWidgets(self, draggable):
         """Sets colors on all widgets"""
-        listOfWidgets = self.GUICreator.GetWidgetList()
+        listOfWidgets = self.GUICreator.getWidgetList()
 
         for widget in listOfWidgets:
             widget.setDraggable(draggable)
@@ -221,7 +224,7 @@ class CoreGUI(threading.Thread):
 
     def showAllWidgets(self):
         """Shows all widgets"""
-        listOfWidgets = self.GUICreator.GetWidgetList()
+        listOfWidgets = self.GUICreator.getWidgetList()
 
         for widget in listOfWidgets:
             widget.show()
@@ -231,8 +234,9 @@ class CoreGUI(threading.Thread):
         if fileName is None:
             fileName = self.filePath
 
-        print(fileName)
-        # TODO: add xml output function here
+        windowInfo = [self.mainWindow.windowTitle(), self.mainWindow.width(), self.mainWindow.height(), self.theme]
+        tabInfo = self.GUICreator.getTabNames()
+        XMLOutput(windowInfo, tabInfo, self.GUICreator.getWidgetList(), fileName)
 
     def saveGUIAs(self):
         """Opens a file dialog, then calls the save function with the full filename"""

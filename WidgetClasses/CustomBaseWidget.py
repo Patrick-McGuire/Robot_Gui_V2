@@ -5,6 +5,8 @@ Base class that all our widgets are derived off of
 import random
 import webcolors
 
+import xml.etree.ElementTree as ElementTree
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QMenu
 from PyQt5.QtGui import QFont
@@ -21,7 +23,7 @@ def convertNameToRGB(name: str):
 
 
 class CustomBaseWidget(object):
-    def __init__(self, QTWidget: QWidget, x: float, y: float, hasReturnValue: bool = False, returnKey: str = None, configInfo=None):
+    def __init__(self, QTWidget: QWidget, x: float, y: float, widgetType: str = "", hasReturnValue: bool = False, returnKey: str = None, configInfo=None):
         self.QTWidget = QTWidget
         self.QTWidget.move(x, y)
         self.QTWidget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -38,6 +40,7 @@ class CustomBaseWidget(object):
 
         self.x = x
         self.y = y
+        self.type = widgetType
         self.xBuffer = 20
         self.yBuffer = 20
         self.width = 50
@@ -209,3 +212,20 @@ class CustomBaseWidget(object):
         self.x = int(x)
         self.y = int(y)
         self.QTWidget.move(self.x, self.y)
+
+    def getXMLStuff(self, item):
+        tag = ElementTree.SubElement(item, Constants.WIDGET_NAME)
+        tag.set(Constants.X_POS_ATTRIBUTE, str(self.x))
+        tag.set(Constants.Y_POS_ATTRIBUTE, str(self.y))
+        tag.set(Constants.FONT_ATTRIBUTE, str(self.font))
+        tag.set(Constants.FONT_SIZE_ATTRIBUTE, str(self.fontSize))
+        tag.set(Constants.BORDER_WIDTH_ATTRIBUTE, str(self.borderWidth))
+        tag.set(Constants.HIDDEN_ATTRIBUTE, str(self.hidden))
+        tag.set(Constants.DRAGGABLE_ATTRIBUTE, str(self.draggable))
+        tag.set(Constants.TYPE_ATTRIBUTE, str(self.type))
+
+        self.customXMLStuff(tag)
+
+    def customXMLStuff(self, tag):
+        """Placeholder"""
+        return tag

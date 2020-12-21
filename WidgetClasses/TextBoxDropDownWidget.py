@@ -16,7 +16,7 @@ class TextBoxDropDownWidget(CustomBaseWidget):
         self.textBoxWidget = QLabel()
         self.dropDownWidget = QComboBox()
 
-        super().__init__(QWidget(tab), x, y, configInfo=widgetInfo)
+        super().__init__(QWidget(tab), x, y, configInfo=widgetInfo, widgetType=Constants.DROP_DOWN_TEXT_BOX_TYPE)
         self.QTWidget.setObjectName(name)
 
         layout = QGridLayout()
@@ -97,3 +97,6 @@ class TextBoxDropDownWidget(CustomBaseWidget):
         self.textBoxWidget.setFont(QFont("Monospace", self.fontSize))
         self.dropDownWidget.adjustSize()
         self.QTWidget.adjustSize()
+
+    def customXMLStuff(self, tag):
+        tag.set(Constants.SOURCE_ATTRIBUTE, str(self.source))
