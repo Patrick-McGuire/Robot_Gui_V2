@@ -5,7 +5,7 @@ import cv2
 from RobotGUI2 import RobotGUI2
 
 # GUI = RobotGUI2("config/GUIConfig.xml")
-GUI = RobotGUI2("config/BasicConfig.xml")
+GUI = RobotGUI2("config/BasicConfig.xml", testMode=True)
 
 cap = cv2.VideoCapture(0)
 
@@ -19,6 +19,9 @@ while not GUI.isDone():
 
     annunciator = [["Overall", 0, "Test"], ["Battery", 1, "Test2"], ["Lights", 2, "Test3"], ["aaaaaaaaaaaaaaaaaaaaaaaaaa", 0, "test4"]]
     dataPassDict["annunciator"] = annunciator
+
+    annunciator2 = [["aaa", 2, "Test"], ["bbb", 0, "Test2"], ["ccc", 0, "Test3"], ["ddddd", 0, "test4"]]
+    dataPassDict["annunciator_2"] = annunciator2
 
     GUI.updateInfo(dataPassDict)
 

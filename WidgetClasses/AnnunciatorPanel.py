@@ -2,7 +2,7 @@
 Text box widget
 """
 
-import xml.etree.ElementTree as ElementTree
+import PyQt5.QtCore as QtCore
 
 from PyQt5.QtWidgets import QWidget, QLabel, QGridLayout
 
@@ -12,27 +12,42 @@ from Constants import Constants
 
 class AnnunciatorPanel(CustomBaseWidget):
     def __init__(self, tab, name, x, y, widgetInfo):
-        widgetInfo[Constants.FONT_ATTRIBUTE] = "Monospace"  # Forcing a monospace font fixes some formatting
         super().__init__(QWidget(tab), x, y, configInfo=widgetInfo, widgetType=Constants.ANNUNCIATOR_TYPE)
         self.QTWidget.setObjectName(name)
 
         self.xBuffer = 0
         self.yBuffer = 0
 
-        layout = QGridLayout()
-        self.annunciatorWidgets = []
+        self.source = "_"
+        self.title = ""
+        if widgetInfo is not None:
+            if Constants.SOURCE_ATTRIBUTE in widgetInfo:
+                self.source = widgetInfo[Constants.SOURCE_ATTRIBUTE]
+            if Constants.TITLE_ATTRIBUTE in widgetInfo:
+                self.title = widgetInfo[Constants.TITLE_ATTRIBUTE]
 
-        for i in range(10):
-            self.annunciatorWidgets.append(QLabel())
-            layout.addWidget(self.annunciatorWidgets[i])
+        layout = QGridLayout()
+        titleWidget = QLabel()
+        titleWidget.setText(self.title)
+        titleWidget.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+        titleWidget.setStyleSheet("border: 0px solid black")
+        layout.addWidget(titleWidget, 0, 0, 1, 3)
+
+        self.annunciatorWidgets = []
+        for column in range(2):
+            for row in range(10):
+                self.annunciatorWidgets.append(QLabel())
+                self.annunciatorWidgets[-1].setMaximumWidth(150)
+                self.annunciatorWidgets[-1].setMinimumWidth(150)
+                layout.addWidget(self.annunciatorWidgets[-1], row+1, column)
+
         self.QTWidget.setLayout(layout)
 
     def customUpdate(self, dataPassDict):
-        if "annunciator" not in dataPassDict:
+        if self.source not in dataPassDict:
             return
 
-        data = dataPassDict["annunciator"]
-        # print(data)
+        data = dataPassDict[self.source]
 
         for i in range(len(data)):
             self.annunciatorWidgets[i].setText(data[i][0])
@@ -49,7 +64,19 @@ class AnnunciatorPanel(CustomBaseWidget):
             else:
                 self.annunciatorWidgets[i].setStyleSheet("background: blue; color: black")
 
+        for i in range(len(data), len(self.annunciatorWidgets)):  # Make the rest empty and green
+            self.annunciatorWidgets[i].setText(" ")
+            self.annunciatorWidgets[i].setStyleSheet("background: green; color: black")
+
         self.QTWidget.adjustSize()
 
-    # def customXMLStuff(self, tag):
-    #     pass
+    def setColorRGB(self, red: int, green: int, blue: int):
+        """We don't want border width set"""
+        if max(red, green, blue) > 150:
+            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb({0}, {1}, {2}); color: black".format(red, green, blue))
+        else:
+            self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb({0}, {1}, {2}); color: white".format(red, green, blue))
+
+    def customXMLStuff(self, tag):
+        tag.set(Constants.SOURCE_ATTRIBUTE, str(self.source))
+        tag.set(Constants.TITLE_ATTRIBUTE, str(self.title))

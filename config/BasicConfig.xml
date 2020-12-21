@@ -2,10 +2,12 @@
 <window title="Probot Control" width="1920" height="1016" theme="dark">
 	<tab title="Dashboard">
 		<widget x="0" y="0" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="False" type="video" fullscreen="true" lockAspectRatio="true" source="webcam" dimensions="640.0x480.0"/>
-		<widget x="1000" y="221" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" type="compass" source="spinny" size="200"/>
-		<widget x="1200" y="221" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" type="compass" source="current" size="200"/>
-		<widget x="200" y="200" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" type="DropDownTextBox" source="diagnostics_agg"/>
-		<widget x="500" y="500" font="Monospace" fontsize="12" borderwidth="4" hidden="False" draggable="True" type="ConfigurableTextBox" title="Power Stats">
+		<widget x="1634" y="253" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" type="compass" source="spinny" size="200"/>
+		<widget x="1655" y="39" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" type="compass" source="current" size="200"/>
+		<widget x="89" y="50" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" type="DropDownTextBox" source="diagnostics_agg"/>
+		<widget x="139" y="209" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" type="AnnunciatorPanel" source="annunciator" title="Error: no title"/>
+		<widget x="204" y="559" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" type="AnnunciatorPanel" source="annunciator_2" title="Error: no title"/>
+		<widget x="1478" y="479" font="Monospace" fontsize="12" borderwidth="4" hidden="False" draggable="True" type="ConfigurableTextBox" title="Power Stats">
 			<line label="Battery Voltage" value="batteryVoltage"/>
 			<line label="5v Bus Voltage" value="v5Voltage"/>
 			<line label="3.3v Bus Voltage" value="v33Voltage"/>
@@ -13,7 +15,7 @@
 			<line label="Loop Time" value="fullLoopTime"/>
 			<line label="Frame Rate" value="frameRate"/>
 		</widget>
-		<widget x="300" y="300" font="Monospace" fontsize="20" borderwidth="4" hidden="False" draggable="True" type="ConfigurableTextBox" title="Powerasdff Stats"/>
+		<widget x="1570" y="702" font="Monospace" fontsize="20" borderwidth="4" hidden="False" draggable="True" type="ConfigurableTextBox" title="Powerasdff Stats"/>
 	</tab>
 	<tab title="Config">
 		<widget x="1000" y="100" font="Monospace" fontsize="20" borderwidth="4" hidden="False" draggable="True" type="ConfigurableTextBox" title="Power Stats2">

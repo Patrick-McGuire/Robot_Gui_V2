@@ -6,8 +6,8 @@ from CoreGUI import CoreGUI
 class RobotGUI2:
     dataPassDict = {}
 
-    def __init__(self, filePath):
-        self.coreGui = CoreGUI(filePath)
+    def __init__(self, filePath, testMode=False):
+        self.coreGui = CoreGUI(filePath, createSettings=testMode)
 
     def updateInfo(self, dataPassDict):
         self.coreGui.updateDataPassDict(dataPassDict)

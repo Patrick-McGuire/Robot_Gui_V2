@@ -28,7 +28,7 @@ class CoreGUI(threading.Thread):
 
     CustomWidgetList = []
 
-    def __init__(self, filePath):
+    def __init__(self, filePath, createSettings=False):
         self.filePath = filePath
 
         self.GUIStarted = False
@@ -37,6 +37,7 @@ class CoreGUI(threading.Thread):
         self.GUICreator = None
         self.mainWindow = None
         self.XMLParser = None
+        self.createSettingsTab = createSettings
 
         self.activeClickedWidget = None
         self.activeOffset = [0, 0]
@@ -99,12 +100,13 @@ class CoreGUI(threading.Thread):
         helpMenu = menuBar.addMenu("Help")
         helpMenu.addAction("Whack Patrick", self.toggleRainbow)
 
-        # PlaceHolders
-        self.GUICreator.createTab("Settings")
-        self.GUICreator.createTextBoxDropDownWidget("Settings", 100, 100)
-        self.GUICreator.createButton("Settings", "Whack Patrick", 100, 300)
-        self.GUICreator.createSimpleDropDown("Settings", 400, 100)
-        self.GUICreator.createAnnunciatorPanelWidget("Settings", 500, 500)
+        if self.createSettingsTab:
+            # Widgets that only run in test mode.  Used for testing stuff before it's completely done
+            self.GUICreator.createTab("Settings")
+            self.GUICreator.createTextBoxDropDownWidget("Settings", 100, 100)
+            self.GUICreator.createButton("Settings", "Whack Patrick", 100, 300)
+            self.GUICreator.createSimpleDropDown("Settings", 400, 100)
+            self.GUICreator.createAnnunciatorPanelWidget("Settings", 500, 500)
 
         self.XMLParser = XmlParser(self.filePath, self.GUICreator)
         returnData = self.XMLParser.getConfigData()
@@ -237,7 +239,7 @@ class CoreGUI(threading.Thread):
 
         windowInfo = [self.mainWindow.windowTitle(), self.mainWindow.width(), self.mainWindow.height(), self.theme]
         tabInfo = self.GUICreator.getTabNames()
-        XMLOutput(windowInfo, tabInfo, self.GUICreator.getWidgetList(), fileName)
+        XMLOutput(windowInfo, tabInfo, self.GUICreator.getWidgetList(), fileName, self.createSettingsTab)
 
     def saveGUIAs(self):
         """Opens a file dialog, then calls the save function with the full filename"""

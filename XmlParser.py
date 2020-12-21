@@ -101,6 +101,9 @@ class XmlParser:
         elif widgetType == Constants.DROP_DOWN_TEXT_BOX_TYPE:
             widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "diagnostics_agg")
             self.guiGenerator.createTextBoxDropDownWidget(tab, int(xPos), int(yPos), widgetInfo)
+        elif widgetType == Constants.ANNUNCIATOR_TYPE:
+            widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "annunciator")
+            self.guiGenerator.createAnnunciatorPanelWidget(tab, int(xPos), int(yPos), widgetInfo)
         else:
             print("Could not create widget {0}: type {1} not supported".format(title, widgetType))
 

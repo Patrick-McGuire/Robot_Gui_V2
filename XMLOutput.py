@@ -6,10 +6,12 @@ from Constants import *
 
 
 class XMLOutput:
-    def __init__(self, windowInfo, tabNames, widgetList, filename):
+    def __init__(self, windowInfo, tabNames, widgetList, filename, excludeSettingsTab):
         self.windowInfo = windowInfo
         self.tabNames = tabNames
         self.widgetList = widgetList
+
+        self.excludeSettingsTab = excludeSettingsTab
 
         self.getWindowStartTag()
         self.getTabTags()
@@ -30,7 +32,9 @@ class XMLOutput:
     def getTabTags(self):
         items = []
         for tab in self.tabNames:
-            if tab != "Settings":
+            if self.excludeSettingsTab and tab == "Settings":
+                pass  # Don't save this tab
+            else:
                 items.append(ET.SubElement(self.fileData, Constants.TAB_NAME))
                 items[-1].set(Constants.TITLE_ATTRIBUTE, tab)
 
