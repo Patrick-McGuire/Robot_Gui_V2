@@ -104,6 +104,7 @@ class CoreGUI(threading.Thread):
         self.GUICreator.createTextBoxDropDownWidget("Settings", 100, 100)
         self.GUICreator.createButton("Settings", "Whack Patrick", 100, 300)
         self.GUICreator.createSimpleDropDown("Settings", 400, 100)
+        self.GUICreator.createAnnunciatorPanelWidget("Settings", 500, 500)
 
         self.XMLParser = XmlParser(self.filePath, self.GUICreator)
         returnData = self.XMLParser.getConfigData()

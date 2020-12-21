@@ -11,6 +11,7 @@ from WidgetClasses import VideoWidget
 from WidgetClasses.CompassWidget import CompassWidget
 from WidgetClasses import TextBoxDropDownWidget
 from WidgetClasses import FrameRateCounter
+from WidgetClasses import AnnunciatorPanel
 
 
 class GUIMaker(object):
@@ -89,6 +90,13 @@ class GUIMaker(object):
 
     def createFrameRateCounterWidget(self, tabName, x, y):
         self.widgetList.append(FrameRateCounter.FrameRateCounter(self.tabs[tabName], x, y))
+
+    def createAnnunciatorPanelWidget(self, tabName, x, y, widgetInfo=None):
+        """Creates a textbox with a drop down in the tab name specified"""
+        if widgetInfo is None:
+            widgetInfo = {}
+        self.widgetList.append(AnnunciatorPanel.AnnunciatorPanel(self.tabs[tabName], "annunciator_{}".format(self.widgetsCreated), x, y, widgetInfo))
+        self.widgetsCreated = self.widgetsCreated + 1
 
     def getMainWindow(self):
         return self.mainWindow

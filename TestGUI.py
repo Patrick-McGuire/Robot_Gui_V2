@@ -17,6 +17,9 @@ while not GUI.isDone():
     testDict = {"aaa": [["hi", "aaa"], ["bbb", random.random()]], "bbb": [["aa", "  {}".format(random.random())], ["bbb", random.random()], ["c", random.random()], ["ddddddddd", random.random()]]}
     dataPassDict["diagnostics_agg"] = testDict
 
+    annunciator = [["Overall", 0, "Test"], ["Battery", 1, "Test2"], ["Lights", 2, "Test3"], ["aaaaaaaaaaaaaaaaaaaaaaaaaa", 0, "test4"]]
+    dataPassDict["annunciator"] = annunciator
+
     GUI.updateInfo(dataPassDict)
 
     # print(self.coreGui.getReturnDict())

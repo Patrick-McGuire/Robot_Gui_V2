@@ -12,6 +12,7 @@ class Constants:
     SIMPLE_BUTTON_TYPE = "SimpleButton"
     VIDEO_WINDOW_TYPE = "video"
     COMPASS_TYPE = "compass"
+    ANNUNCIATOR_TYPE = "AnnunciatorPanel"
 
     CONFIG_ATTRIBUTE = "config"
     TAB_ATTRIBUTE = "tab"
