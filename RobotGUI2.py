@@ -10,6 +10,9 @@ class RobotGUI2:
     def updateInfo(self, dataPassDict):
         self.coreGui.updateDataPassDict(dataPassDict)
 
+    def updateConsole(self, console, value):
+        self.coreGui.updateConsole(console, value)
+
     def loadXML(self, filePath=None):
         if filePath is not None:
             self.coreGui.filePath = filePath

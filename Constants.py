@@ -13,6 +13,7 @@ class Constants:
     VIDEO_WINDOW_TYPE = "video"
     COMPASS_TYPE = "compass"
     ANNUNCIATOR_TYPE = "AnnunciatorPanel"
+    SIMPLE_CONSOLE_TYPE = "SimpleConsole"
 
     CONFIG_ATTRIBUTE = "config"
     TAB_ATTRIBUTE = "tab"

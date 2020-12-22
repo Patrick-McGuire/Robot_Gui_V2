@@ -46,6 +46,7 @@ class CoreGUI(threading.Thread):
         self.activeOffset = [0, 0]
 
         self.dataPassDict = {}
+        self.consoleDict = {}
         self.returnDict = {}
         self.rainbow = False
         self.hideOnClick = False
@@ -110,6 +111,7 @@ class CoreGUI(threading.Thread):
             self.GUICreator.createButton("Settings", "Whack Patrick", 100, 300)
             self.GUICreator.createSimpleDropDown("Settings", 400, 100)
             self.GUICreator.createAnnunciatorPanelWidget("Settings", 500, 500)
+            self.GUICreator.createSimpleConsoleWidget("Settings", 600, 500)
 
         if self.loadXMLFirst:
             self.loadXML()
@@ -140,6 +142,13 @@ class CoreGUI(threading.Thread):
     def updateDataPassDict(self, dataPassDict):
         self.dataPassDict = dataPassDict
 
+    def updateConsole(self, name, value):
+        """HI"""
+        if name not in self.consoleDict:
+            self.consoleDict[name] = []
+
+        self.consoleDict[name] = ([value] + self.consoleDict[name])[:20]
+
     def getReturnDict(self):
         return self.returnDict
 
@@ -164,6 +173,9 @@ class CoreGUI(threading.Thread):
     def updateGUI(self):
         if self.needsToLoadXML:
             self.loadXML()
+
+        for key in self.consoleDict:
+            self.dataPassDict[key] = self.consoleDict[key]
 
         listOfWidgets = self.GUICreator.getWidgetList()
         returnDict = {}

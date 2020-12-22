@@ -31,6 +31,8 @@ while not GUI.isDone():
 
     GUI.updateInfo(dataPassDict)
 
+    GUI.updateConsole("testarray", str(random.random()))
+
     # print(self.coreGui.getReturnDict())
     time.sleep(0.01)
 

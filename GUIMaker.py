@@ -2,8 +2,6 @@
 Function calls to actually create GUI elements
 """
 
-import time
-
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget
 
 from WidgetClasses import SimpleButton
@@ -14,6 +12,7 @@ from WidgetClasses.CompassWidget import CompassWidget
 from WidgetClasses import TextBoxDropDownWidget
 from WidgetClasses import FrameRateCounter
 from WidgetClasses import AnnunciatorPanel
+from WidgetClasses import SimpleConsoleWidget
 
 
 class GUIMaker(object):
@@ -100,6 +99,12 @@ class GUIMaker(object):
             widgetInfo = {}
         self.widgetList.append(AnnunciatorPanel.AnnunciatorPanel(self.tabs[tabName], "annunciator_{}".format(self.widgetsCreated), x, y, widgetInfo))
         self.widgetsCreated = self.widgetsCreated + 1
+
+    def createSimpleConsoleWidget(self, tabName, x, y, widgetInfo=None):
+        """Creates a textbox with a drop down in the tab name specified"""
+        if widgetInfo is None:
+            widgetInfo = {}
+        self.widgetList.append(SimpleConsoleWidget.SimpleConsole(self.tabs[tabName], x, y, widgetInfo))
 
     def getMainWindow(self):
         return self.mainWindow

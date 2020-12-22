@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <window title="Probot Control" width="1920" height="1016" theme="dark">
 	<tab title="Dashboard">
-		<widget x="316" y="0" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="False" type="video" fullscreen="true" lockAspectRatio="true" source="webcam" dimensions="1284.0x963.0"/>
+		<widget x="0" y="0" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="False" type="video" fullscreen="true" lockAspectRatio="true" source="webcam" dimensions="640.0x480.0"/>
 		<widget x="1634" y="253" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" type="compass" source="spinny" size="200"/>
 		<widget x="1655" y="39" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" type="compass" source="current" size="200"/>
 		<widget x="89" y="50" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" type="DropDownTextBox" source="diagnostics_agg"/>
@@ -40,5 +40,6 @@
 		<widget x="180" y="657" font="Monospace" fontsize="20" borderwidth="4" hidden="False" draggable="True" type="ConfigurableTextBox" title="Powera5sdff Stats"/>
 		<widget x="1055" y="580" font="Monospace" fontsize="20" borderwidth="4" hidden="False" draggable="True" type="ConfigurableTextBox" title="Poweras6dff Stats"/>
 		<widget x="201" y="341" font="Monospace" fontsize="20" borderwidth="4" hidden="False" draggable="True" type="ConfigurableTextBox" title="Powerasd7ff Stats"/>
+		<widget x="1446" y="313" font="Monospace" fontsize="14" borderwidth="4" hidden="False" draggable="True" type="SimpleConsole" title="TEST CONSOLE" source="testarray"/>
 	</tab>
 </window>
