@@ -28,7 +28,7 @@ class CoreGUI(threading.Thread):
 
     CustomWidgetList = []
 
-    def __init__(self, filePath, createSettings=False):
+    def __init__(self, filePath, createSettings=False, loadXMLFirst=True):
         self.filePath = filePath
 
         self.GUIStarted = False
@@ -38,6 +38,9 @@ class CoreGUI(threading.Thread):
         self.mainWindow = None
         self.XMLParser = None
         self.createSettingsTab = createSettings
+        self.loadXMLFirst = loadXMLFirst
+        self.needsToLoadXML = loadXMLFirst
+        self.tabsByXMLFIle = {}
 
         self.activeClickedWidget = None
         self.activeOffset = [0, 0]
@@ -108,10 +111,8 @@ class CoreGUI(threading.Thread):
             self.GUICreator.createSimpleDropDown("Settings", 400, 100)
             self.GUICreator.createAnnunciatorPanelWidget("Settings", 500, 500)
 
-        self.XMLParser = XmlParser(self.filePath, self.GUICreator)
-        returnData = self.XMLParser.getConfigData()
-
-        self.setTheme(returnData[Constants.THEME_ATTRIBUTE])
+        if self.loadXMLFirst:
+            self.loadXML()
 
         self.setupEventHandler()
 
@@ -124,6 +125,14 @@ class CoreGUI(threading.Thread):
         self.GUIStarted = True
         self.GUICreator.start()
         self.GUIDone = True
+
+    def loadXML(self):
+        if self.needsToLoadXML:
+            self.XMLParser = XmlParser(self.filePath, self.GUICreator)
+            returnData = self.XMLParser.getConfigData()
+            self.setTheme(returnData[Constants.THEME_ATTRIBUTE])
+            self.tabsByXMLFIle[self.filePath] = returnData["tabNames"]
+        self.needsToLoadXML = False
 
     def stop(self):
         self.GUICreator.stop()
@@ -153,6 +162,9 @@ class CoreGUI(threading.Thread):
             self.GUICreator.setGUIColor(int(float(red)), int(float(green)), int(float(blue)))
 
     def updateGUI(self):
+        if self.needsToLoadXML:
+            self.loadXML()
+
         listOfWidgets = self.GUICreator.getWidgetList()
         returnDict = {}
 
@@ -234,12 +246,15 @@ class CoreGUI(threading.Thread):
 
     def saveGUI(self, fileName=None):
         """Generates output XML, and writes that to a file"""
-        if fileName is None:
-            fileName = self.filePath
-
-        windowInfo = [self.mainWindow.windowTitle(), self.mainWindow.width(), self.mainWindow.height(), self.theme]
-        tabInfo = self.GUICreator.getTabNames()
-        XMLOutput(windowInfo, tabInfo, self.GUICreator.getWidgetList(), fileName, self.createSettingsTab)
+        if fileName is not None:
+            tabInfo = self.GUICreator.getTabNames()
+            windowInfo = [self.mainWindow.windowTitle(), self.mainWindow.width(), self.mainWindow.height(), self.theme]
+            XMLOutput(windowInfo, tabInfo, self.GUICreator.getWidgetList(), fileName, self.createSettingsTab)
+        else:
+            for file in self.tabsByXMLFIle:
+                tabInfo = self.tabsByXMLFIle[file]
+                windowInfo = [self.mainWindow.windowTitle(), self.mainWindow.width(), self.mainWindow.height(), self.theme]
+                XMLOutput(windowInfo, tabInfo, self.GUICreator.getWidgetList(), file, self.createSettingsTab)
 
     def saveGUIAs(self):
         """Opens a file dialog, then calls the save function with the full filename"""

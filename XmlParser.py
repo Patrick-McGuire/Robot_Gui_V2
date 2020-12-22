@@ -26,11 +26,13 @@ class XmlParser:
 
         # Get all of the tabs from the file
         tabs = self.document.getElementsByTagName(Constants.TAB_NAME)
+        self.listOfTabNames = []
 
         # Generate all of the tabs
         for i in range(0, len(tabs)):
             # Add a new tab for every tab in the xml file
             tabName = tabs[i].getAttribute(Constants.TITLE_ATTRIBUTE)
+            self.listOfTabNames.append(tabName)
             self.guiGenerator.createTab(tabName)
 
             # Get a list of widgets for the current tab
@@ -114,4 +116,4 @@ class XmlParser:
         return data
 
     def getConfigData(self):
-        return {Constants.THEME_ATTRIBUTE: self.theme}
+        return {Constants.THEME_ATTRIBUTE: self.theme, "tabNames": self.listOfTabNames}

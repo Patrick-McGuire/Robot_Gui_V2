@@ -2,6 +2,8 @@
 Function calls to actually create GUI elements
 """
 
+import time
+
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget
 
 from WidgetClasses import SimpleButton
@@ -58,6 +60,7 @@ class GUIMaker(object):
 
         self.tabHolderWidget.addTab(self.tabs[name], name)
         self.tabNames.append(name)
+
         self.createFrameRateCounterWidget(name, -100, -400)  # We need something on the tab to be updating if in order for the GUI to keep running
 
     def createButton(self, tabName, text, x, y):

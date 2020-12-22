@@ -16,6 +16,7 @@ from .CustomBaseWidget import CustomBaseWidget
 class FrameRateCounter(CustomBaseWidget):
     def __init__(self, tab, x, y):
         super().__init__(QLabel(tab), x, y)
+        self.QTWidget.show()
         self.xBuffer = 0
         self.yBuffer = 0
 
