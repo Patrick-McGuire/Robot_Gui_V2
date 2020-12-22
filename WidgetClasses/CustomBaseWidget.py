@@ -4,6 +4,7 @@ Base class that all our widgets are derived off of
 
 import random
 import webcolors
+import copy
 
 import xml.etree.ElementTree as ElementTree
 
@@ -37,6 +38,7 @@ class CustomBaseWidget(object):
             self.hasReturnValue = hasReturnValue
 
         self.returnKey = returnKey
+        self.returnEvents = []
 
         self.x = x
         self.y = y
@@ -197,6 +199,11 @@ class CustomBaseWidget(object):
     def getData(self):
         """Function to return data from a widget.  Should be overwritten"""
         return 0
+
+    def getReturnEvents(self):
+        temp = copy.deepcopy(self.returnEvents)
+        self.returnEvents = []
+        return temp
 
     def getReturnKey(self):
         """Returns the dictionary key to put the return data into"""

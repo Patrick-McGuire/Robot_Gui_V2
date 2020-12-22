@@ -15,7 +15,7 @@ class SimpleButton(CustomBaseWidget):
         super().__init__(QTWidget, xPos, yPos, widgetType=Constants.SIMPLE_BUTTON_TYPE)
 
     def OnButtonPress(self):
-        print("HI")
+        self.returnEvents.append(["button1", "press"])
 
     def setColorRGB(self, red: int, green: int, blue: int):
         colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)

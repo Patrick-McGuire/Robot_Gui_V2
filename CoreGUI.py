@@ -48,6 +48,7 @@ class CoreGUI(threading.Thread):
         self.dataPassDict = {}
         self.consoleDict = {}
         self.returnDict = {}
+        self.callbackQueue = []
         self.rainbow = False
         self.hideOnClick = False
         self.hue = 0
@@ -152,6 +153,12 @@ class CoreGUI(threading.Thread):
     def getReturnDict(self):
         return self.returnDict
 
+    def getCallbackQueue(self):
+        return self.callbackQueue
+
+    def clearCallbackQueue(self):
+        self.callbackQueue = []
+
     def setTheme(self, theme: str):
         """Function to set a theme for the whole GUI"""
         self.theme = theme
@@ -185,6 +192,10 @@ class CoreGUI(threading.Thread):
 
             if widget.returnsData():
                 returnDict[widget.getReturnKey()] = widget.getData()
+
+            returnEvents = widget.getReturnEvents()
+            for event in returnEvents:
+                self.callbackQueue.append(event)
 
         self.returnDict = copy.deepcopy(returnDict)
 

@@ -4,14 +4,24 @@ import cv2
 
 from RobotGUI2 import RobotGUI2
 
+
+def callback(data):
+    """You can pass callbacks to the GUI now, that can be triggered from buttons"""
+    print("Callback worked")
+
+
 # GUI = RobotGUI2("config/GUIConfig.xml")
 GUI = RobotGUI2("config/BasicConfig.xml", testMode=True)
+
+GUI.addCallback(callback, "button1")
 
 cap = cv2.VideoCapture(0)
 
 i = 0
 
 while not GUI.isDone():
+    GUI.processCallbacks()
+
     ret, frame = cap.read()
 
     i += 3
