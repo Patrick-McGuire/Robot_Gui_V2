@@ -26,7 +26,7 @@ def convertNameToRGB(name: str):
 class CustomBaseWidget(object):
     def __init__(self, QTWidget: QWidget, x: float, y: float, widgetType: str = "", hasReturnValue: bool = False, returnKey: str = None, configInfo=None):
         self.QTWidget = QTWidget
-        self.QTWidget.move(x, y)
+        self.setPosition(x, y)
         self.QTWidget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.QTWidget.customContextMenuRequested.connect(self.rightClickMenu)
         self.tabName = self.QTWidget.parent().objectName()
@@ -156,6 +156,7 @@ class CustomBaseWidget(object):
 
     def setFontInfo(self):
         self.QTWidget.setFont(QFont(self.font, self.fontSize))
+        self.QTWidget.adjustSize()
 
     def hide(self):
         self.hidden = True

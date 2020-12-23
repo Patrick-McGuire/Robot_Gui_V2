@@ -65,9 +65,9 @@ class GUIMaker(object):
 
         self.createFrameRateCounterWidget(name, -100, -400)  # We need something on the tab to be updating if in order for the GUI to keep running
 
-    def createButton(self, tabName, text, x, y):
+    def createButton(self, tabName, x, y, widgetInfo):
         """Creates a basic button widget in the tab name specified"""
-        self.widgetList.append(SimpleButton.SimpleButton(self.tabs[tabName], text, x, y))
+        self.widgetList.append(SimpleButton.SimpleButton(self.tabs[tabName], x, y, widgetInfo))
 
     def createTextBox(self, tabName, x, y, widgetInfo):
         """Creates a text box widget in the tab name specified"""

@@ -110,7 +110,7 @@ class CoreGUI(threading.Thread):
             # Widgets that only run in test mode.  Used for testing stuff before it's completely done
             self.GUICreator.createTab("Settings")
             self.GUICreator.createTextBoxDropDownWidget("Settings", 100, 100)
-            self.GUICreator.createButton("Settings", "Whack Patrick", 100, 300)
+            self.GUICreator.createButton("Settings", 100, 300, {Constants.TITLE_ATTRIBUTE: "Whack Patrick"})
             self.GUICreator.createSimpleDropDown("Settings", 400, 100)
             self.GUICreator.createAnnunciatorPanelWidget("Settings", 500, 500)
             self.GUICreator.createSimpleConsoleWidget("Settings", 600, 500)
