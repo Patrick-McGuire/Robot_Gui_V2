@@ -7,13 +7,14 @@ from RobotGUI2 import RobotGUI2
 
 def callback(data):
     """You can pass callbacks to the GUI now, that can be triggered from buttons"""
-    print("Callback worked")
+    print(data)
 
 
 # GUI = RobotGUI2("config/GUIConfig.xml")
 GUI = RobotGUI2("config/BasicConfig.xml", testMode=True)
 
 GUI.addCallback(callback, "button1")
+GUI.addCallback(callback, "complete_console_test")
 
 cap = cv2.VideoCapture(0)
 
@@ -42,6 +43,7 @@ while not GUI.isDone():
     GUI.updateInfo(dataPassDict)
 
     GUI.updateConsole("testarray", str(random.random()))
+    GUI.updateConsole("complete_console_test", str(random.random()))
 
     # print(self.coreGui.getReturnDict())
     time.sleep(0.01)

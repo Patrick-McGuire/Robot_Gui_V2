@@ -113,6 +113,7 @@ class CoreGUI(threading.Thread):
             self.GUICreator.createSimpleDropDown("Settings", 400, 100)
             self.GUICreator.createAnnunciatorPanelWidget("Settings", 500, 500)
             self.GUICreator.createSimpleConsoleWidget("Settings", 600, 500)
+            self.GUICreator.createCompleteConsoleWidget("Settings", 700, 500, {Constants.SOURCE_ATTRIBUTE: "complete_console_test"})
 
         if self.loadXMLFirst:
             self.loadXML()

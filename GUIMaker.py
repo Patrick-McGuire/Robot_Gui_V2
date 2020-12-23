@@ -13,6 +13,7 @@ from WidgetClasses import TextBoxDropDownWidget
 from WidgetClasses import FrameRateCounter
 from WidgetClasses import AnnunciatorPanel
 from WidgetClasses import SimpleConsoleWidget
+from WidgetClasses import CompleteConsoleWidget
 
 
 class GUIMaker(object):
@@ -105,6 +106,13 @@ class GUIMaker(object):
         if widgetInfo is None:
             widgetInfo = {}
         self.widgetList.append(SimpleConsoleWidget.SimpleConsole(self.tabs[tabName], x, y, widgetInfo))
+
+    def createCompleteConsoleWidget(self, tabName, x, y, widgetInfo=None):
+        """Creates a textbox with a drop down in the tab name specified"""
+        if widgetInfo is None:
+            widgetInfo = {}
+        self.widgetList.append(CompleteConsoleWidget.CompleteConsoleWidget(self.tabs[tabName], "console_{}".format(self.widgetsCreated), x, y, widgetInfo))
+        self.widgetsCreated += 1
 
     def getMainWindow(self):
         return self.mainWindow

@@ -5,8 +5,9 @@
 		<widget x="1634" y="253" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" type="compass" source="spinny" size="200"/>
 		<widget x="1655" y="39" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" type="compass" source="current" size="200"/>
 		<widget x="89" y="50" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" type="DropDownTextBox" source="diagnostics_agg"/>
-		<widget x="63" y="227" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" type="AnnunciatorPanel" source="annunciator" title="Error: no title"/>
-		<widget x="59" y="580" font="Arial" fontsize="14" borderwidth="4" hidden="False" draggable="True" type="AnnunciatorPanel" source="annunciator_2" title="Error: no title"/>
+		<widget x="63" y="227" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" type="AnnunciatorPanel" source="annunciator" title="Annunciator1"/>
+		<widget x="59" y="580" font="Arial" fontsize="14" borderwidth="4" hidden="False" draggable="True" type="AnnunciatorPanel" source="annunciator_2" title="Annunciator2"/>
+		<widget x="63" y="227" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" type="CompleteConsole" source="complete_console_test" title="Test Console 2"/>
 		<widget x="1478" y="479" font="Monospace" fontsize="12" borderwidth="4" hidden="False" draggable="True" type="ConfigurableTextBox" title="Power Stats">
 			<line label="Battery Voltage" value="batteryVoltage"/>
 			<line label="5v Bus Voltage" value="v5Voltage"/>

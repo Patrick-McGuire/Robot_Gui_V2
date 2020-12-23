@@ -54,6 +54,7 @@ class CustomBaseWidget(object):
         self.font = "Arial"
         self.fontSize = 12
         self.hidden = False
+        self.title = "Error: No Title"
 
         if configInfo is not None:
             if Constants.BORDER_WIDTH_ATTRIBUTE in configInfo:
@@ -66,6 +67,8 @@ class CustomBaseWidget(object):
                 self.setColor(configInfo[Constants.BACKGROUND_ATTRIBUTE])
             if Constants.DRAGGABLE_ATTRIBUTE in configInfo:
                 self.draggable = configInfo[Constants.DRAGGABLE_ATTRIBUTE]
+            if Constants.TITLE_ATTRIBUTE in configInfo:
+                self.title = configInfo[Constants.TITLE_ATTRIBUTE]
 
         self.defaultFontSize = self.fontSize
         self.setFontInfo()
@@ -227,6 +230,8 @@ class CustomBaseWidget(object):
         """Default function to fill out the XML tag for an item.  DO NOT OVERWRITE UNLESS YOU KNOW WHAT YOU ARE DOING.  Calls customXMLStuff().  PUT YOUR CODE THERE INSTEAD"""
 
         tag = ElementTree.SubElement(item, Constants.WIDGET_NAME)
+        tag.set(Constants.TYPE_ATTRIBUTE, str(self.type))
+        tag.set(Constants.TITLE_ATTRIBUTE, self.title)
         tag.set(Constants.X_POS_ATTRIBUTE, str(self.x))
         tag.set(Constants.Y_POS_ATTRIBUTE, str(self.y))
         tag.set(Constants.FONT_ATTRIBUTE, str(self.font))
@@ -234,7 +239,6 @@ class CustomBaseWidget(object):
         tag.set(Constants.BORDER_WIDTH_ATTRIBUTE, str(self.borderWidth))
         tag.set(Constants.HIDDEN_ATTRIBUTE, str(self.hidden))
         tag.set(Constants.DRAGGABLE_ATTRIBUTE, str(self.draggable))
-        tag.set(Constants.TYPE_ATTRIBUTE, str(self.type))
 
         self.customXMLStuff(tag)
 

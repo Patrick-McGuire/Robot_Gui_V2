@@ -109,6 +109,9 @@ class XmlParser:
         elif widgetType == Constants.SIMPLE_CONSOLE_TYPE:
             widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "console")
             self.guiGenerator.createSimpleConsoleWidget(tab, int(xPos), int(yPos), widgetInfo)
+        elif widgetType == Constants.COMPLETE_CONSOLE_TYPE:
+            widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "console")
+            self.guiGenerator.createCompleteConsoleWidget(tab, int(xPos), int(yPos), widgetInfo)
         else:
             print("Could not create widget {0}: type {1} not supported".format(title, widgetType))
 
