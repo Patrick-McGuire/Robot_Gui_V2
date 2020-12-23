@@ -44,8 +44,6 @@ class SimpleConsole(CustomBaseWidget):
         for line in reversed(data):
             outString += line + "\n"
 
-        print(outString)
-
         self.textBox.setText(outString[:-1])
         self.textBox.adjustSize()
         self.QTWidget.adjustSize()
