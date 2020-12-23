@@ -4,39 +4,77 @@ Text box widget
 
 import xml.etree.ElementTree as ElementTree
 
-from PyQt5.QtWidgets import QLabel
+from PyQt5 import QtCore
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QWidget, QLabel, QGridLayout
 
 from .CustomBaseWidget import CustomBaseWidget
 from Constants import Constants
 
 
 class TextBoxWidget(CustomBaseWidget):
-    def __init__(self, tab, x, y, widgetInfo):
-        widgetInfo[Constants.FONT_ATTRIBUTE] = "Monospace"  # Forcing a monospace font fixes some formatting
-        super().__init__(QLabel(tab), x, y, configInfo=widgetInfo, widgetType=Constants.CONFIGURABLE_TEXT_BOX_TYPE)
+    def __init__(self, tab, name, x, y, widgetInfo):
+        self.titleBox = QLabel()
+        self.textBox = QLabel()
+        super().__init__(QWidget(tab, objectName=name), x, y, configInfo=widgetInfo, widgetType=Constants.CONFIGURABLE_TEXT_BOX_TYPE)
+
+        layout = QGridLayout()
+        layout.addWidget(self.titleBox)
+        layout.addWidget(self.textBox)
+        self.QTWidget.setLayout(layout)
+
         self.xBuffer = 0
         self.yBuffer = 0
+        self.maxWidth = 0
 
         self.boxFormat = widgetInfo[Constants.CONFIG_ATTRIBUTE]
         self.title = widgetInfo[Constants.TITLE_ATTRIBUTE]
 
+        self.titleBox.setText(self.title)
+        self.titleBox.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+
     def customUpdate(self, dataPassDict):
-        outString = self.title
-        lines = 1
-        maxLineLength = len(outString)
+        outString = ""
+
+        longestLine = 0
+        for line in self.boxFormat:
+            longestLine = max(longestLine, len(line[0]))
 
         for line in self.boxFormat:
-            lines = lines + 1
+            spaces = " " * (longestLine - len(line[0]) + 2)  # Add two extra spaces to everything
             if line[1] in dataPassDict:
-                newLine = "\n{0:20}{1}".format(line[0], dataPassDict[line[1]])
+                newLine = "{0}{2}{1}".format(line[0], dataPassDict[line[1]], spaces)
             else:
-                newLine = "\n{0:20}{1}".format(line[0], "No Data")
+                newLine = "{0}{2}{1}".format(line[0], "No Data", spaces)
 
-            outString = outString + newLine
-            if len(newLine) > maxLineLength:
-                maxLineLength = len(newLine)
+            outString = outString + newLine + "\n"
 
-        self.QTWidget.setText(outString)
+        self.textBox.setText(outString[:-1])
+        self.QTWidget.adjustSize()
+        self.maxWidth = max(self.QTWidget.width(), self.maxWidth)  # Keep it from shrinking back down
+        self.QTWidget.setMinimumWidth(self.maxWidth)
+
+    def setColorRGB(self, red, green, blue):
+        colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
+
+        if max(red, green, blue) > 127:
+            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: black}")
+            self.textBox.setStyleSheet(colorString + " color: black")
+            self.titleBox.setStyleSheet(colorString + " color: black")
+        else:
+            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: white}")
+            self.textBox.setStyleSheet(colorString + " color: white")
+            self.titleBox.setStyleSheet(colorString + " color: white")
+
+    def setDefaultAppearance(self):
+        self.QTWidget.setStyleSheet("color: black")
+        self.textBox.setStyleSheet("color: black")
+        self.titleBox.setStyleSheet("color: black")
+
+    def setFontInfo(self):
+        self.QTWidget.setFont(QFont(self.font, self.fontSize))
+        self.textBox.setFont(QFont("Monospace", self.fontSize))
+        self.titleBox.setFont(QFont(self.font, self.fontSize))
         self.QTWidget.adjustSize()
 
     def customXMLStuff(self, tag):

@@ -12,10 +12,10 @@ from Constants import Constants
 class CompassWidget(CustomBaseWidget):
     def __init__(self, tab, name, x, y, widgetInfo):
         QTWidget = QLabel(tab)
+        QTWidget.setObjectName(name)
         self.arrow = QLabel(QTWidget)
 
         super().__init__(QTWidget, x, y, configInfo=widgetInfo, widgetType=Constants.COMPASS_TYPE)
-        self.QTWidget.setObjectName(name)
 
         self.size = int(widgetInfo["size"])
         self.source = str(widgetInfo[Constants.SOURCE_ATTRIBUTE])

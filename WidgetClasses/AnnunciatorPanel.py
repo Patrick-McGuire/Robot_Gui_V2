@@ -12,8 +12,7 @@ from Constants import Constants
 
 class AnnunciatorPanel(CustomBaseWidget):
     def __init__(self, tab, name, x, y, widgetInfo):
-        super().__init__(QWidget(tab), x, y, configInfo=widgetInfo, widgetType=Constants.ANNUNCIATOR_TYPE)
-        self.QTWidget.setObjectName(name)
+        super().__init__(QWidget(tab, objectName=name), x, y, configInfo=widgetInfo, widgetType=Constants.ANNUNCIATOR_TYPE)
 
         self.xBuffer = 0
         self.yBuffer = 0

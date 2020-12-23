@@ -71,7 +71,8 @@ class GUIMaker(object):
 
     def createTextBox(self, tabName, x, y, widgetInfo):
         """Creates a text box widget in the tab name specified"""
-        self.widgetList.append(TextBoxWidget.TextBoxWidget(self.tabs[tabName], x, y, widgetInfo))
+        self.widgetList.append(TextBoxWidget.TextBoxWidget(self.tabs[tabName], "compass{}".format(self.widgetsCreated), x, y, widgetInfo))
+        self.widgetsCreated += 1
 
     def createSimpleDropDown(self, tabName, x, y):
         """Creates a text box widget in the tab name specified"""
@@ -107,7 +108,8 @@ class GUIMaker(object):
         """Creates a textbox with a drop down in the tab name specified"""
         if widgetInfo is None:
             widgetInfo = {}
-        self.widgetList.append(SimpleConsoleWidget.SimpleConsole(self.tabs[tabName], x, y, widgetInfo))
+        self.widgetList.append(SimpleConsoleWidget.SimpleConsole(self.tabs[tabName], "simple_console_{}".format(self.widgetsCreated), x, y, widgetInfo))
+        self.widgetsCreated += 1
 
     def createCompleteConsoleWidget(self, tabName, x, y, widgetInfo=None):
         """Creates a textbox with a drop down in the tab name specified"""

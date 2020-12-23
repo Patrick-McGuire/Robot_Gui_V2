@@ -16,8 +16,7 @@ class TextBoxDropDownWidget(CustomBaseWidget):
         self.textBoxWidget = QLabel()
         self.dropDownWidget = QComboBox()
 
-        super().__init__(QWidget(tab), x, y, configInfo=widgetInfo, widgetType=Constants.DROP_DOWN_TEXT_BOX_TYPE)
-        self.QTWidget.setObjectName(name)
+        super().__init__(QWidget(tab, objectName=name), x, y, configInfo=widgetInfo, widgetType=Constants.DROP_DOWN_TEXT_BOX_TYPE)
 
         layout = QGridLayout()
         layout.addWidget(self.dropDownWidget)

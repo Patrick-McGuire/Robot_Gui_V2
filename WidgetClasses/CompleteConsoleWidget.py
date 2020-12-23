@@ -16,9 +16,7 @@ class CompleteConsoleWidget(CustomBaseWidget):
         self.textBoxWidget = QLabel()
         self.textEntryWidget = QLineEdit()
         self.titleBox = QLabel()
-
-        super().__init__(QWidget(tab), x, y, configInfo=widgetInfo, widgetType=Constants.COMPLETE_CONSOLE_TYPE)
-        self.QTWidget.setObjectName(name)
+        super().__init__(QWidget(tab, objectName=name), x, y, configInfo=widgetInfo, widgetType=Constants.COMPLETE_CONSOLE_TYPE)
 
         layout = QGridLayout()
         layout.addWidget(self.titleBox)
