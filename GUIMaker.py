@@ -42,7 +42,9 @@ class GUIMaker(object):
         self.application.exec_()
 
     def stop(self):
+        print("Stopping GUI")
         self.application.exit()
+        exit(0)
 
     def SetTitle(self, title):
         self.mainWindow.setWindowTitle(title)

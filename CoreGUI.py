@@ -33,6 +33,7 @@ class CoreGUI(threading.Thread):
 
         self.GUIStarted = False
         self.GUIDone = False
+        self.stopCommanded = False
 
         self.GUICreator = None
         self.mainWindow = None
@@ -139,7 +140,7 @@ class CoreGUI(threading.Thread):
         self.needsToLoadXML = False
 
     def stop(self):
-        self.GUICreator.stop()
+        self.stopCommanded = True
 
     def updateDataPassDict(self, dataPassDict):
         self.dataPassDict = dataPassDict
@@ -179,6 +180,9 @@ class CoreGUI(threading.Thread):
             self.GUICreator.setGUIColor(int(float(red)), int(float(green)), int(float(blue)))
 
     def updateGUI(self):
+        if self.stopCommanded:
+            self.GUICreator.stop()
+
         if self.needsToLoadXML:
             self.loadXML()
 
