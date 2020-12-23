@@ -42,9 +42,12 @@ class SimpleConsole(CustomBaseWidget):
         data = dataPassDict[self.source]
 
         for line in reversed(data):
-            outString = line + "\n"
+            outString += line + "\n"
+
+        print(outString)
 
         self.textBox.setText(outString[:-1])
+        self.textBox.adjustSize()
         self.QTWidget.adjustSize()
 
     def setColorRGB(self, red, green, blue):
