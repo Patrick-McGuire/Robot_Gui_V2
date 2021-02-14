@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+
 class Constants:
     WINDOW_NAME = "window"
     TAB_NAME = "tab"
@@ -41,6 +42,8 @@ class Constants:
     LOCK_ASPECT_RATIO_ATTRIBUTE = "lockAspectRatio"
     SIZE_ATTRIBUTE = "size"
     THEME_ATTRIBUTE = "theme"
+    URL_ATTRIBUTE = "url"
+
     # ATTRIBUTE
     BATTERY_VOLTAGE_VALUE = "batteryVoltage"
     V5_VOLTAGE_VALUE = "v5Voltage"

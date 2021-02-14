@@ -2,11 +2,7 @@
 Probot Browse
 """
 
-import xml.etree.ElementTree as ElementTree
-
-from PyQt5 import QtCore
 from PyQt5.QtCore import QUrl
-from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QWidget, QLineEdit, QPushButton, QGridLayout
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 
@@ -19,18 +15,28 @@ class Browse(CustomBaseWidget):
         self.web = QWebEngineView()
         self.linkEntry = QLineEdit()
         self.submit = QPushButton("Enter Link")
+        self.defaultButton = QPushButton("Default")
         super().__init__(QWidget(tab, objectName=name), x, y, widgetType=Constants.BROWSE_TYPE)
 
         layout = QGridLayout()
         layout.addWidget(self.linkEntry, 0, 0)
         layout.addWidget(self.submit, 0, 1)
-        layout.addWidget(self.web, 1, 0, 1, 2)
+        layout.addWidget(self.defaultButton, 0, 2)
+        layout.addWidget(self.web, 1, 0, 1, 3)
         self.QTWidget.setLayout(layout)
 
         self.submit.clicked.connect(self.goToURLFromEntryBox)
+        self.defaultButton.clicked.connect(self.goToDefaultURL)
 
         self.setSize(800, 500)
-        self.goToURL("www.google.com")
+
+        # Default Behavior
+        if Constants.URL_ATTRIBUTE in widgetInfo:
+            self.defaultURL = widgetInfo[Constants.URL_ATTRIBUTE]
+            self.goToURL(self.defaultURL)
+        else:
+            self.defaultURL = None
+            self.goToURL("www.google.com")
 
     def customUpdate(self, dataPassDict):
         pass
@@ -38,10 +44,10 @@ class Browse(CustomBaseWidget):
     def goToURL(self, url):
         """
         URL processing
-
         Should detect google searches, and should add https text
         """
-        if len(url) == 0:
+
+        if url is None or len(str(url)) == 0:  # Just skip bad data
             return
 
         if "." not in url:
@@ -57,3 +63,9 @@ class Browse(CustomBaseWidget):
 
     def goToURLFromEntryBox(self):
         self.goToURL(self.linkEntry.text())
+
+    def goToDefaultURL(self):
+        self.goToURL(self.defaultURL)
+
+    def customXMLStuff(self, tag):
+        tag.set(Constants.URL_ATTRIBUTE, str(self.defaultURL))

@@ -43,6 +43,6 @@
 		<widget type="ConfigurableTextBox" title="Poweras6dff Stats" x="1055" y="580" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="True"/>
 		<widget type="ConfigurableTextBox" title="Powerasd7ff Stats" x="201" y="341" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="True"/>
 		<widget type="SimpleConsole" title="TEST CONSOLE" x="1446" y="313" font="Arial" fontsize="14" borderwidth="4" hidden="False" draggable="True" source="testarray"/>
-		<widget type="Browse" title="Error: No Title" x="162" y="148" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True"/>
+		<widget type="Browse" title="Error: No Title" x="162" y="148" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" url="bbb"/>
 	</tab>
 </window>
