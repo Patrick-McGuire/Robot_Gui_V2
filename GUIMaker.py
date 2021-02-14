@@ -14,6 +14,7 @@ from WidgetClasses import FrameRateCounter
 from WidgetClasses import AnnunciatorPanel
 from WidgetClasses import SimpleConsoleWidget
 from WidgetClasses import CompleteConsoleWidget
+from WidgetClasses import Browse
 
 
 class GUIMaker(object):
@@ -116,6 +117,12 @@ class GUIMaker(object):
         if widgetInfo is None:
             widgetInfo = {}
         self.widgetList.append(CompleteConsoleWidget.CompleteConsoleWidget(self.tabs[tabName], "console_{}".format(self.widgetsCreated), x, y, widgetInfo))
+        self.widgetsCreated += 1
+
+    def createBrowse(self, tabName, x, y, widgetInfo=None):
+        if widgetInfo is None:
+            widgetInfo = {}
+        self.widgetList.append(Browse.Browse(self.tabs[tabName], "browse_{}".format(self.widgetsCreated), x, y, widgetInfo))
         self.widgetsCreated += 1
 
     def getMainWindow(self):
