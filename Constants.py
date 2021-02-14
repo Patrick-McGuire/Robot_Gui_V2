@@ -15,6 +15,7 @@ class Constants:
     ANNUNCIATOR_TYPE = "AnnunciatorPanel"
     SIMPLE_CONSOLE_TYPE = "SimpleConsole"
     COMPLETE_CONSOLE_TYPE = "CompleteConsole"
+    BROWSE_TYPE = "Browse"
 
     CONFIG_ATTRIBUTE = "config"
     TAB_ATTRIBUTE = "tab"

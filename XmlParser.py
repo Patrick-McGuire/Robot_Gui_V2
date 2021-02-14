@@ -115,6 +115,8 @@ class XmlParser:
         elif widgetType == Constants.SIMPLE_BUTTON_TYPE:
             widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "button")
             self.guiGenerator.createButton(tab, int(xPos), int(yPos), widgetInfo)
+        elif widgetType == Constants.BROWSE_TYPE:
+            self.guiGenerator.createBrowse(tab, int(xPos), int(yPos), widgetInfo)
         else:
             print("Could not create widget {0}: type {1} not supported".format(title, widgetType))
 

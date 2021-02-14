@@ -229,7 +229,6 @@ class CustomBaseWidget(object):
 
     def getXMLStuff(self, item):
         """Default function to fill out the XML tag for an item.  DO NOT OVERWRITE UNLESS YOU KNOW WHAT YOU ARE DOING.  Calls customXMLStuff().  PUT YOUR CODE THERE INSTEAD"""
-
         tag = ElementTree.SubElement(item, Constants.WIDGET_NAME)
         tag.set(Constants.TYPE_ATTRIBUTE, str(self.type))
         tag.set(Constants.TITLE_ATTRIBUTE, self.title)

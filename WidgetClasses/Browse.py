@@ -19,7 +19,7 @@ class Browse(CustomBaseWidget):
         self.web = QWebEngineView()
         self.linkEntry = QLineEdit()
         self.submit = QPushButton("Enter Link")
-        super().__init__(QWidget(tab, objectName=name), x, y)
+        super().__init__(QWidget(tab, objectName=name), x, y, widgetType=Constants.BROWSE_TYPE)
 
         layout = QGridLayout()
         layout.addWidget(self.linkEntry, 0, 0)
