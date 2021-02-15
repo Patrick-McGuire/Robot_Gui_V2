@@ -27,10 +27,8 @@ class SimpleButton(CustomBaseWidget):
     def setColorRGB(self, red: int, green: int, blue: int):
         colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
 
-        if max(red, green, blue) > 127:
-            self.QTWidget.setStyleSheet(colorString + " color: black")
-        else:
-            self.QTWidget.setStyleSheet(colorString + " color: white")
+        self.QTWidget.setStyleSheet(colorString + " color: " + self.textColor)
+
 
     def customXMLStuff(self, tag):
         tag.set(Constants.SOURCE_ATTRIBUTE, str(self.source))

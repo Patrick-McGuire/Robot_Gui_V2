@@ -76,14 +76,9 @@ class TextBoxDropDownWidget(CustomBaseWidget):
     def setColorRGB(self, red, green, blue):
         colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
 
-        if max(red, green, blue) > 127:
-            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: black}")
-            self.textBoxWidget.setStyleSheet("border: 1px solid black; " + colorString + " color: black")
-            self.dropDownWidget.setStyleSheet(colorString + " color: black")
-        else:
-            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: white}")
-            self.textBoxWidget.setStyleSheet("border: 1px solid black; " + colorString + " color: white")
-            self.dropDownWidget.setStyleSheet(colorString + " color: white")
+        self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: " + self.textColor + "}")
+        self.textBoxWidget.setStyleSheet("border: 1px solid black; " + colorString + " color: " + self.textColor)
+        self.dropDownWidget.setStyleSheet(colorString + " color: " + self.textColor)
 
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")

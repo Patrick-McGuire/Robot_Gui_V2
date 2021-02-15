@@ -72,7 +72,7 @@ class VideoWidget(CustomBaseWidget):
         if action == awesome:
             print("Patrick has been whacked!!!!!!!!!!!!!!!!!!")
 
-    def setColor(self, color):
+    def setColor(self, color, textColor=None):
         pass
 
     def setDraggable(self, draggable):

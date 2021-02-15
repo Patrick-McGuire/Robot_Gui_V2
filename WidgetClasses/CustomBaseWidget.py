@@ -56,6 +56,7 @@ class CustomBaseWidget(object):
         self.fontSize = 12
         self.hidden = False
         self.title = "Error: No Title"
+        self.textColor = "white"
 
         # More specific ones
         self.size = None  # For square widgets
@@ -135,34 +136,49 @@ class CustomBaseWidget(object):
             self.fontSize = self.defaultFontSize
             self.setFontInfo()
 
-    def setColor(self, color):
+    def setColor(self, color, textColor=None):
         color = color.replace("Grey", "Gray")
         color = color.replace("grey", "gray")
 
         if color == "white":
+            self.textColor = "black"
             self.setColorRGB(255, 255, 255)
         elif color == "blue":
-            self.setColorRGB(0, 0, 100)
+            self.textColor = "white"
+            self.setColorRGB(0, 0, 50)
         elif color == "grey" or color == "gray":
+            self.textColor = "white"
             self.setColorRGB(50, 50, 50)
         elif color == "default":
             self.setDefaultAppearance()
         elif "rgb" in color:
             [red, green, blue] = color.split("[")[1].split("]")[0].split(",")
+            self.setTextColor(red, green, blue, textColor)
             self.setColorRGB(int(float(red)), int(float(green)), int(float(blue)))  # Going to float then string fixes issues if the number is 0.0 or similar
         elif convertNameToRGB(color):
             rgb = convertNameToRGB(color)
+            self.setTextColor(rgb[0], rgb[1], rgb[2], textColor)
             self.setColorRGB(rgb[0], rgb[1], rgb[2])
         else:
-            self.QTWidget.setStyleSheet("color: black")
+            self.setDefaultAppearance()
+
+    def setTextColor(self, red, green, blue, textColor=None):
+        if textColor is not None:
+            if "rgb[" in textColor:
+                [red, green, blue] = textColor.split("[")[1].split("]")[0].split(",")
+                self.textColor = "rgb({0},{1},{2})".format(red, green, blue)
+            else:
+                self.textColor = textColor
+        elif max(red, green, blue) > 127:
+            self.textColor = "black"
+        else:
+            self.textColor = "white"
 
     def setColorRGB(self, red: int, green: int, blue: int):
-        if max(red, green, blue) > 150:
-            self.QTWidget.setStyleSheet("border: {3}px solid black; background: rgb({0}, {1}, {2}); color: black".format(red, green, blue, self.borderWidth))
-        else:
-            self.QTWidget.setStyleSheet("border: {3}px solid black; background: rgb({0}, {1}, {2}); color: white".format(red, green, blue, self.borderWidth))
+        self.QTWidget.setStyleSheet("border: {3}px solid black; background: rgb({0}, {1}, {2}); color: {4}".format(red, green, blue, self.borderWidth, self.textColor))
 
     def setDefaultAppearance(self):
+        self.textColor = "black"
         self.QTWidget.setStyleSheet("color: black")
 
     def setFontInfo(self):

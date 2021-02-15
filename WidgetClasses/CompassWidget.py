@@ -52,12 +52,8 @@ class CompassWidget(CustomBaseWidget):
     def setColorRGB(self, red, green, blue):
         colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
 
-        if max(red, green, blue) > 127:
-            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: black}")
-            self.arrow.setStyleSheet("color: black")
-        else:
-            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: white}")
-            self.arrow.setStyleSheet("color: black")
+        self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: " + self.textColor + "}")
+        self.arrow.setStyleSheet("color: " + self.textColor)
 
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")

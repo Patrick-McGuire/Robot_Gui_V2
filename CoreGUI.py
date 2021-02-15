@@ -23,21 +23,11 @@ def clamp(value, minValue, maxValue):
     return min(max(value, minValue), maxValue)
 
 
-def getColorFromTheme(theme):
-    if theme == "dark":
-        return "grey"
-    elif theme == "light":
-        return "default"
-    elif theme == "blue":
-        return "rgb[0,0,50]"
-    elif "rgb" in theme:
-        return theme
-
-
 class CoreGUI(threading.Thread):
     """This class handles the underlying functionality of updating widgets, running, and creating the GUI"""
 
     CustomWidgetList = []
+    themes = ["dark", "light", "blue", "dark2"]
 
     def __init__(self, filePath, createSettings=False, loadXMLFirst=True):
         self.filePath = filePath
@@ -113,12 +103,12 @@ class CoreGUI(threading.Thread):
 
         # Menu bar for themes
         themeMenu = menuBar.addMenu("Theme")
-        themeMenu.addAction("Light", lambda theme="light": self.setTheme(theme))
-        themeMenu.addAction("Dark", lambda theme="dark": self.setTheme(theme))
-        themeMenu.addAction("Blue", lambda theme="blue": self.setTheme(theme))
+        for theme in self.themes:
+            themeMenu.addAction(theme, lambda themeName=theme: self.setTheme(themeName))
         themeMenu.addSection("Experimental")
         themeMenu.addAction("Red", lambda theme="rgb[100,0,0]": self.setTheme(theme))
         themeMenu.addAction("Black", lambda theme="rgb[0,0,0]": self.setTheme(theme))
+        themeMenu.addAction("Dark2", lambda theme="dark2": self.setTheme(theme))
 
         helpMenu = menuBar.addMenu("Help")
         helpMenu.addAction("Whack Patrick", self.toggleRainbow)
@@ -186,11 +176,14 @@ class CoreGUI(threading.Thread):
         if theme == "dark":
             self.setColorOnALlWidgets("grey")
             self.GUICreator.setGUIColor(30, 30, 30)
+        elif theme == "dark2":
+            self.setColorOnALlWidgets("rgb[50,50,50]", "rgb[88,166,255]")
+            self.GUICreator.setGUIColor(30, 30, 30)
         elif theme == "light":
             self.setColorOnALlWidgets("default")
             self.GUICreator.setGUIColor(250, 250, 250)
         elif theme == "blue":
-            self.setColorOnALlWidgets("rgb[0,0,50]")
+            self.setColorOnALlWidgets("blue")
             self.GUICreator.setGUIColor(0, 0, 40)
         elif "rgb" in theme:
             self.setColorOnALlWidgets(theme)
@@ -266,14 +259,31 @@ class CoreGUI(threading.Thread):
     def makeNewWidgetInCurrentTab(self, widgetName):
         currentTab = self.GUICreator.getTabNames()[self.mainWindow.centralWidget().currentIndex()]
         self.GUICreator.createWidgetFromName(widgetName, currentTab, 300, 300)
-        self.GUICreator.widgetList[-1].setColor(getColorFromTheme(self.theme))
+        self.GUICreator.widgetList[-1].setColor(self.getColorFromTheme(self.theme))
 
-    def setColorOnALlWidgets(self, color):
+    def getColorFromTheme(self, theme):
+        if theme == "dark":
+            return "grey"
+        elif theme == "light":
+            return "default"
+        elif theme == "blue":
+            return "rgb[0,0,50]"
+        elif "rgb" in theme:
+            return theme
+        elif theme not in self.themes:
+            return None
+
+        return theme
+
+    def setColorOnALlWidgets(self, color, textColor=None):
         """Sets colors on all widgets"""
         listOfWidgets = self.GUICreator.getWidgetList()
 
         for widget in listOfWidgets:
-            widget.setColor(color)
+            if textColor is not None:
+                widget.setColor(color, textColor)
+            else:
+                widget.setColor(color)
 
     def setDraggingOnALlWidgets(self, draggable):
         """Sets colors on all widgets"""
