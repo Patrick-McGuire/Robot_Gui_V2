@@ -2,6 +2,9 @@
 Function calls to actually create GUI elements
 """
 
+import types
+import inspect
+
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget
 
 from WidgetClasses import SimpleButton
@@ -22,6 +25,8 @@ class GUIMaker(object):
     tabNames = []
     widgetList = []
 
+    widgetClasses = {}  # Dictionary of widgetName: class
+
     def __init__(self):
         self.application = QApplication([])
         self.mainWindow = QMainWindow()
@@ -35,6 +40,15 @@ class GUIMaker(object):
         self.tabHolderWidget.resize(300, 200)
 
         self.widgetsCreated = 0
+
+        for name, val in globals().items():  # Loop through globals()
+            if isinstance(val, types.ModuleType) and "WidgetClasses" in str(val):  # Only look at modules from WidgetClasses
+                # print(" ")
+                # print(name, val)
+                for item in inspect.getmembers(val):
+                    if name in str(item) and "__" not in str(item):
+                        # print(item[1])
+                        self.widgetClasses[name] = item[1]
 
     def start(self):
         self.mainWindow.setCentralWidget(self.tabHolderWidget)
@@ -124,6 +138,11 @@ class GUIMaker(object):
             widgetInfo = {}
         self.widgetList.append(Browse.Browse(self.tabs[tabName], "browse_{}".format(self.widgetsCreated), x, y, widgetInfo))
         self.widgetsCreated += 1
+
+    def createWidgetFromName(self, widgetName, tabName, x, y, widgetInfo=None):
+        if widgetInfo is None:
+            widgetInfo = {}
+        self.widgetList.append(self.widgetClasses[widgetName](self.tabs[tabName], "{0}_{1}".format(widgetName, self.widgetsCreated), x, y, widgetInfo))
 
     def getMainWindow(self):
         return self.mainWindow
