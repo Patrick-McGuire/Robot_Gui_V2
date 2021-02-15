@@ -56,8 +56,10 @@ class CustomBaseWidget(object):
         self.fontSize = 12
         self.hidden = False
         self.title = "Error: No Title"
+
         self.headerTextColor = "white"
         self.textColor = "white"
+        self.borderColor = "black"
 
         # More specific ones
         self.size = None  # For square widgets
@@ -137,21 +139,24 @@ class CustomBaseWidget(object):
             self.fontSize = self.defaultFontSize
             self.setFontInfo()
 
-    def setColor(self, color, textColor=None, headerTextColor=None):
+    def setColor(self, color, textColor=None, headerTextColor=None, borderColor=None):
         color = color.replace("Grey", "Gray")
         color = color.replace("grey", "gray")
 
         if color == "white":
             self.textColor = "black"
             self.headerTextColor = "black"
+            self.borderColor = "black"
             self.setColorRGB(255, 255, 255)
         elif color == "blue":
             self.textColor = "white"
             self.headerTextColor = "white"
+            self.borderColor = "black"
             self.setColorRGB(0, 0, 50)
         elif color == "grey" or color == "gray":
             self.textColor = "white"
-            self.textColor = "white"
+            self.headerTextColor = "white"
+            self.borderColor = "black"
             self.setColorRGB(50, 50, 50)
         elif color == "default":
             self.setDefaultAppearance()
@@ -159,17 +164,19 @@ class CustomBaseWidget(object):
             [red, green, blue] = [int(float(i)) for i in color.split("[")[1].split("]")[0].split(",")]  # Going to float then string fixes issues if the number is 0.0 or similar
             self.testTextColor(red, green, blue, textColor)
             self.testHeaderTextColor(headerTextColor)
+            self.testBorderColor(borderColor)
             self.setColorRGB(red, green, blue)
         elif convertNameToRGB(color):
             rgb = convertNameToRGB(color)
             self.testTextColor(rgb[0], rgb[1], rgb[2], textColor)
             self.testHeaderTextColor(headerTextColor)
+            self.testBorderColor(borderColor)
             self.setColorRGB(rgb[0], rgb[1], rgb[2])
         else:
             self.setDefaultAppearance()
 
     def setColorRGB(self, red: int, green: int, blue: int):
-        self.QTWidget.setStyleSheet("border: {3}px solid black; background: rgb({0}, {1}, {2}); color: {4}".format(red, green, blue, self.borderWidth, self.textColor))
+        self.QTWidget.setStyleSheet("border: {3}px solid {5}; background: rgb({0}, {1}, {2}); color: {4}".format(red, green, blue, self.borderWidth, self.textColor, self.borderColor))
 
     def setDefaultAppearance(self):
         self.textColor = "black"
@@ -201,6 +208,16 @@ class CustomBaseWidget(object):
                 self.headerTextColor = textColor
         else:
             self.headerTextColor = self.textColor
+
+    def testBorderColor(self, borderColor=None):
+        if borderColor is not None:
+            if "rgb[" in borderColor:
+                [red, green, blue] = borderColor.split("[")[1].split("]")[0].split(",")
+                self.borderColor = "rgb({0},{1},{2})".format(red, green, blue)
+            else:
+                self.borderColor = borderColor
+        else:
+            self.borderColor = "black"
 
     def hide(self):
         self.hidden = True

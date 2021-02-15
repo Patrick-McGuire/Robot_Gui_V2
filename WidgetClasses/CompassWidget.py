@@ -52,7 +52,7 @@ class CompassWidget(CustomBaseWidget):
     def setColorRGB(self, red, green, blue):
         colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
 
-        self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: " + self.textColor + "}")
+        self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid " + self.borderColor + "; " + colorString + " color: " + self.textColor + "}")
         self.arrow.setStyleSheet("color: " + self.textColor)
 
     def setDefaultAppearance(self):

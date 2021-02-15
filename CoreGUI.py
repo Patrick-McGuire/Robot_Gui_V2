@@ -176,7 +176,7 @@ class CoreGUI(threading.Thread):
             self.setColorOnALlWidgets("grey")
             self.GUICreator.setGUIColor(30, 30, 30)
         elif theme == "Better Dark":
-            self.setColorOnALlWidgets("rgb[13, 17, 23]", "rgb[139,148,158]", "rgb[88,166,255]")
+            self.setColorOnALlWidgets("rgb[13, 17, 23]", "rgb[139,148,158]", "rgb[88,166,255]", "rgb[139,148,158]")
             self.GUICreator.setGUIColor(13, 17, 23)
         elif theme == "Light":
             self.setColorOnALlWidgets("default")
@@ -274,13 +274,13 @@ class CoreGUI(threading.Thread):
 
         return theme
 
-    def setColorOnALlWidgets(self, color, textColor=None, headerTextColor=None):
+    def setColorOnALlWidgets(self, color, textColor=None, headerTextColor=None, borderColor=None):
         """Sets colors on all widgets"""
         listOfWidgets = self.GUICreator.getWidgetList()
 
         for widget in listOfWidgets:
-            if textColor is not None and headerTextColor is not None:
-                widget.setColor(color, textColor, headerTextColor)
+            if textColor is not None and headerTextColor is not None and borderColor is not None:
+                widget.setColor(color, textColor, headerTextColor, borderColor)
             elif textColor is not None:
                 widget.setColor(color, textColor)
             else:

@@ -12,6 +12,7 @@ from Constants import Constants
 
 class AnnunciatorPanel(CustomBaseWidget):
     def __init__(self, tab, name, x, y, widgetInfo):
+        self.titleWidget = QLabel()
         super().__init__(QWidget(tab, objectName=name), x, y, configInfo=widgetInfo, widgetType=Constants.ANNUNCIATOR_TYPE)
 
         self.xBuffer = 0
@@ -26,11 +27,9 @@ class AnnunciatorPanel(CustomBaseWidget):
                 self.title = widgetInfo[Constants.TITLE_ATTRIBUTE]
 
         layout = QGridLayout()
-        titleWidget = QLabel()
-        titleWidget.setText(self.title)
-        titleWidget.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
-        titleWidget.setStyleSheet("border: 0px solid black")
-        layout.addWidget(titleWidget, 0, 0, 1, 3)
+        self.titleWidget.setText(self.title)
+        self.titleWidget.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+        layout.addWidget(self.titleWidget, 0, 0, 1, 3)
 
         self.annunciatorWidgets = []
         for column in range(2):
@@ -70,8 +69,10 @@ class AnnunciatorPanel(CustomBaseWidget):
         self.QTWidget.adjustSize()
 
     def setColorRGB(self, red: int, green: int, blue: int):
-        """We don't want border width set"""
-        self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb({0}, {1}, {2}); color: {3}".format(red, green, blue, self.headerTextColor))
+        colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
+
+        self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + "{" + "border: 1px solid " + self.borderColor + "; background: rgb({0}, {1}, {2}); color: {3}".format(red, green, blue, self.headerTextColor) + "}")
+        self.titleWidget.setStyleSheet(colorString + " color: " + self.headerTextColor)
 
     def customXMLStuff(self, tag):
         tag.set(Constants.SOURCE_ATTRIBUTE, str(self.source))
