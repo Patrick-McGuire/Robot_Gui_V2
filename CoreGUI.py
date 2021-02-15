@@ -27,7 +27,7 @@ class CoreGUI(threading.Thread):
     """This class handles the underlying functionality of updating widgets, running, and creating the GUI"""
 
     CustomWidgetList = []
-    themes = ["dark", "light", "blue", "dark2"]
+    themes = ["Better Dark", "Dark", "Light", "Blue"]
 
     def __init__(self, filePath, createSettings=False, loadXMLFirst=True):
         self.filePath = filePath
@@ -108,7 +108,6 @@ class CoreGUI(threading.Thread):
         themeMenu.addSection("Experimental")
         themeMenu.addAction("Red", lambda theme="rgb[100,0,0]": self.setTheme(theme))
         themeMenu.addAction("Black", lambda theme="rgb[0,0,0]": self.setTheme(theme))
-        themeMenu.addAction("Dark2", lambda theme="dark2": self.setTheme(theme))
 
         helpMenu = menuBar.addMenu("Help")
         helpMenu.addAction("Whack Patrick", self.toggleRainbow)
@@ -173,16 +172,16 @@ class CoreGUI(threading.Thread):
         """Function to set a theme for the whole GUI"""
         self.theme = theme
 
-        if theme == "dark":
+        if theme == "Dark":
             self.setColorOnALlWidgets("grey")
             self.GUICreator.setGUIColor(30, 30, 30)
-        elif theme == "dark2":
-            self.setColorOnALlWidgets("rgb[50,50,50]", "rgb[88,166,255]")
-            self.GUICreator.setGUIColor(30, 30, 30)
-        elif theme == "light":
+        elif theme == "Better Dark":
+            self.setColorOnALlWidgets("rgb[13, 17, 23]", "rgb[139,148,158]", "rgb[88,166,255]")
+            self.GUICreator.setGUIColor(13, 17, 23)
+        elif theme == "Light":
             self.setColorOnALlWidgets("default")
             self.GUICreator.setGUIColor(250, 250, 250)
-        elif theme == "blue":
+        elif theme == "Blue":
             self.setColorOnALlWidgets("blue")
             self.GUICreator.setGUIColor(0, 0, 40)
         elif "rgb" in theme:
@@ -275,12 +274,14 @@ class CoreGUI(threading.Thread):
 
         return theme
 
-    def setColorOnALlWidgets(self, color, textColor=None):
+    def setColorOnALlWidgets(self, color, textColor=None, headerTextColor=None):
         """Sets colors on all widgets"""
         listOfWidgets = self.GUICreator.getWidgetList()
 
         for widget in listOfWidgets:
-            if textColor is not None:
+            if textColor is not None and headerTextColor is not None:
+                widget.setColor(color, textColor, headerTextColor)
+            elif textColor is not None:
                 widget.setColor(color, textColor)
             else:
                 widget.setColor(color)

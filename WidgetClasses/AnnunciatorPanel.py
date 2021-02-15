@@ -71,7 +71,7 @@ class AnnunciatorPanel(CustomBaseWidget):
 
     def setColorRGB(self, red: int, green: int, blue: int):
         """We don't want border width set"""
-        self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb({0}, {1}, {2}); color: {3}".format(red, green, blue, self.textColor))
+        self.QTWidget.setStyleSheet("border: 1px solid black; background: rgb({0}, {1}, {2}); color: {3}".format(red, green, blue, self.headerTextColor))
 
     def customXMLStuff(self, tag):
         tag.set(Constants.SOURCE_ATTRIBUTE, str(self.source))

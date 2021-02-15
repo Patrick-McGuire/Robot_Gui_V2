@@ -56,6 +56,7 @@ class CustomBaseWidget(object):
         self.fontSize = 12
         self.hidden = False
         self.title = "Error: No Title"
+        self.headerTextColor = "white"
         self.textColor = "white"
 
         # More specific ones
@@ -136,33 +137,50 @@ class CustomBaseWidget(object):
             self.fontSize = self.defaultFontSize
             self.setFontInfo()
 
-    def setColor(self, color, textColor=None):
+    def setColor(self, color, textColor=None, headerTextColor=None):
         color = color.replace("Grey", "Gray")
         color = color.replace("grey", "gray")
 
         if color == "white":
             self.textColor = "black"
+            self.headerTextColor = "black"
             self.setColorRGB(255, 255, 255)
         elif color == "blue":
             self.textColor = "white"
+            self.headerTextColor = "white"
             self.setColorRGB(0, 0, 50)
         elif color == "grey" or color == "gray":
+            self.textColor = "white"
             self.textColor = "white"
             self.setColorRGB(50, 50, 50)
         elif color == "default":
             self.setDefaultAppearance()
         elif "rgb" in color:
-            [red, green, blue] = color.split("[")[1].split("]")[0].split(",")
-            self.setTextColor(red, green, blue, textColor)
-            self.setColorRGB(int(float(red)), int(float(green)), int(float(blue)))  # Going to float then string fixes issues if the number is 0.0 or similar
+            [red, green, blue] = [int(float(i)) for i in color.split("[")[1].split("]")[0].split(",")]  # Going to float then string fixes issues if the number is 0.0 or similar
+            self.testTextColor(red, green, blue, textColor)
+            self.testHeaderTextColor(headerTextColor)
+            self.setColorRGB(red, green, blue)
         elif convertNameToRGB(color):
             rgb = convertNameToRGB(color)
-            self.setTextColor(rgb[0], rgb[1], rgb[2], textColor)
+            self.testTextColor(rgb[0], rgb[1], rgb[2], textColor)
+            self.testHeaderTextColor(headerTextColor)
             self.setColorRGB(rgb[0], rgb[1], rgb[2])
         else:
             self.setDefaultAppearance()
 
-    def setTextColor(self, red, green, blue, textColor=None):
+    def setColorRGB(self, red: int, green: int, blue: int):
+        self.QTWidget.setStyleSheet("border: {3}px solid black; background: rgb({0}, {1}, {2}); color: {4}".format(red, green, blue, self.borderWidth, self.textColor))
+
+    def setDefaultAppearance(self):
+        self.textColor = "black"
+        self.headerTextColor = "black"
+        self.QTWidget.setStyleSheet("color: black")
+
+    def setFontInfo(self):
+        self.QTWidget.setFont(QFont(self.font, self.fontSize))
+        self.QTWidget.adjustSize()
+
+    def testTextColor(self, red, green, blue, textColor=None):
         if textColor is not None:
             if "rgb[" in textColor:
                 [red, green, blue] = textColor.split("[")[1].split("]")[0].split(",")
@@ -174,16 +192,15 @@ class CustomBaseWidget(object):
         else:
             self.textColor = "white"
 
-    def setColorRGB(self, red: int, green: int, blue: int):
-        self.QTWidget.setStyleSheet("border: {3}px solid black; background: rgb({0}, {1}, {2}); color: {4}".format(red, green, blue, self.borderWidth, self.textColor))
-
-    def setDefaultAppearance(self):
-        self.textColor = "black"
-        self.QTWidget.setStyleSheet("color: black")
-
-    def setFontInfo(self):
-        self.QTWidget.setFont(QFont(self.font, self.fontSize))
-        self.QTWidget.adjustSize()
+    def testHeaderTextColor(self, textColor=None):
+        if textColor is not None:
+            if "rgb[" in textColor:
+                [red, green, blue] = textColor.split("[")[1].split("]")[0].split(",")
+                self.headerTextColor = "rgb({0},{1},{2})".format(red, green, blue)
+            else:
+                self.headerTextColor = textColor
+        else:
+            self.headerTextColor = self.textColor
 
     def hide(self):
         self.hidden = True

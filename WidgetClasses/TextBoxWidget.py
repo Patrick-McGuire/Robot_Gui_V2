@@ -59,7 +59,7 @@ class TextBoxWidget(CustomBaseWidget):
 
         self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: " + self.textColor + "}")
         self.textBox.setStyleSheet(colorString + " color: " + self.textColor)
-        self.titleBox.setStyleSheet(colorString + " color: " + self.textColor)
+        self.titleBox.setStyleSheet(colorString + " color: " + self.headerTextColor)
 
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")

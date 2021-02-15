@@ -27,7 +27,7 @@ class SimpleButton(CustomBaseWidget):
     def setColorRGB(self, red: int, green: int, blue: int):
         colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
 
-        self.QTWidget.setStyleSheet(colorString + " color: " + self.textColor)
+        self.QTWidget.setStyleSheet(colorString + " color: " + self.headerTextColor)
 
 
     def customXMLStuff(self, tag):

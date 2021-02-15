@@ -78,7 +78,7 @@ class TextBoxDropDownWidget(CustomBaseWidget):
 
         self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid black; " + colorString + " color: " + self.textColor + "}")
         self.textBoxWidget.setStyleSheet("border: 1px solid black; " + colorString + " color: " + self.textColor)
-        self.dropDownWidget.setStyleSheet(colorString + " color: " + self.textColor)
+        self.dropDownWidget.setStyleSheet(colorString + " color: " + self.headerTextColor)
 
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")

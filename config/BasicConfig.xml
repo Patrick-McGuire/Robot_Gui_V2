@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<window title="Probot Control" width="1920" height="1043" theme="dark2">
+<window title="Probot Control" width="1920" height="1043" theme="Better Dark">
 	<tab title="Dashboard">
 		<widget type="video" title="Error: No Title" x="298" y="0" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="False" source="webcam" fullscreen="true" lockAspectRatio="true" dimensions="1320.0x990.0"/>
 		<widget type="compass" title="Error: no title" x="1634" y="253" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" source="spinny" size="200"/>
