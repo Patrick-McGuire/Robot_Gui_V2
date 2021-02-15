@@ -70,7 +70,3 @@ class SimpleConsole(CustomBaseWidget):
         self.textBox.setFont(QFont("Monospace", self.fontSize))
         self.titleBox.setFont(QFont(self.font, self.fontSize))
         self.QTWidget.adjustSize()
-
-    def customXMLStuff(self, tag):
-        tag.set(Constants.TITLE_ATTRIBUTE, str(self.title))
-        tag.set(Constants.SOURCE_ATTRIBUTE, str(self.source))

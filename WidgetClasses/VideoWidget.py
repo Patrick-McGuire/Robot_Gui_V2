@@ -81,5 +81,4 @@ class VideoWidget(CustomBaseWidget):
     def customXMLStuff(self, tag):
         tag.set(Constants.FULLSCREEN_ATTRIBUTE, "true")
         tag.set(Constants.LOCK_ASPECT_RATIO_ATTRIBUTE, "true")
-        tag.set(Constants.SOURCE_ATTRIBUTE, self.source)
         tag.set(Constants.DIMENSIONS_ATTRIBUTE, "{0}x{1}".format(self.width, self.height))

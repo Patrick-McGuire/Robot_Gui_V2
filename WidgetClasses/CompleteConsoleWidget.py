@@ -85,6 +85,3 @@ class CompleteConsoleWidget(CustomBaseWidget):
         self.titleBox.setFont(QFont(self.font, self.fontSize))
         self.textEntryWidget.adjustSize()
         self.QTWidget.adjustSize()
-
-    def customXMLStuff(self, tag):
-        tag.set(Constants.SOURCE_ATTRIBUTE, str(self.source))

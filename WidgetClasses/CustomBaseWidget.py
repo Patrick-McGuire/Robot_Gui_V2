@@ -248,6 +248,11 @@ class CustomBaseWidget(object):
         tag.set(Constants.HIDDEN_ATTRIBUTE, str(self.hidden))
         tag.set(Constants.DRAGGABLE_ATTRIBUTE, str(self.draggable))
 
+        if self.source is not None:
+            tag.set(Constants.SOURCE_ATTRIBUTE, self.source)
+        if self.size is not None:
+            tag.set(Constants.SIZE_ATTRIBUTE, str(self.size))
+
         self.customXMLStuff(tag)
 
     def customXMLStuff(self, tag):

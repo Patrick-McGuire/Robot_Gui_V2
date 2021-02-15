@@ -62,7 +62,3 @@ class CompassWidget(CustomBaseWidget):
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")
         self.arrow.setStyleSheet("color: black")
-
-    def customXMLStuff(self, tag):
-        tag.set(Constants.SOURCE_ATTRIBUTE, self.source)
-        tag.set(Constants.SIZE_ATTRIBUTE, str(self.size))
