@@ -26,6 +26,9 @@ class VideoWidget(CustomBaseWidget):
         if self.source not in dataPassDict:
             return
 
+        if dataPassDict[self.source] is None:
+            return
+
         if type(dataPassDict[self.source]) == int:
             return
 
