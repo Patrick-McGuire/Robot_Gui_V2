@@ -219,6 +219,17 @@ class CustomBaseWidget(object):
         else:
             self.borderColor = "black"
 
+    @staticmethod
+    def getRGBFromColor(color):
+        if "rgb[" in color:
+            [red, green, blue] = color.split("[")[1].split("]")[0].split(",")
+        elif "rgb(" in color:
+            [red, green, blue] = color.split("(")[1].split(")")[0].split(",")
+        else:
+            [red, green, blue] = convertNameToRGB(color)
+
+        return [red, green, blue]
+
     def hide(self):
         self.hidden = True
 
