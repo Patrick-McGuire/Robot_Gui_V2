@@ -8,7 +8,7 @@ import copy
 
 import xml.etree.ElementTree as ElementTree
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtWidgets import QWidget, QMenu
 from PyQt5.QtGui import QFont
 
@@ -90,7 +90,7 @@ class CustomBaseWidget(object):
         self.width = width
         self.height = height
 
-    def rightClickMenu(self, e):
+    def rightClickMenu(self, e: QPoint):
         colorMenu = QMenu("Set color")
         whiteAction = colorMenu.addAction("White")
         blueAction = colorMenu.addAction("Blue")
@@ -108,8 +108,8 @@ class CustomBaseWidget(object):
         menu.addAction("Disable dragging", lambda draggable=False: self.setDraggable(draggable))
         menu.addSeparator()
         awesome = menu.addAction("Whack Patrick", lambda x=random.random() * 1500, y=random.random() * 1000: self.setPosition(x, y))  # This is silly
-        menu.move(e.x() + self.x, e.y() + self.y + 90)
-        action = menu.exec_()
+
+        action = menu.exec_(self.QTWidget.mapToGlobal(e))
 
         if action == whiteAction:
             self.setColor("white")
