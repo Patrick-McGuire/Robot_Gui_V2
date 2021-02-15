@@ -48,6 +48,7 @@ class CustomBaseWidget(object):
         self.width = 50
         self.height = 50
         self.draggable = True
+        self.isDeleted = False
 
         # Generic parameters that many widgets might need
         self.borderWidth = 1
@@ -106,6 +107,8 @@ class CustomBaseWidget(object):
         menu.addSeparator()
         menu.addAction("Enable dragging", lambda draggable=True: self.setDraggable(draggable))
         menu.addAction("Disable dragging", lambda draggable=False: self.setDraggable(draggable))
+        menu.addSeparator()
+        menu.addAction("Delete", self.delete)
         menu.addSeparator()
         awesome = menu.addAction("Whack Patrick", lambda x=random.random() * 1500, y=random.random() * 1000: self.setPosition(x, y))  # This is silly
 
@@ -194,7 +197,9 @@ class CustomBaseWidget(object):
 
         # Hide/show the widget
         # Needs to run here for thread reasons
-        if self.QTWidget.isHidden() != self.hidden:
+        if self.isDeleted:
+            self.QTWidget.setHidden(True)
+        elif self.QTWidget.isHidden() != self.hidden:
             self.QTWidget.setHidden(self.hidden)
 
         # Run the custom update code
@@ -235,8 +240,18 @@ class CustomBaseWidget(object):
         self.y = int(y)
         self.QTWidget.move(self.x, self.y)
 
+    def delete(self):
+        self.setDeleted(True)
+
+    def setDeleted(self, isDeleted):
+        self.isDeleted = isDeleted
+
     def getXMLStuff(self, item):
         """Default function to fill out the XML tag for an item.  DO NOT OVERWRITE UNLESS YOU KNOW WHAT YOU ARE DOING.  Calls customXMLStuff().  PUT YOUR CODE THERE INSTEAD"""
+
+        if self.isDeleted:  # If the widget doesn't exist anymore, we don't save
+            return
+
         tag = ElementTree.SubElement(item, Constants.WIDGET_NAME)
         tag.set(Constants.TYPE_ATTRIBUTE, str(self.type))
         tag.set(Constants.TITLE_ATTRIBUTE, self.title)
