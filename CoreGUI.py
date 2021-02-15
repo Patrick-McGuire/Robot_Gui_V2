@@ -23,6 +23,17 @@ def clamp(value, minValue, maxValue):
     return min(max(value, minValue), maxValue)
 
 
+def getColorFromTheme(theme):
+    if theme == "dark":
+        return "grey"
+    elif theme == "light":
+        return "default"
+    elif theme == "blue":
+        return "rgb[0,0,50]"
+    elif "rgb" in theme:
+        return theme
+
+
 class CoreGUI(threading.Thread):
     """This class handles the underlying functionality of updating widgets, running, and creating the GUI"""
 
@@ -88,6 +99,12 @@ class CoreGUI(threading.Thread):
         colorSubMenu.addSeparator()
         colorSubMenu.addAction("Toggle Rainbow", self.toggleRainbow)
         widgetMenu.addSeparator()
+        # Menu to create new widget
+        newWidgetSubMenu = widgetMenu.addMenu("New")
+        for item in self.GUICreator.getAvailableWidgets():
+            newWidgetSubMenu.addAction(item, lambda name=item: self.makeNewWidgetInCurrentTab(name))
+        widgetMenu.addSeparator()
+
         widgetMenu.addAction("Lock all widgets", lambda draggable=False: self.setDraggingOnALlWidgets(draggable))
         widgetMenu.addAction("Unlock all widgets", lambda draggable=True: self.setDraggingOnALlWidgets(draggable))
         widgetMenu.addAction("Disable hide on click", lambda enabled=False: self.setHideOnClick(enabled))
@@ -116,7 +133,6 @@ class CoreGUI(threading.Thread):
             self.GUICreator.createSimpleConsoleWidget("Settings", 600, 500)
             self.GUICreator.createCompleteConsoleWidget("Settings", 700, 500, {Constants.SOURCE_ATTRIBUTE: "complete_console_test"})
             self.GUICreator.createBrowse("Settings", 500, 100)
-            self.GUICreator.createWidgetFromName("Browse", "Settings", 100, 100)
 
         if self.loadXMLFirst:
             self.loadXML()
@@ -246,6 +262,11 @@ class CoreGUI(threading.Thread):
     def mouseReleaseEvent(self, e):
         if self.activeClickedWidget is not None:
             self.activeClickedWidget = None
+
+    def makeNewWidgetInCurrentTab(self, widgetName):
+        currentTab = self.GUICreator.getTabNames()[self.mainWindow.centralWidget().currentIndex()]
+        self.GUICreator.createWidgetFromName(widgetName, currentTab, 300, 300)
+        self.GUICreator.widgetList[-1].setColor(getColorFromTheme(self.theme))
 
     def setColorOnALlWidgets(self, color):
         """Sets colors on all widgets"""

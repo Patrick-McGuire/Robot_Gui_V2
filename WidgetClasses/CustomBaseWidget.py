@@ -56,6 +56,10 @@ class CustomBaseWidget(object):
         self.hidden = False
         self.title = "Error: No Title"
 
+        # More specific ones
+        self.size = None  # For square widgets
+        self.source = None
+
         if configInfo is not None:
             if Constants.BORDER_WIDTH_ATTRIBUTE in configInfo:
                 self.borderWidth = int(configInfo[Constants.BORDER_WIDTH_ATTRIBUTE])
@@ -69,6 +73,10 @@ class CustomBaseWidget(object):
                 self.draggable = configInfo[Constants.DRAGGABLE_ATTRIBUTE]
             if Constants.TITLE_ATTRIBUTE in configInfo:
                 self.title = configInfo[Constants.TITLE_ATTRIBUTE]
+            if Constants.SIZE_ATTRIBUTE in configInfo:
+                self.size = int(configInfo[Constants.SIZE_ATTRIBUTE])
+            if Constants.SOURCE_ATTRIBUTE in configInfo:
+                self.source = configInfo[Constants.SOURCE_ATTRIBUTE]
 
         self.defaultFontSize = self.fontSize
         self.setFontInfo()

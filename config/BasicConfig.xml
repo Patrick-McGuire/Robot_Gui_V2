@@ -1,13 +1,13 @@
 <?xml version="1.0" ?>
 <window title="Probot Control" width="1920" height="1043" theme="dark">
 	<tab title="Dashboard">
-		<widget type="video" title="Error: No Title" x="0" y="0" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="False" fullscreen="true" lockAspectRatio="true" source="webcam" dimensions="640.0x480.0"/>
+		<widget type="video" title="Error: No Title" x="298" y="0" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="False" fullscreen="true" lockAspectRatio="true" source="webcam" dimensions="1320.0x990.0"/>
 		<widget type="compass" title="Error: no title" x="1634" y="253" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" source="spinny" size="200"/>
 		<widget type="SimpleButton" title="Test Button" x="500" y="253" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" source="button1"/>
 		<widget type="compass" title="Error: no title" x="1655" y="39" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" source="current" size="200"/>
 		<widget type="DropDownTextBox" title="Error: no title" x="89" y="50" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" source="diagnostics_agg"/>
-		<widget type="AnnunciatorPanel" title="Annunciator1" x="63" y="227" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" source="annunciator"/>
-		<widget type="AnnunciatorPanel" title="Annunciator2" x="59" y="580" font="Arial" fontsize="14" borderwidth="4" hidden="False" draggable="True" source="annunciator_2"/>
+		<widget type="AnnunciatorPanel" title="Annunciator1" x="119" y="277" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" source="annunciator"/>
+		<widget type="AnnunciatorPanel" title="Annunciator2" x="275" y="624" font="Arial" fontsize="14" borderwidth="4" hidden="False" draggable="True" source="annunciator_2"/>
 		<widget type="CompleteConsole" title="Test Console 2" x="63" y="227" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" source="complete_console_test"/>
 		<widget type="ConfigurableTextBox" title="Power Stats" x="1478" y="479" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True">
 			<line label="Battery Voltage" value="batteryVoltage"/>
@@ -17,7 +17,6 @@
 			<line label="Loop Time" value="fullLoopTime"/>
 			<line label="Frame Rate" value="frameRate"/>
 		</widget>
-		<widget type="ConfigurableTextBox" title="Powerasdff Stats" x="1570" y="702" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="True"/>
 	</tab>
 	<tab title="Config">
 		<widget type="ConfigurableTextBox" title="Power Stats2" x="1000" y="100" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="True">
@@ -44,5 +43,7 @@
 		<widget type="ConfigurableTextBox" title="Powerasd7ff Stats" x="201" y="341" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="True"/>
 		<widget type="SimpleConsole" title="TEST CONSOLE" x="1446" y="313" font="Arial" fontsize="14" borderwidth="4" hidden="False" draggable="True" source="testarray"/>
 		<widget type="Browse" title="Error: No Title" x="162" y="148" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" url="bbb"/>
+		<widget type="CompleteConsole" title="No Title" x="1063" y="476" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" source="_"/>
 	</tab>
+	<tab title="test"/>
 </window>

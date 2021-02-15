@@ -17,8 +17,8 @@ class CompassWidget(CustomBaseWidget):
 
         super().__init__(QTWidget, x, y, configInfo=widgetInfo, widgetType=Constants.COMPASS_TYPE)
 
-        self.size = int(widgetInfo["size"])
-        self.source = str(widgetInfo[Constants.SOURCE_ATTRIBUTE])
+        if self.size is None:  # Set a default size
+            self.size = 200
 
         self.setSize(self.size, self.size)
         self.arrow.setGeometry(0, 0, self.size, self.size)

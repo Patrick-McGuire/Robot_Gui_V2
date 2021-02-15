@@ -11,7 +11,7 @@ from WidgetClasses import SimpleButton
 from WidgetClasses import TextBoxWidget
 from WidgetClasses import SimpleDropDown
 from WidgetClasses import VideoWidget
-from WidgetClasses.CompassWidget import CompassWidget
+from WidgetClasses import CompassWidget
 from WidgetClasses import TextBoxDropDownWidget
 from WidgetClasses import FrameRateCounter
 from WidgetClasses import AnnunciatorPanel
@@ -43,11 +43,8 @@ class GUIMaker(object):
 
         for name, val in globals().items():  # Loop through globals()
             if isinstance(val, types.ModuleType) and "WidgetClasses" in str(val):  # Only look at modules from WidgetClasses
-                # print(" ")
-                # print(name, val)
                 for item in inspect.getmembers(val):
-                    if name in str(item) and "__" not in str(item):
-                        # print(item[1])
+                    if name in str(item) and "__" not in str(item) and "FrameRateCounter" not in name:
                         self.widgetClasses[name] = item[1]
 
     def start(self):
@@ -99,7 +96,7 @@ class GUIMaker(object):
 
     def createCompassWidget(self, tabName, x, y, widgetInfo):
         """Creates a compass widget"""
-        self.widgetList.append(CompassWidget(self.tabs[tabName], "compass{}".format(self.widgetsCreated), x, y, widgetInfo))
+        self.widgetList.append(CompassWidget.CompassWidget(self.tabs[tabName], "compass{}".format(self.widgetsCreated), x, y, widgetInfo))
         self.widgetsCreated += 1
 
     def createTextBoxDropDownWidget(self, tabName, x, y, widgetInfo=None):
@@ -128,21 +125,20 @@ class GUIMaker(object):
 
     def createCompleteConsoleWidget(self, tabName, x, y, widgetInfo=None):
         """Creates a textbox with a drop down in the tab name specified"""
-        if widgetInfo is None:
-            widgetInfo = {}
-        self.widgetList.append(CompleteConsoleWidget.CompleteConsoleWidget(self.tabs[tabName], "console_{}".format(self.widgetsCreated), x, y, widgetInfo))
-        self.widgetsCreated += 1
+        self.createWidgetFromName("CompleteConsoleWidget", tabName, x, y, widgetInfo)
 
     def createBrowse(self, tabName, x, y, widgetInfo=None):
-        if widgetInfo is None:
-            widgetInfo = {}
-        self.widgetList.append(Browse.Browse(self.tabs[tabName], "browse_{}".format(self.widgetsCreated), x, y, widgetInfo))
-        self.widgetsCreated += 1
+        self.createWidgetFromName("Browse", tabName, x, y, widgetInfo)
 
     def createWidgetFromName(self, widgetName, tabName, x, y, widgetInfo=None):
+        """Will create any widget from its file name!"""
         if widgetInfo is None:
             widgetInfo = {}
-        self.widgetList.append(self.widgetClasses[widgetName](self.tabs[tabName], "{0}_{1}".format(widgetName, self.widgetsCreated), x, y, widgetInfo))
+        try:
+            self.widgetList.append(self.widgetClasses[widgetName](self.tabs[tabName], "{0}_{1}".format(widgetName, self.widgetsCreated), x, y, widgetInfo))
+            self.widgetsCreated += 1
+        except:  # Check if this doesn't work
+            print("Dynamically creating {} type widgets is not supported yet".format(widgetName))
 
     def getMainWindow(self):
         return self.mainWindow
@@ -167,3 +163,6 @@ class GUIMaker(object):
 
         for tab in self.tabs:
             self.tabs[tab].setStyleSheet("QWidget#" + self.tabs[tab].objectName() + "{" + colorString + textColorString + "}")
+
+    def getAvailableWidgets(self):
+        return self.widgetClasses.keys()

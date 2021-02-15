@@ -26,6 +26,7 @@ class Browse(CustomBaseWidget):
         self.QTWidget.setLayout(layout)
 
         self.submit.clicked.connect(self.goToURLFromEntryBox)
+        self.linkEntry.returnPressed.connect(self.goToURLFromEntryBox)
         self.defaultButton.clicked.connect(self.goToDefaultURL)
 
         self.setSize(800, 500)
