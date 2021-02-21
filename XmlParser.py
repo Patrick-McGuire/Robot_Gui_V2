@@ -68,7 +68,7 @@ class XmlParser:
             Constants.RELIEF_ATTRIBUTE: relief
         }
 
-        for item in widget.attributes.items():
+        for item in widget.attributes.items():  # Get every xml item for a particular widget
             widgetInfo[item[0]] = item[1]
 
         # Code to handle specific types of widgets
@@ -85,10 +85,10 @@ class XmlParser:
 
             widgetInfo[Constants.CONFIG_ATTRIBUTE] = configInfo
             self.guiGenerator.createTextBox(tab, int(xPos), int(yPos), widgetInfo)
-        elif widgetType == Constants.VIDEO_WINDOW_TYPE:
-            self.guiGenerator.createVideoWidget(tab, int(xPos), int(yPos), widgetInfo)
-        else:
-            if widgetType == Constants.COMPASS_TYPE:
+        else:  # Any one-line xml widget should go in here
+            if widgetType == Constants.VIDEO_WINDOW_TYPE:  # Fix a couple widget name -> class name errors
+                widgetClassName = "VideoWidget"
+            elif widgetType == Constants.COMPASS_TYPE:
                 widgetClassName = "CompassWidget"
             elif widgetType == Constants.DROP_DOWN_TEXT_BOX_TYPE:
                 widgetClassName = "TextBoxDropDownWidget"

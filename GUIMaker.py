@@ -92,7 +92,7 @@ class GUIMaker(object):
 
     def createVideoWidget(self, tabName, x, y, widgetInfo):
         """Creates a video widget in the tab name specified"""
-        self.widgetList.append(VideoWidget.VideoWidget(self.tabs[tabName], x, y, widgetInfo))
+        self.widgetList.append(VideoWidget.VideoWidget(self.tabs[tabName], "_", x, y, widgetInfo))
 
     def createCompassWidget(self, tabName, x, y, widgetInfo):
         """Creates a compass widget"""

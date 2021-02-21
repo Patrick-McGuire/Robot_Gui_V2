@@ -27,7 +27,7 @@ class CoreGUI(threading.Thread):
     """This class handles the underlying functionality of updating widgets, running, and creating the GUI"""
 
     CustomWidgetList = []
-    themes = ["Better Dark", "Dark", "Light", "Blue"]
+    themes = {}  # Themes are defined as Background, WidgetBackground, Default Text, Header Text, Border
 
     def __init__(self, filePath, createSettings=False, loadXMLFirst=True):
         self.filePath = filePath
@@ -55,6 +55,9 @@ class CoreGUI(threading.Thread):
         self.hideOnClick = False
         self.hue = 0
         self.theme = "none"
+
+        self.themes["Better Dark"] = ["rgb[13, 17, 23]", "rgb[13, 17, 23]", "rgb[139,148,158]", "rgb[88,166,255]", "rgb[139,148,158]"]
+        self.themes["Test1"] = ["rgb[0, 0, 0]", "rgb[13, 17, 23]", "rgb[139,148,158]", "rgb[88,166,255]", "rgb[139,148,158]"]
 
         # Start the GUI
         threading.Thread.__init__(self)
@@ -105,7 +108,11 @@ class CoreGUI(threading.Thread):
         themeMenu = menuBar.addMenu("Theme")
         for theme in self.themes:
             themeMenu.addAction(theme, lambda themeName=theme: self.setTheme(themeName))
-        themeMenu.addSection("Experimental")
+        themeMenu.addSection("Default")
+        themeMenu.addAction("Dark", lambda themeName="Dark": self.setTheme(themeName))
+        themeMenu.addAction("Blue", lambda themeName="Blue": self.setTheme(themeName))
+        themeMenu.addAction("Light", lambda themeName="Light": self.setTheme(themeName))
+        themeMenu.addSection("Stupid")
         themeMenu.addAction("Red", lambda theme="rgb[100,0,0]": self.setTheme(theme))
         themeMenu.addAction("Black", lambda theme="rgb[0,0,0]": self.setTheme(theme))
 
@@ -173,20 +180,22 @@ class CoreGUI(threading.Thread):
         self.theme = theme
 
         if theme == "Dark":
-            self.setColorOnALlWidgets("grey")
+            self.setColorOnALlWidgets("rgb[40,40,40]")
             self.GUICreator.setGUIColor(30, 30, 30)
-        elif theme == "Better Dark":
-            self.setColorOnALlWidgets("rgb[13, 17, 23]", "rgb[139,148,158]", "rgb[88,166,255]", "rgb[139,148,158]")
-            self.GUICreator.setGUIColor(13, 17, 23)
         elif theme == "Light":
             self.setColorOnALlWidgets("default")
             self.GUICreator.setGUIColor(250, 250, 250)
         elif theme == "Blue":
-            self.setColorOnALlWidgets("blue")
+            self.setColorOnALlWidgets("rgb[0,0,50]")
             self.GUICreator.setGUIColor(0, 0, 40)
-        elif "rgb" in theme:
+        elif "rgb[" in theme:
             self.setColorOnALlWidgets(theme)
             [red, green, blue] = theme.split("[")[1].split("]")[0].split(",")
+            self.GUICreator.setGUIColor(int(float(red)), int(float(green)), int(float(blue)))
+        elif theme in self.themes:
+            themeData = self.themes[theme]
+            [red, green, blue] = themeData[0].split("[")[1].split("]")[0].split(",")
+            self.setColorOnALlWidgets(themeData[1], themeData[2], themeData[3], themeData[4])
             self.GUICreator.setGUIColor(int(float(red)), int(float(green)), int(float(blue)))
 
     def updateGUI(self):
@@ -258,7 +267,12 @@ class CoreGUI(threading.Thread):
     def makeNewWidgetInCurrentTab(self, widgetName):
         currentTab = self.GUICreator.getTabNames()[self.mainWindow.centralWidget().currentIndex()]
         self.GUICreator.createWidgetFromName(widgetName, currentTab, 300, 300)
-        self.GUICreator.widgetList[-1].setColor(self.getColorFromTheme(self.theme))
+
+        if self.theme not in self.themes:
+            self.GUICreator.widgetList[-1].setColor(self.getColorFromTheme(self.theme))
+        else:
+            themeData = self.themes[self.theme]
+            self.GUICreator.widgetList[-1].setColor(themeData[1], themeData[2], themeData[3], themeData[4])
 
     def getColorFromTheme(self, theme):
         if theme == "dark":
@@ -269,10 +283,10 @@ class CoreGUI(threading.Thread):
             return "rgb[0,0,50]"
         elif "rgb" in theme:
             return theme
-        elif theme not in self.themes:
-            return None
+        elif theme in self.themes:
+            return self.themes[theme][0]
 
-        return theme
+        return None
 
     def setColorOnALlWidgets(self, color, textColor=None, headerTextColor=None, borderColor=None):
         """Sets colors on all widgets"""
