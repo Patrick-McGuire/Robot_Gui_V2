@@ -63,7 +63,7 @@ class CompleteConsoleWidget(CustomBaseWidget):
 
         self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid " + self.borderColor + "; " + colorString + " color: " + self.textColor + "}")
         self.textBoxWidget.setStyleSheet(colorString + " color: " + self.textColor)
-        self.textEntryWidget.setStyleSheet(colorString + " color: " + self.textColor)
+        self.textEntryWidget.setStyleSheet("border: 1px solid " + self.borderColor + "; " + colorString + " color: " + self.textColor)
         self.titleBox.setStyleSheet(colorString + " color: " + self.headerTextColor)
 
     def setDefaultAppearance(self):
