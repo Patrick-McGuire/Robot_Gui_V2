@@ -60,7 +60,8 @@ class CoreGUI(threading.Thread):
         # Can't use the names "Dark", "Light", and "Blue"
         # Theme colors are defined as Background, WidgetBackground, Default Text, Header Text, Border
         self.themes["Better Dark"] = ["rgb[13, 17, 23]", "rgb[13, 17, 23]", "rgb[139,148,158]", "rgb[88,166,255]", "rgb[139,148,158]"]
-        self.themes["Test1"] = ["rgb[0, 0, 0]", "rgb[13, 17, 23]", "rgb[139,148,158]", "rgb[88,166,255]", "rgb[139,148,158]"]
+        self.themes["Dark 2"] = ["rgb[20, 20, 20]", "rgb[25, 25, 25]", "rgb[230,230,255]", "rgb[230,230,255]", "rgb[50,50,50]"]
+        self.themes["Green Text"] = ["rgb[20, 20, 20]", "rgb[25, 25, 25]", "rgb[150,150,150]", "rgb[10,200,10]", "rgb[50,50,50]"]
 
         # Start the GUI
         threading.Thread.__init__(self)
