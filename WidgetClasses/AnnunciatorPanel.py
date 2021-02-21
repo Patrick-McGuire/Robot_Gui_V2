@@ -18,13 +18,14 @@ class AnnunciatorPanel(CustomBaseWidget):
         self.xBuffer = 0
         self.yBuffer = 0
 
-        self.source = "_"
-        self.title = ""
+        self.rows = 10
+        self.columns = 2
+
         if widgetInfo is not None:
-            if Constants.SOURCE_ATTRIBUTE in widgetInfo:
-                self.source = widgetInfo[Constants.SOURCE_ATTRIBUTE]
-            if Constants.TITLE_ATTRIBUTE in widgetInfo:
-                self.title = widgetInfo[Constants.TITLE_ATTRIBUTE]
+            if Constants.COLUMN_NUMBER_ATTRIBUTE in widgetInfo:
+                self.columns = int(widgetInfo[Constants.COLUMN_NUMBER_ATTRIBUTE])
+            if Constants.ROW_NUMBER_ATTRIBUTE in widgetInfo:
+                self.rows = int(widgetInfo[Constants.ROW_NUMBER_ATTRIBUTE])
 
         layout = QGridLayout()
         self.titleWidget.setText(self.title)
@@ -32,8 +33,8 @@ class AnnunciatorPanel(CustomBaseWidget):
         layout.addWidget(self.titleWidget, 0, 0, 1, 3)
 
         self.annunciatorWidgets = []
-        for column in range(2):
-            for row in range(10):
+        for column in range(self.columns):
+            for row in range(self.rows):
                 self.annunciatorWidgets.append(QLabel())
                 self.annunciatorWidgets[-1].setMaximumWidth(150)
                 self.annunciatorWidgets[-1].setMinimumWidth(150)
@@ -75,5 +76,5 @@ class AnnunciatorPanel(CustomBaseWidget):
         self.titleWidget.setStyleSheet(colorString + " color: " + self.headerTextColor)
 
     def customXMLStuff(self, tag):
-        tag.set(Constants.SOURCE_ATTRIBUTE, str(self.source))
-        tag.set(Constants.TITLE_ATTRIBUTE, str(self.title))
+        tag.set(Constants.ROW_NUMBER_ATTRIBUTE, str(self.rows))
+        tag.set(Constants.COLUMN_NUMBER_ATTRIBUTE, str(self.columns))

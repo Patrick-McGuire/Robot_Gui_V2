@@ -24,7 +24,7 @@ def convertNameToRGB(name: str):
 
 
 class CustomBaseWidget(object):
-    def __init__(self, QTWidget: QWidget, x: float, y: float, widgetType: str = "", hasReturnValue: bool = False, returnKey: str = None, configInfo=None):
+    def __init__(self, QTWidget: QWidget, x: float, y: float, widgetType: str = "", hasReturnValue: bool = False, returnKey: str = None, configInfo=None, name: str = None):
         self.QTWidget = QTWidget
         self.setPosition(x, y)
         self.QTWidget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -36,6 +36,9 @@ class CustomBaseWidget(object):
             self.hasReturnValue = False
         else:
             self.hasReturnValue = hasReturnValue
+
+        if name is not None:
+            self.QTWidget.setObjectName(name)
 
         self.returnKey = returnKey
         self.returnEvents = []
@@ -143,22 +146,7 @@ class CustomBaseWidget(object):
         color = color.replace("Grey", "Gray")
         color = color.replace("grey", "gray")
 
-        if color == "white":
-            self.textColor = "black"
-            self.headerTextColor = "black"
-            self.borderColor = "black"
-            self.setColorRGB(255, 255, 255)
-        elif color == "blue":
-            self.textColor = "white"
-            self.headerTextColor = "white"
-            self.borderColor = "black"
-            self.setColorRGB(0, 0, 50)
-        elif color == "grey" or color == "gray":
-            self.textColor = "white"
-            self.headerTextColor = "white"
-            self.borderColor = "black"
-            self.setColorRGB(50, 50, 50)
-        elif color == "default":
+        if color == "default":
             self.setDefaultAppearance()
         elif "rgb" in color:
             [red, green, blue] = [int(float(i)) for i in color.split("[")[1].split("]")[0].split(",")]  # Going to float then string fixes issues if the number is 0.0 or similar
@@ -187,7 +175,7 @@ class CustomBaseWidget(object):
         self.QTWidget.setFont(QFont(self.font, self.fontSize))
         self.QTWidget.adjustSize()
 
-    def testTextColor(self, red, green, blue, textColor=None):
+    def testTextColor(self, red, green, blue, textColor=None):  # Checks text color against background r,g,b values, and makes it black or white depending on how bright the background is
         if textColor is not None:
             if "rgb[" in textColor:
                 [red, green, blue] = textColor.split("[")[1].split("]")[0].split(",")

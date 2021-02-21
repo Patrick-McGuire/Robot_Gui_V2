@@ -8,7 +8,7 @@ from Constants import Constants
 
 
 class SimpleDropDown(CustomBaseWidget):
-    def __init__(self, tab, xPos, yPos):
+    def __init__(self, tab, name, xPos, yPos, widgetInfo):
         QTWidget = QComboBox(tab)
 
         super().__init__(QTWidget, xPos, yPos, hasReturnValue=True, returnKey="drop_down_one", widgetType=Constants.SIMPLE_DROP_DOWN_TYPE)

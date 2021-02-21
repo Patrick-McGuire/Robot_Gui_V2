@@ -11,7 +11,7 @@ from Constants import Constants
 
 
 class VideoWidget(CustomBaseWidget):
-    def __init__(self, tab, xPos, yPos, widgetInfo):
+    def __init__(self, tab, name, xPos, yPos, widgetInfo):
         QTWidget = QLabel(tab)
         super().__init__(QTWidget, xPos, yPos, widgetType=Constants.VIDEO_WINDOW_TYPE)
 
@@ -81,4 +81,4 @@ class VideoWidget(CustomBaseWidget):
     def customXMLStuff(self, tag):
         tag.set(Constants.FULLSCREEN_ATTRIBUTE, "true")
         tag.set(Constants.LOCK_ASPECT_RATIO_ATTRIBUTE, "true")
-        tag.set(Constants.DIMENSIONS_ATTRIBUTE, "{0}x{1}".format(self.width, self.height))
+        tag.set(Constants.DIMENSIONS_ATTRIBUTE, "{0}x{1}".format(int(self.width), int(self.height)))

@@ -9,10 +9,10 @@ from Constants import Constants
 
 
 class SimpleButton(CustomBaseWidget):
-    def __init__(self, tab, xPos, yPos, widgetInfo):
+    def __init__(self, tab, name, xPos, yPos, widgetInfo):
         QTWidget = QPushButton(tab)
         QTWidget.clicked.connect(self.OnButtonPress)
-        super().__init__(QTWidget, xPos, yPos, configInfo=widgetInfo, widgetType=Constants.SIMPLE_BUTTON_TYPE)
+        super().__init__(QTWidget, xPos, yPos, configInfo=widgetInfo, widgetType=Constants.SIMPLE_BUTTON_TYPE, name=name)
 
         self.QTWidget.setText(self.title)
         self.QTWidget.adjustSize()
@@ -28,7 +28,6 @@ class SimpleButton(CustomBaseWidget):
         colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
 
         self.QTWidget.setStyleSheet(colorString + " color: " + self.headerTextColor)
-
 
     def customXMLStuff(self, tag):
         tag.set(Constants.SOURCE_ATTRIBUTE, str(self.source))
