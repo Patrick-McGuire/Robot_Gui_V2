@@ -24,7 +24,7 @@ def convertNameToRGB(name: str):
 
 
 class CustomBaseWidget(object):
-    def __init__(self, QTWidget: QWidget, x: float, y: float, widgetType: str = "", hasReturnValue: bool = False, returnKey: str = None, configInfo=None):
+    def __init__(self, QTWidget: QWidget, x: float, y: float, widgetType: str = "", hasReturnValue: bool = False, returnKey: str = None, configInfo=None, name: str = None):
         self.QTWidget = QTWidget
         self.setPosition(x, y)
         self.QTWidget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -36,6 +36,9 @@ class CustomBaseWidget(object):
             self.hasReturnValue = False
         else:
             self.hasReturnValue = hasReturnValue
+
+        if name is not None:
+            self.QTWidget.setObjectName(name)
 
         self.returnKey = returnKey
         self.returnEvents = []

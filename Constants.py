@@ -43,6 +43,8 @@ class Constants:
     SIZE_ATTRIBUTE = "size"
     THEME_ATTRIBUTE = "theme"
     URL_ATTRIBUTE = "url"
+    ROW_NUMBER_ATTRIBUTE = "row_number"
+    COLUMN_NUMBER_ATTRIBUTE = "column_number"
 
     # ATTRIBUTE
     BATTERY_VOLTAGE_VALUE = "batteryVoltage"

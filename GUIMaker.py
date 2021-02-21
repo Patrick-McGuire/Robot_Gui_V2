@@ -79,7 +79,7 @@ class GUIMaker(object):
 
     def createButton(self, tabName, x, y, widgetInfo):
         """Creates a basic button widget in the tab name specified"""
-        self.widgetList.append(SimpleButton.SimpleButton(self.tabs[tabName], x, y, widgetInfo))
+        self.createWidgetFromName("SimpleButton", tabName, x, y, widgetInfo)
 
     def createTextBox(self, tabName, x, y, widgetInfo):
         """Creates a text box widget in the tab name specified"""
@@ -88,7 +88,7 @@ class GUIMaker(object):
 
     def createSimpleDropDown(self, tabName, x, y):
         """Creates a text box widget in the tab name specified"""
-        self.widgetList.append(SimpleDropDown.SimpleDropDown(self.tabs[tabName], x, y))
+        self.widgetList.append(SimpleDropDown.SimpleDropDown(self.tabs[tabName], "_", x, y, None))
 
     def createVideoWidget(self, tabName, x, y, widgetInfo):
         """Creates a video widget in the tab name specified"""
@@ -134,11 +134,14 @@ class GUIMaker(object):
         """Will create any widget from its file name!"""
         if widgetInfo is None:
             widgetInfo = {}
+
         try:
             self.widgetList.append(self.widgetClasses[widgetName](self.tabs[tabName], "{0}_{1}".format(widgetName, self.widgetsCreated), x, y, widgetInfo))
             self.widgetsCreated += 1
-        except:  # Check if this doesn't work
+            return True
+        except:
             print("Dynamically creating {} type widgets is not supported yet".format(widgetName))
+            return False
 
     def getMainWindow(self):
         return self.mainWindow

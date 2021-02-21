@@ -68,9 +68,14 @@ class XmlParser:
             Constants.RELIEF_ATTRIBUTE: relief
         }
 
+        for item in widget.attributes.items():
+            widgetInfo[item[0]] = item[1]
+
         # Code to handle specific types of widgets
         configInfo = []
         widgetType = widget.getAttribute(Constants.TYPE_ATTRIBUTE)
+        widgetClassName = widgetType
+
         if widgetType == Constants.CONFIGURABLE_TEXT_BOX_TYPE:
             lines = widget.getElementsByTagName(Constants.LINE_NAME)
             for line in lines:
@@ -81,47 +86,21 @@ class XmlParser:
             widgetInfo[Constants.CONFIG_ATTRIBUTE] = configInfo
             self.guiGenerator.createTextBox(tab, int(xPos), int(yPos), widgetInfo)
         elif widgetType == Constants.VIDEO_WINDOW_TYPE:
-            widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "webcam")
-            widgetInfo[Constants.DIMENSIONS_ATTRIBUTE] = self.getAttribute(widget, Constants.DIMENSIONS_ATTRIBUTE, "800x600")
-            widgetInfo[Constants.FULLSCREEN_ATTRIBUTE] = self.getAttribute(widget, Constants.FULLSCREEN_ATTRIBUTE, "False")
-            widgetInfo[Constants.LOCK_ASPECT_RATIO_ATTRIBUTE] = self.getAttribute(widget, Constants.LOCK_ASPECT_RATIO_ATTRIBUTE, "True")
-
             self.guiGenerator.createVideoWidget(tab, int(xPos), int(yPos), widgetInfo)
-        elif widgetType == Constants.COMPASS_TYPE:
-            widgetInfo[Constants.SIZE_ATTRIBUTE] = self.getAttribute(widget, Constants.SIZE_ATTRIBUTE, "200")
-            widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "bruh")
-            self.guiGenerator.createCompassWidget(tab, int(xPos), int(yPos), widgetInfo)
-        elif widgetType == "ConfigurableGraph":
-            lines = widget.getElementsByTagName(Constants.LINE_NAME)
-            for line in lines:
-                label = line.getAttribute(Constants.LABEL_ATTRIBUTE)
-                value = line.getAttribute(Constants.VALUE_ATTRIBUTE)
-                configInfo.append([label, value])
-
-            widgetInfo[Constants.CONFIG_ATTRIBUTE] = configInfo
-            # self.guiGenerator.createConfigurableGraph(widgetInfo)
-        elif widgetType == Constants.DROP_DOWN_TEXT_BOX_TYPE:
-            widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "diagnostics_agg")
-            self.guiGenerator.createTextBoxDropDownWidget(tab, int(xPos), int(yPos), widgetInfo)
-        elif widgetType == Constants.ANNUNCIATOR_TYPE:
-            widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "annunciator")
-            self.guiGenerator.createAnnunciatorPanelWidget(tab, int(xPos), int(yPos), widgetInfo)
-        elif widgetType == Constants.SIMPLE_CONSOLE_TYPE:
-            widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "console")
-            self.guiGenerator.createSimpleConsoleWidget(tab, int(xPos), int(yPos), widgetInfo)
-        elif widgetType == Constants.COMPLETE_CONSOLE_TYPE:
-            widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "console")
-            self.guiGenerator.createCompleteConsoleWidget(tab, int(xPos), int(yPos), widgetInfo)
-        elif widgetType == Constants.SIMPLE_BUTTON_TYPE:
-            widgetInfo[Constants.SOURCE_ATTRIBUTE] = self.getAttribute(widget, Constants.SOURCE_ATTRIBUTE, "button")
-            self.guiGenerator.createButton(tab, int(xPos), int(yPos), widgetInfo)
-        elif widgetType == Constants.BROWSE_TYPE:
-            widgetInfo[Constants.URL_ATTRIBUTE] = self.getAttribute(widget, Constants.URL_ATTRIBUTE, "")
-            self.guiGenerator.createBrowse(tab, int(xPos), int(yPos), widgetInfo)
         else:
-            print("Could not create widget {0}: type {1} not supported".format(title, widgetType))
+            if widgetType == Constants.COMPASS_TYPE:
+                widgetClassName = "CompassWidget"
+            elif widgetType == Constants.DROP_DOWN_TEXT_BOX_TYPE:
+                widgetClassName = "TextBoxDropDownWidget"
+            elif widgetType == Constants.SIMPLE_CONSOLE_TYPE:
+                widgetClassName = "SimpleConsoleWidget"
+            elif widgetType == Constants.COMPLETE_CONSOLE_TYPE:
+                widgetClassName = "CompleteConsoleWidget"
 
-    def getAttribute(self, xmlClip, attribute, default):
+            if not self.guiGenerator.createWidgetFromName(widgetClassName, tab, int(xPos), int(yPos), widgetInfo):
+                print("XML Parser could not create widget {0}: type {1} not supported".format(title, widgetType))
+
+    def getAttribute(self, xmlClip, attribute: str, default: str):
         data = xmlClip.getAttribute(attribute)
         if data == "":
             return default

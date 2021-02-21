@@ -6,8 +6,8 @@
 		<widget type="SimpleButton" title="Test Button" x="500" y="253" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" source="button1"/>
 		<widget type="compass" title="Error: no title" x="1655" y="39" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" source="current" size="200"/>
 		<widget type="DropDownTextBox" title="Error: no title" x="89" y="50" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" source="diagnostics_agg"/>
-		<widget type="AnnunciatorPanel" title="Annunciator1" x="119" y="277" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" source="annunciator"/>
-		<widget type="AnnunciatorPanel" title="Annunciator2" x="275" y="624" font="Arial" fontsize="14" borderwidth="4" hidden="False" draggable="True" source="annunciator_2"/>
+		<widget type="AnnunciatorPanel" title="Annunciator1" x="119" y="277" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" source="annunciator" row_number="10" column_number="5"/>
+		<widget type="AnnunciatorPanel" title="Annunciator2" x="275" y="624" font="Arial" fontsize="14" borderwidth="4" hidden="False" draggable="True" source="annunciator_2" row_number="10" column_number="2"/>
 		<widget type="CompleteConsole" title="Test Console 2" x="63" y="227" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" source="complete_console_test"/>
 		<widget type="ConfigurableTextBox" title="Power Stats" x="1478" y="479" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True">
 			<line label="Battery Voltage" value="batteryVoltage"/>
