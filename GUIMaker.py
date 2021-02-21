@@ -4,6 +4,7 @@ Function calls to actually create GUI elements
 
 import types
 import inspect
+import sys
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget
 
@@ -163,6 +164,9 @@ class GUIMaker(object):
         self.tabHolderWidget.setStyleSheet("QWidget#" + self.tabHolderWidget.objectName() + "{" + colorString + textColorString + "}")
         self.mainWindow.menuBar().setStyleSheet("QWidget#" + self.mainWindow.menuBar().objectName() + "{" + slightlyDarkerColor + textColorString + "}")
         self.tabHolderWidget.tabBar().setStyleSheet("QWidget#" + self.tabHolderWidget.tabBar().objectName() + "{" + slightlyDarkerColor + textColorString + "}")
+
+        if sys.platform == "win32":
+            self.tabHolderWidget.tabBar().setStyleSheet("QTabBar::tab{ background: rgba(0,0,0,0);" + textColorString + "}")  # Seems to sort of fix tab bar coloring issues on windows
 
         for tab in self.tabs:
             self.tabs[tab].setStyleSheet("QWidget#" + self.tabs[tab].objectName() + "{" + colorString + textColorString + "}")
