@@ -27,7 +27,7 @@ class CoreGUI(threading.Thread):
     """This class handles the underlying functionality of updating widgets, running, and creating the GUI"""
 
     CustomWidgetList = []
-    themes = {}  # Themes are defined as Background, WidgetBackground, Default Text, Header Text, Border
+    themes = {}
 
     def __init__(self, filePath, createSettings=False, loadXMLFirst=True):
         self.filePath = filePath
@@ -56,6 +56,9 @@ class CoreGUI(threading.Thread):
         self.hue = 0
         self.theme = "none"
 
+        # Add new hardcoded themes here
+        # Can't use the names "Dark", "Light", and "Blue"
+        # Theme colors are defined as Background, WidgetBackground, Default Text, Header Text, Border
         self.themes["Better Dark"] = ["rgb[13, 17, 23]", "rgb[13, 17, 23]", "rgb[139,148,158]", "rgb[88,166,255]", "rgb[139,148,158]"]
         self.themes["Test1"] = ["rgb[0, 0, 0]", "rgb[13, 17, 23]", "rgb[139,148,158]", "rgb[88,166,255]", "rgb[139,148,158]"]
 
@@ -179,6 +182,7 @@ class CoreGUI(threading.Thread):
         """Function to set a theme for the whole GUI"""
         self.theme = theme
 
+        # Legacy themes
         if theme == "Dark":
             self.setColorOnALlWidgets("rgb[40,40,40]")
             self.GUICreator.setGUIColor(30, 30, 30)
@@ -223,7 +227,7 @@ class CoreGUI(threading.Thread):
 
         self.returnDict = copy.deepcopy(returnDict)
 
-        if self.rainbow:
+        if self.rainbow:  # Somehow this is important enough to go here!
             self.hue += 0.01
             if self.hue > 1:
                 self.hue = 0
