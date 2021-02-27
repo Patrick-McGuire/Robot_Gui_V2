@@ -17,7 +17,7 @@ from WidgetClasses import FrameRateCounter
 from WidgetClasses import AnnunciatorPanel
 from WidgetClasses import SimpleConsoleWidget
 from WidgetClasses import CompleteConsoleWidget
-from WidgetClasses import Browse
+# from WidgetClasses import Browse
 
 
 class GUIMaker(object):
