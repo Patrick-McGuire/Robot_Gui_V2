@@ -13,6 +13,7 @@ class Constants:
     SIMPLE_BUTTON_TYPE = "SimpleButton"
     VIDEO_WINDOW_TYPE = "video"
     COMPASS_TYPE = "compass"
+    ATTITUDE_TYPE = "navball1"
     ANNUNCIATOR_TYPE = "AnnunciatorPanel"
     SIMPLE_CONSOLE_TYPE = "SimpleConsole"
     COMPLETE_CONSOLE_TYPE = "CompleteConsole"

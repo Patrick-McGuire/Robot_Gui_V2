@@ -18,6 +18,7 @@ from WidgetClasses import FrameRateCounter
 from WidgetClasses import AnnunciatorPanel
 from WidgetClasses import SimpleConsoleWidget
 from WidgetClasses import CompleteConsoleWidget
+from WidgetClasses import AttitudeWidget
 # from WidgetClasses import Browse
 
 
@@ -133,16 +134,20 @@ class GUIMaker(object):
 
     def createWidgetFromName(self, widgetName, tabName, x, y, widgetInfo=None):
         """Will create any widget from its file name!"""
+        if widgetName not in self.widgetClasses:
+            print("No widget of type {}".format(widgetName))
+            return False
+
         if widgetInfo is None:
             widgetInfo = {}
 
-        try:
-            self.widgetList.append(self.widgetClasses[widgetName](self.tabs[tabName], "{0}_{1}".format(widgetName, self.widgetsCreated), x, y, widgetInfo))
-            self.widgetsCreated += 1
-            return True
-        except:
-            print("Dynamically creating {} type widgets is not supported yet".format(widgetName))
-            return False
+        # try:
+        self.widgetList.append(self.widgetClasses[widgetName](self.tabs[tabName], "{0}_{1}".format(widgetName, self.widgetsCreated), x, y, widgetInfo))
+        self.widgetsCreated += 1
+        return True
+        # except:
+        #     print("Dynamically creating {} type widgets is not supported yet".format(widgetName))
+        #     return False
 
     def getMainWindow(self):
         return self.mainWindow

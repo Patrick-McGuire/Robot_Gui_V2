@@ -133,6 +133,7 @@ class CoreGUI(threading.Thread):
             self.GUICreator.createSimpleConsoleWidget("Settings", 600, 500)
             self.GUICreator.createCompleteConsoleWidget("Settings", 700, 500, {Constants.SOURCE_ATTRIBUTE: "complete_console_test"})
             self.GUICreator.createBrowse("Settings", 500, 100)
+            self.GUICreator.createWidgetFromName("AttitudeWidget", "Settings", 900, 100)
 
         if self.loadXMLFirst:
             self.loadXML()

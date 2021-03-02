@@ -23,13 +23,17 @@ i = 0
 while not GUI.isDone():
     GUI.processCallbacks()
 
-    ret, frame = cap.read()
-
     i += 3
     if i > 360:
         i = 0
 
-    dataPassDict = {"test": "{}".format(random.random()), "webcam": frame, "batteryVoltage": "{}".format(random.random()), "current": str(random.random() * 100), "spinny": i}
+    dataPassDict = {"test": "{}".format(random.random()), "batteryVoltage": "{}".format(random.random()), "current": str(random.random() * 100), "spinny": i}
+
+    ret, frame = cap.read()
+    dataPassDict["webcam"] = frame
+
+    dataPassDict["roll"] = i
+    dataPassDict["pitch"] = 45
 
     testDict = {"aaa": [["hi", "aaa"], ["bbb", random.random()]], "bbb": [["aa", "  {}".format(random.random())], ["bbb", random.random()], ["c", random.random()], ["ddddddddd", random.random()]]}
     dataPassDict["diagnostics_agg"] = testDict
