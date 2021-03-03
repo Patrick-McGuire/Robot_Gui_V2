@@ -1,5 +1,4 @@
 import os
-import math
 import cv2
 
 from PyQt5.QtWidgets import QLabel, QWidget
@@ -75,40 +74,23 @@ class AttitudeDisplayWidget(QLabel):
         painter.setPen(QPen(QColor(0, 100, 0), 0, Qt.SolidLine))
         painter.setBrush(QBrush(QColor(0, 100, 0), Qt.SolidPattern))
 
+        centerX = int(self.width() / 2)
+        centerY = int(self.height() / 2)
         pitchScaleFactor = (-1 / 50) * (self.height() / 2)
-        centerY = (self.height() / 2) + self.pitch * pitchScaleFactor * math.cos(math.radians(self.roll))
-        centerX = (self.width() / 2) + self.pitch * pitchScaleFactor * math.sin(math.radians(self.roll))
 
-        xOffset = r * math.cos(math.radians(self.roll))
-        yOffset = r * math.sin(math.radians(self.roll))
+        painter.translate(centerX, centerY)
+        painter.rotate(-self.roll)
 
-        xOffset2 = r2 * math.sin(math.radians(self.roll))
-        yOffset2 = r2 * math.cos(math.radians(self.roll))
-
-        points = [  # Ordered clockwise from (centerX, centerY)
-            QPoint(centerX + xOffset, centerY - yOffset),
-            QPoint(centerX + xOffset + xOffset2, centerY - yOffset + yOffset2),
-            QPoint(centerX - xOffset + xOffset2, centerY + yOffset + yOffset2),
-            QPoint(centerX - xOffset, centerY + yOffset)
-        ]
-
-        poly = QPolygon(points)
-        painter.drawPolygon(poly)
+        painter.drawRect(-r, pitchScaleFactor * self.pitch, 2 * r, r2)
 
         # Pitch marker
         lineWidth = int(self.width() / 200)
         fontSize = max(int(self.width() / 30), 8)
-
-        painter.setPen(QPen(Qt.white, lineWidth, Qt.SolidLine))
-        painter.setBrush(QBrush(Qt.white, Qt.SolidPattern))
-
         shortLength = self.width() / 8
         longLength = self.width() / 4
 
-        shortDeltaX = (shortLength / 2) * math.cos(math.radians(self.roll))
-        shortDeltaY = (shortLength / 2) * math.sin(math.radians(self.roll))
-        longDeltaX = (longLength / 2) * math.cos(math.radians(self.roll))
-        longDeltaY = (longLength / 2) * math.sin(math.radians(self.roll))
+        painter.setPen(QPen(Qt.white, lineWidth, Qt.SolidLine))
+        painter.setBrush(QBrush(Qt.white, Qt.SolidPattern))
 
         spacing = 5
         nearestPitch = spacing * round(self.pitch / spacing)
@@ -118,35 +100,18 @@ class AttitudeDisplayWidget(QLabel):
 
         for i in range(minPitch, maxPitch, spacing):
             nearestPitchDelta = (self.pitch - i) * pitchScaleFactor
-            lineCenterX = (self.width() / 2) + nearestPitchDelta * math.sin(math.radians(self.roll))
-            lineCenterY = (self.height() / 2) + nearestPitchDelta * math.cos(math.radians(self.roll))
 
             if i % 10 != 0:
-                startX = lineCenterX + shortDeltaX
-                startY = lineCenterY - shortDeltaY
-                endX = lineCenterX - shortDeltaX
-                endY = lineCenterY + shortDeltaY
+                painter.drawLine(-shortLength / 2, nearestPitchDelta, shortLength / 2, nearestPitchDelta)
                 textDistance = shortLength / 2
             else:
-                startX = lineCenterX + longDeltaX
-                startY = lineCenterY - longDeltaY
-                endX = lineCenterX - longDeltaX
-                endY = lineCenterY + longDeltaY
+                painter.drawLine(-longLength / 2, nearestPitchDelta, longLength / 2, nearestPitchDelta)
                 textDistance = longLength / 2
 
-            painter.drawLine(startX, startY, endX, endY)
-
-            painter.translate(lineCenterX, lineCenterY)  # HOLY SHIT I DIDN'T KNOW YOU COULD DO THIS UNITL I GOT TO HERE
-            painter.rotate(-self.roll)
-
             painter.setFont(QFont("Arial", fontSize))
-            painter.drawText(textDistance * 1.1, int(fontSize / 2), "{}".format(abs(i)))
-            painter.drawText(-(textDistance * 1.1 + (fontSize - 4) * 2), int(fontSize / 2), "{:2}".format(abs(i)))
+            painter.drawText(textDistance * 1.1, nearestPitchDelta + int(fontSize / 2), "{}".format(abs(i)))
+            painter.drawText(-(textDistance * 1.1 + (fontSize - 2) * 2), nearestPitchDelta + int(fontSize / 2), "{:2}".format(abs(i)))
 
-            painter.rotate(self.roll)
-            painter.translate(-lineCenterX, -lineCenterY)
-
-        # if self.roll != self.rollIndicatorImage.theta():
         self.rollIndicatorImage.setRotation(self.roll)  # Set roll image
 
     def setRollPitch(self, roll, pitch):
