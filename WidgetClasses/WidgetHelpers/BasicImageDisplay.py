@@ -6,10 +6,20 @@ from PyQt5 import QtGui
 
 class BasicImageDisplay(object):
     def __init__(self, rootWidget: QLabel, image, targetWidth, x=None, y=None):
-        windowWidth = rootWidget.width()
-        windowHeight = rootWidget.height()
+        self.theta = 0
 
-        self.image = imutils.resize(image, width=int(targetWidth))
+        self.rootWidget = rootWidget
+        self.imageWidget = QLabel(rootWidget)
+        self.rawImage = image
+        self.image = None
+
+        self.setGeometry(targetWidth, x, y)
+
+    def setGeometry(self, targetWidth, x=None, y=None):
+        windowWidth = self.rootWidget.width()
+        windowHeight = self.rootWidget.height()
+
+        self.image = imutils.resize(self.rawImage, width=int(targetWidth))
         height, width, channels = self.image.shape
 
         if x is None:
@@ -22,7 +32,8 @@ class BasicImageDisplay(object):
         else:
             yOffset = y
 
-        self.imageWidget = QLabel(rootWidget)
+        print(targetWidth)
+
         self.imageWidget.setGeometry(xOffset, yOffset, width, height)
 
         convertToQtFormat = QtGui.QImage(self.image.data, self.image.shape[1], self.image.shape[0], QtGui.QImage.Format_ARGB32)
@@ -36,3 +47,7 @@ class BasicImageDisplay(object):
         convertToQtFormat = QtGui.QPixmap.fromImage(convertToQtFormat)
         pixmap = QPixmap(convertToQtFormat)
         self.imageWidget.setPixmap(pixmap)
+        self.theta = theta
+
+    def theta(self):
+        return self.theta
