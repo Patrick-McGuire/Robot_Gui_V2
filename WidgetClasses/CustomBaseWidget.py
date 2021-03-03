@@ -58,7 +58,6 @@ class CustomBaseWidget(object):
         self.font = "Arial"
         self.fontSize = 12
         self.hidden = False
-        self.title = "Error: No Title"
 
         self.headerTextColor = "white"
         self.textColor = "white"
@@ -71,6 +70,7 @@ class CustomBaseWidget(object):
         self.size = None  # For square widgets
         self.source = None
         self.transparent = None
+        self.title = None
 
         if configInfo is not None:
             if Constants.BORDER_WIDTH_ATTRIBUTE in configInfo:
@@ -322,21 +322,24 @@ class CustomBaseWidget(object):
 
         tag = ElementTree.SubElement(item, Constants.WIDGET_NAME)
         tag.set(Constants.TYPE_ATTRIBUTE, str(self.type))
-        tag.set(Constants.TITLE_ATTRIBUTE, self.title)
         tag.set(Constants.X_POS_ATTRIBUTE, str(self.x))
         tag.set(Constants.Y_POS_ATTRIBUTE, str(self.y))
-        tag.set(Constants.FONT_ATTRIBUTE, str(self.font))
-        tag.set(Constants.FONT_SIZE_ATTRIBUTE, str(self.fontSize))
-        # tag.set(Constants.BORDER_WIDTH_ATTRIBUTE, str(self.borderWidth))
-        tag.set(Constants.HIDDEN_ATTRIBUTE, str(self.hidden))
-        tag.set(Constants.DRAGGABLE_ATTRIBUTE, str(self.draggable))
 
+        if self.title is not None:  # Ordered by importance
+            tag.set(Constants.TITLE_ATTRIBUTE, self.title)
         if self.source is not None:
             tag.set(Constants.SOURCE_ATTRIBUTE, self.source)
         if self.size is not None:
             tag.set(Constants.SIZE_ATTRIBUTE, str(self.size))
         if self.transparent is not None:
             tag.set(Constants.TRANSPARENT_ATTRIBUTE, str(self.transparent))
+
+        tag.set(Constants.HIDDEN_ATTRIBUTE, str(self.hidden))
+        tag.set(Constants.DRAGGABLE_ATTRIBUTE, str(self.draggable))
+
+        tag.set(Constants.FONT_ATTRIBUTE, str(self.font))
+        tag.set(Constants.FONT_SIZE_ATTRIBUTE, str(self.fontSize))
+        # tag.set(Constants.BORDER_WIDTH_ATTRIBUTE, str(self.borderWidth))
 
         self.customXMLStuff(tag)
 

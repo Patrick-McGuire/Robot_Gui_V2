@@ -32,6 +32,7 @@ class AttitudeWidget(CustomBaseWidget):
             self.size = 200
         if self.transparent is None:
             self.transparent = True
+        self.title = None
 
         if "pitchSource" in widgetInfo:
             self.pitchSource = widgetInfo["pitchSource"]
@@ -47,13 +48,15 @@ class AttitudeWidget(CustomBaseWidget):
         self.rollPointer = cv2.imread("{}/Assets/roll_pointer.png".format(dirName), cv2.IMREAD_UNCHANGED)
         self.rollIndicator = cv2.imread("{}/Assets/roll_dial_1.png".format(dirName), cv2.IMREAD_UNCHANGED)
 
-        # Cross hair
+        # Images
         self.crossHairImage = BasicImageDisplay.BasicImageDisplay(self.QTWidget, self.crossHair, self.size * 0.5)
         self.rollPointerImage = BasicImageDisplay.BasicImageDisplay(self.QTWidget, self.rollPointer, self.size * 0.05, y=self.height / 40)
         self.rollIndicatorImage = BasicImageDisplay.BasicImageDisplay(self.QTWidget, self.rollIndicator, self.size * 0.95)
 
-        self.PainterWidget.paintEvent = self.drawHUD  # Set up painter
+        # Set up painter
+        self.PainterWidget.paintEvent = self.drawHUD
 
+        # Set up octagonal mask for painter
         cornerSize = self.width / 8
         points = [
             QPoint(cornerSize, 0),

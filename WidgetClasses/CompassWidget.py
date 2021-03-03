@@ -22,6 +22,7 @@ class CompassWidget(CustomBaseWidget):
             self.size = 200
         if self.transparent is None:
             self.transparent = True
+        self.title = None
 
         self.setSize(self.size, self.size)
         self.arrow.setGeometry(0, 0, self.size, self.size)

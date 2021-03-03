@@ -1,15 +1,15 @@
 <?xml version="1.0" ?>
 <window title="Probot Control" width="1920" height="1043" theme="Better Dark">
 	<tab title="Dashboard">
-		<widget type="video" title="Error: No Title" x="298" y="0" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="False" source="webcam" fullscreen="true" lockAspectRatio="true" dimensions="1320x990"/>
-		<widget type="compass" title="Error: no title" x="1634" y="253" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" source="spinny" size="200"/>
-		<widget type="SimpleButton" title="Test Button" x="500" y="253" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" source="button1"/>
-		<widget type="compass" title="Error: no title" x="1655" y="39" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" source="current" size="200"/>
-		<widget type="DropDownTextBox" title="Error: no title" x="89" y="50" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" source="diagnostics_agg"/>
-		<widget type="AnnunciatorPanel" title="Annunciator1" x="119" y="277" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" source="annunciator" row_number="10" column_number="5"/>
-		<widget type="AnnunciatorPanel" title="Annunciator2" x="275" y="624" font="Arial" fontsize="14" borderwidth="4" hidden="False" draggable="True" source="annunciator_2" row_number="10" column_number="2"/>
-		<widget type="CompleteConsole" title="Test Console 2" x="63" y="227" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True" source="complete_console_test"/>
-		<widget type="ConfigurableTextBox" title="Power Stats" x="1478" y="479" font="Arial" fontsize="12" borderwidth="4" hidden="False" draggable="True">
+		<widget type="video" x="0" y="0" source="webcam" hidden="False" draggable="False" font="Arial" fontsize="12" fullscreen="true" lockAspectRatio="true" dimensions="640x480"/>
+		<widget type="compass" x="1634" y="253" source="spinny" size="200" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12"/>
+		<widget type="SimpleButton" x="500" y="253" title="Test Button" source="button1" hidden="False" draggable="True" font="Arial" fontsize="12"/>
+		<widget type="compass" x="1655" y="39" source="current" size="200" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12"/>
+		<widget type="DropDownTextBox" x="89" y="50" title="Error: no title" source="diagnostics_agg" hidden="False" draggable="True" font="Arial" fontsize="12"/>
+		<widget type="AnnunciatorPanel" x="119" y="277" title="Annunciator1" source="annunciator" hidden="False" draggable="True" font="Arial" fontsize="12" row_number="10" column_number="5"/>
+		<widget type="AnnunciatorPanel" x="275" y="624" title="Annunciator2" source="annunciator_2" hidden="False" draggable="True" font="Arial" fontsize="14" row_number="10" column_number="2"/>
+		<widget type="CompleteConsole" x="63" y="227" title="Test Console 2" source="complete_console_test" hidden="False" draggable="True" font="Arial" fontsize="12"/>
+		<widget type="ConfigurableTextBox" x="1478" y="479" title="Power Stats" hidden="False" draggable="True" font="Arial" fontsize="12">
 			<line label="Battery Voltage" value="batteryVoltage"/>
 			<line label="5v Bus Voltage" value="v5Voltage"/>
 			<line label="3.3v Bus Voltage" value="v33Voltage"/>
@@ -17,25 +17,25 @@
 			<line label="Loop Time" value="fullLoopTime"/>
 			<line label="Frame Rate" value="frameRate"/>
 		</widget>
-		<widget type="AttitudeWidget" title="Error: No Title" x="1299" y="39" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" size="300" pitchSource="pitch" rollSource="roll"/>
+		<widget type="AttitudeWidget" x="1299" y="39" size="300" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll"/>
 	</tab>
 	<tab title="Config">
-		<widget type="ConfigurableTextBox" title="Po1werasdff Stats" x="300" y="800" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="True"/>
-		<widget type="ConfigurableTextBox" title="Pow2erasdff Stats" x="310" y="539" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="False"/>
-		<widget type="ConfigurableTextBox" title="Powe3rasdff Stats" x="1152" y="16" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="False"/>
-		<widget type="ConfigurableTextBox" title="Power4asdff Stats" x="822" y="810" font="Arial" fontsize="22" borderwidth="4" hidden="False" draggable="True"/>
-		<widget type="ConfigurableTextBox" title="Powera5sdff Stats" x="112" y="813" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="False"/>
-		<widget type="ConfigurableTextBox" title="Poweras6dff Stats" x="863" y="912" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="False"/>
-		<widget type="ConfigurableTextBox" title="Poweras6dff Stats" x="1195" y="306" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="False"/>
-		<widget type="ConfigurableTextBox" title="Powerasd7ff Stats" x="111" y="52" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="False"/>
-		<widget type="ConfigurableTextBox" title="Powerasdff Stats" x="1216" y="41" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="False"/>
-		<widget type="ConfigurableTextBox" title="Po1werasdff Stats" x="205" y="483" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="False"/>
-		<widget type="ConfigurableTextBox" title="Powe3rasdff Stats" x="666" y="94" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="False"/>
-		<widget type="ConfigurableTextBox" title="Power4asdff Stats" x="646" y="397" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="True"/>
-		<widget type="ConfigurableTextBox" title="Powera5sdff Stats" x="180" y="657" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="True"/>
-		<widget type="ConfigurableTextBox" title="Poweras6dff Stats" x="1055" y="580" font="Arial" fontsize="20" borderwidth="4" hidden="False" draggable="True"/>
-		<widget type="SimpleConsole" title="TEST CONSOLE" x="1446" y="313" font="Arial" fontsize="14" borderwidth="4" hidden="False" draggable="True" source="testarray"/>
-		<widget type="CompleteConsole" title="No Title" x="1063" y="476" font="Arial" fontsize="12" borderwidth="1" hidden="False" draggable="True" source="_"/>
+		<widget type="ConfigurableTextBox" x="300" y="800" title="Po1werasdff Stats" hidden="False" draggable="True" font="Arial" fontsize="20"/>
+		<widget type="ConfigurableTextBox" x="310" y="539" title="Pow2erasdff Stats" hidden="False" draggable="False" font="Arial" fontsize="20"/>
+		<widget type="ConfigurableTextBox" x="1152" y="16" title="Powe3rasdff Stats" hidden="False" draggable="False" font="Arial" fontsize="20"/>
+		<widget type="ConfigurableTextBox" x="822" y="810" title="Power4asdff Stats" hidden="False" draggable="True" font="Arial" fontsize="22"/>
+		<widget type="ConfigurableTextBox" x="112" y="813" title="Powera5sdff Stats" hidden="False" draggable="False" font="Arial" fontsize="20"/>
+		<widget type="ConfigurableTextBox" x="863" y="912" title="Poweras6dff Stats" hidden="False" draggable="False" font="Arial" fontsize="20"/>
+		<widget type="ConfigurableTextBox" x="1195" y="306" title="Poweras6dff Stats" hidden="False" draggable="False" font="Arial" fontsize="20"/>
+		<widget type="ConfigurableTextBox" x="111" y="52" title="Powerasd7ff Stats" hidden="False" draggable="False" font="Arial" fontsize="20"/>
+		<widget type="ConfigurableTextBox" x="1216" y="41" title="Powerasdff Stats" hidden="False" draggable="False" font="Arial" fontsize="20"/>
+		<widget type="ConfigurableTextBox" x="205" y="483" title="Po1werasdff Stats" hidden="False" draggable="False" font="Arial" fontsize="20"/>
+		<widget type="ConfigurableTextBox" x="666" y="94" title="Powe3rasdff Stats" hidden="False" draggable="False" font="Arial" fontsize="20"/>
+		<widget type="ConfigurableTextBox" x="646" y="397" title="Power4asdff Stats" hidden="False" draggable="True" font="Arial" fontsize="20"/>
+		<widget type="ConfigurableTextBox" x="180" y="657" title="Powera5sdff Stats" hidden="False" draggable="True" font="Arial" fontsize="20"/>
+		<widget type="ConfigurableTextBox" x="1055" y="580" title="Poweras6dff Stats" hidden="False" draggable="True" font="Arial" fontsize="20"/>
+		<widget type="SimpleConsole" x="1446" y="313" title="TEST CONSOLE" source="testarray" hidden="False" draggable="True" font="Arial" fontsize="14"/>
+		<widget type="CompleteConsole" x="1063" y="476" title="No Title" source="_" hidden="False" draggable="True" font="Arial" fontsize="12"/>
 	</tab>
 	<tab title="test"/>
 </window>
