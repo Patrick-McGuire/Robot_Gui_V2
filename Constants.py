@@ -14,6 +14,7 @@ class Constants:
     VIDEO_WINDOW_TYPE = "video"
     COMPASS_TYPE = "compass"
     ATTITUDE_TYPE = "AttitudeWidget"
+    FULL_FLIGHT_TYPE = "FullFlightDisplay"
     ANNUNCIATOR_TYPE = "AnnunciatorPanel"
     SIMPLE_CONSOLE_TYPE = "SimpleConsole"
     COMPLETE_CONSOLE_TYPE = "CompleteConsole"

@@ -26,7 +26,7 @@ class AttitudeDisplayWidget(QLabel):
         self.rollIndicator = cv2.imread("{}/Assets/roll_dial_1.png".format(dirName), cv2.IMREAD_UNCHANGED)
 
         # Cross hair
-        self.crossHairImage = BasicImageDisplay.BasicImageDisplay(self, self.crossHair, self.size * 0.5)
+        self.crossHairImage = BasicImageDisplay.BasicImageDisplay(self, self.crossHair, self.size * 0.7)
         self.rollPointerImage = BasicImageDisplay.BasicImageDisplay(self, self.rollPointer, self.size * 0.05, y=10)
         self.rollIndicatorImage = BasicImageDisplay.BasicImageDisplay(self, self.rollIndicator, self.size * 0.9)
 
@@ -41,7 +41,7 @@ class AttitudeDisplayWidget(QLabel):
         self.setMinimumHeight(size)
         self.refreshMask()
 
-        self.crossHairImage.setGeometry(size * 0.5)
+        self.crossHairImage.setGeometry(size * 0.7)
         self.rollPointerImage.setGeometry(size * 0.05, y=10)
         self.rollIndicatorImage.setGeometry(size * 0.9)
 
@@ -96,7 +96,7 @@ class AttitudeDisplayWidget(QLabel):
         spacing = 5  # Draw lines every 5 degrees
         nearestPitch = spacing * round(self.pitch / spacing)
         maxToDrawLine = int(abs((self.width() * 0.5) / (2 * pitchScaleFactor)))  # Figure out the biggest pitch to get a line drawn
-        maxPitch = min(nearestPitch + maxToDrawLine, 180)
+        maxPitch = min(nearestPitch + maxToDrawLine + spacing, 180)
         minPitch = max(nearestPitch - maxToDrawLine, -180)
 
         for i in range(minPitch, maxPitch, spacing):
