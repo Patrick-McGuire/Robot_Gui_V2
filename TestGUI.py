@@ -33,7 +33,7 @@ while not GUI.isDone():
     dataPassDict["webcam"] = frame
 
     dataPassDict["roll"] = i
-    dataPassDict["pitch"] = 45
+    dataPassDict["pitch"] = 10
 
     testDict = {"aaa": [["hi", "aaa"], ["bbb", random.random()]], "bbb": [["aa", "  {}".format(random.random())], ["bbb", random.random()], ["c", random.random()], ["ddddddddd", random.random()]]}
     dataPassDict["diagnostics_agg"] = testDict

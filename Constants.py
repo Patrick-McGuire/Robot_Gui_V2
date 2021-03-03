@@ -13,7 +13,7 @@ class Constants:
     SIMPLE_BUTTON_TYPE = "SimpleButton"
     VIDEO_WINDOW_TYPE = "video"
     COMPASS_TYPE = "compass"
-    ATTITUDE_TYPE = "navball1"
+    ATTITUDE_TYPE = "AttitudeWidget"
     ANNUNCIATOR_TYPE = "AnnunciatorPanel"
     SIMPLE_CONSOLE_TYPE = "SimpleConsole"
     COMPLETE_CONSOLE_TYPE = "CompleteConsole"
@@ -46,6 +46,7 @@ class Constants:
     URL_ATTRIBUTE = "url"
     ROW_NUMBER_ATTRIBUTE = "row_number"
     COLUMN_NUMBER_ATTRIBUTE = "column_number"
+    TRANSPARENT_ATTRIBUTE = "transparent"
 
     # ATTRIBUTE
     BATTERY_VOLTAGE_VALUE = "batteryVoltage"

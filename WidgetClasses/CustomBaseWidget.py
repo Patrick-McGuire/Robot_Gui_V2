@@ -63,10 +63,14 @@ class CustomBaseWidget(object):
         self.headerTextColor = "white"
         self.textColor = "white"
         self.borderColor = "black"
+        self.red = 0
+        self.green = 0
+        self.blue = 0
 
         # More specific ones
         self.size = None  # For square widgets
         self.source = None
+        self.transparent = None
 
         if configInfo is not None:
             if Constants.BORDER_WIDTH_ATTRIBUTE in configInfo:
@@ -85,6 +89,8 @@ class CustomBaseWidget(object):
                 self.size = int(configInfo[Constants.SIZE_ATTRIBUTE])
             if Constants.SOURCE_ATTRIBUTE in configInfo:
                 self.source = configInfo[Constants.SOURCE_ATTRIBUTE]
+            if Constants.TRANSPARENT_ATTRIBUTE in configInfo:
+                self.transparent = configInfo[Constants.TRANSPARENT_ATTRIBUTE]
 
         self.defaultFontSize = self.fontSize
         self.setFontInfo()
@@ -112,6 +118,9 @@ class CustomBaseWidget(object):
         decreaseFontSizeAction = menu.addAction("Decrease Font Size")
         defaultFontSizeAction = menu.addAction("Default Font Size")
         menu.addSeparator()
+        if self.transparent is not None:
+            menu.addAction("Toggle Transparency", self.toggleTransparency)
+            menu.addSeparator()
         menu.addAction("Enable dragging", lambda draggable=True: self.setDraggable(draggable))
         menu.addAction("Disable dragging", lambda draggable=False: self.setDraggable(draggable))
         menu.addSeparator()
@@ -153,15 +162,21 @@ class CustomBaseWidget(object):
             self.testTextColor(red, green, blue, textColor)
             self.testHeaderTextColor(headerTextColor)
             self.testBorderColor(borderColor)
-            self.setColorRGB(red, green, blue)
+            self.saveAndSetBackgroundColor(red, green, blue)
         elif convertNameToRGB(color):
             rgb = convertNameToRGB(color)
             self.testTextColor(rgb[0], rgb[1], rgb[2], textColor)
             self.testHeaderTextColor(headerTextColor)
             self.testBorderColor(borderColor)
-            self.setColorRGB(rgb[0], rgb[1], rgb[2])
+            self.saveAndSetBackgroundColor(rgb[0], rgb[1], rgb[2])
         else:
             self.setDefaultAppearance()
+
+    def saveAndSetBackgroundColor(self, red: int, green: int, blue: int):
+        self.red = red
+        self.green = green
+        self.blue = blue
+        self.setColorRGB(red, green, blue)
 
     def setColorRGB(self, red: int, green: int, blue: int):
         self.QTWidget.setStyleSheet("border: {3}px solid {5}; background: rgb({0}, {1}, {2}); color: {4}".format(red, green, blue, self.borderWidth, self.textColor, self.borderColor))
@@ -295,6 +310,10 @@ class CustomBaseWidget(object):
     def setDeleted(self, isDeleted):
         self.isDeleted = isDeleted
 
+    def toggleTransparency(self):
+        self.transparent = not self.transparent
+        self.setColorRGB(self.red, self.green, self.blue)
+
     def getXMLStuff(self, item):
         """Default function to fill out the XML tag for an item.  DO NOT OVERWRITE UNLESS YOU KNOW WHAT YOU ARE DOING.  Calls customXMLStuff().  PUT YOUR CODE THERE INSTEAD"""
 
@@ -308,7 +327,7 @@ class CustomBaseWidget(object):
         tag.set(Constants.Y_POS_ATTRIBUTE, str(self.y))
         tag.set(Constants.FONT_ATTRIBUTE, str(self.font))
         tag.set(Constants.FONT_SIZE_ATTRIBUTE, str(self.fontSize))
-        tag.set(Constants.BORDER_WIDTH_ATTRIBUTE, str(self.borderWidth))
+        # tag.set(Constants.BORDER_WIDTH_ATTRIBUTE, str(self.borderWidth))
         tag.set(Constants.HIDDEN_ATTRIBUTE, str(self.hidden))
         tag.set(Constants.DRAGGABLE_ATTRIBUTE, str(self.draggable))
 
@@ -316,6 +335,8 @@ class CustomBaseWidget(object):
             tag.set(Constants.SOURCE_ATTRIBUTE, self.source)
         if self.size is not None:
             tag.set(Constants.SIZE_ATTRIBUTE, str(self.size))
+        if self.transparent is not None:
+            tag.set(Constants.TRANSPARENT_ATTRIBUTE, str(self.transparent))
 
         self.customXMLStuff(tag)
 

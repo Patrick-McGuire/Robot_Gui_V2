@@ -20,6 +20,8 @@ class CompassWidget(CustomBaseWidget):
 
         if self.size is None:  # Set a default size
             self.size = 200
+        if self.transparent is None:
+            self.transparent = True
 
         self.setSize(self.size, self.size)
         self.arrow.setGeometry(0, 0, self.size, self.size)
@@ -65,10 +67,12 @@ class CompassWidget(CustomBaseWidget):
         self.QTWidget.setPixmap(pixmap)
 
     def setColorRGB(self, red, green, blue):
-        # colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
-        # self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {" + colorString + " color: " + self.textColor + "}")
+        if self.transparent:
+            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {" + " color: " + self.textColor + "}")
+        else:
+            colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
+            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {" + colorString + " color: " + self.textColor + "}")
 
-        self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {" + " color: " + self.textColor + "}")
         self.arrow.setStyleSheet("color: " + self.textColor)
 
         if max(red, green, blue) > 127:
