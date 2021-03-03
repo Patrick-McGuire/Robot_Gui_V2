@@ -34,7 +34,6 @@ class AttitudeDisplayWidget(QLabel):
 
     def setSize(self, size):
         # TODO: Use the QWidget size functions instead of this sketchy one
-
         self.size = size
 
         self.setGeometry(0, 0, size, size)
@@ -66,19 +65,19 @@ class AttitudeDisplayWidget(QLabel):
         r = self.size * 2  # Rectangle width
         r2 = self.size * 2  # Rectangle height
 
-        painter = QPainter(self)
+        painter = QPainter(self)  # Blue background
         painter.setPen(QPen(QColor(30, 144, 255), 0, Qt.SolidLine))
         painter.setBrush(QBrush(QColor(30, 144, 255), Qt.SolidPattern))
         painter.drawRect(0, 0, self.width(), self.height())
 
-        painter.setPen(QPen(QColor(0, 100, 0), 0, Qt.SolidLine))
-        painter.setBrush(QBrush(QColor(0, 100, 0), Qt.SolidPattern))
+        painter.setPen(QPen(QColor(166, 99, 0), 0, Qt.SolidLine))  # Brown horizon
+        painter.setBrush(QBrush(QColor(166, 99, 0), Qt.SolidPattern))
 
         centerX = int(self.width() / 2)
         centerY = int(self.height() / 2)
         pitchScaleFactor = (-1 / 50) * (self.height() / 2)
 
-        painter.translate(centerX, centerY)
+        painter.translate(centerX, centerY)  # Set our coordinate system to be centered on the widget
         painter.rotate(-self.roll)
 
         painter.drawRect(-r, pitchScaleFactor * self.pitch, 2 * r, r2)
@@ -92,7 +91,7 @@ class AttitudeDisplayWidget(QLabel):
         painter.setPen(QPen(Qt.white, lineWidth, Qt.SolidLine))
         painter.setBrush(QBrush(Qt.white, Qt.SolidPattern))
 
-        spacing = 5
+        spacing = 5  # Draw lines every 5 degrees
         nearestPitch = spacing * round(self.pitch / spacing)
         maxToDrawLine = int(abs((self.width() * 0.5) / (2 * pitchScaleFactor)))  # Figure out the biggest pitch to get a line drawn
         maxPitch = min(nearestPitch + maxToDrawLine, 180)
@@ -108,7 +107,7 @@ class AttitudeDisplayWidget(QLabel):
                 painter.drawLine(-longLength / 2, nearestPitchDelta, longLength / 2, nearestPitchDelta)
                 textDistance = longLength / 2
 
-            painter.setFont(QFont("Arial", fontSize))
+            painter.setFont(QFont("Helvetica", fontSize))
             painter.drawText(textDistance * 1.1, nearestPitchDelta + int(fontSize / 2), "{}".format(abs(i)))
             painter.drawText(-(textDistance * 1.1 + (fontSize - 2) * 2), nearestPitchDelta + int(fontSize / 2), "{:2}".format(abs(i)))
 
