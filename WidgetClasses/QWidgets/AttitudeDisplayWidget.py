@@ -96,8 +96,8 @@ class AttitudeDisplayWidget(QLabel):
         spacing = 5  # Draw lines every 5 degrees
         nearestPitch = spacing * round(self.pitch / spacing)
         maxToDrawLine = int(abs((self.width() * 0.5) / (2 * pitchScaleFactor)))  # Figure out the biggest pitch to get a line drawn
-        maxPitch = min(nearestPitch + maxToDrawLine + spacing, 180)
-        minPitch = max(nearestPitch - maxToDrawLine, -180)
+        maxPitch = min(nearestPitch + maxToDrawLine + spacing, 91)
+        minPitch = max(nearestPitch - maxToDrawLine, -90)
 
         for i in range(minPitch, maxPitch, spacing):
             nearestPitchDelta = (self.pitch - i) * pitchScaleFactor
