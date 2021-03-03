@@ -49,8 +49,8 @@ class AttitudeWidget(CustomBaseWidget):
         self.rollIndicator = cv2.imread("{}/Assets/roll_dial_1.png".format(dirName), cv2.IMREAD_UNCHANGED)
 
         # Images
-        self.crossHairImage = BasicImageDisplay.BasicImageDisplay(self.QTWidget, self.crossHair, self.size * 0.5)
-        self.rollPointerImage = BasicImageDisplay.BasicImageDisplay(self.QTWidget, self.rollPointer, self.size * 0.05, y=self.height / 40)
+        self.crossHairImage = BasicImageDisplay.BasicImageDisplay(self.QTWidget, self.crossHair, self.size * 0.7)
+        self.rollPointerImage = BasicImageDisplay.BasicImageDisplay(self.QTWidget, self.rollPointer, self.size * 0.07, y=self.height / 100)
         self.rollIndicatorImage = BasicImageDisplay.BasicImageDisplay(self.QTWidget, self.rollIndicator, self.size * 0.95)
 
         # Set up painter
