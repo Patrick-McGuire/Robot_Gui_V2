@@ -1,15 +1,8 @@
-import os
-import math
-import cv2
-
-from PyQt5.QtWidgets import QLabel, QGridLayout
-from PyQt5.QtGui import QPainter, QPen, QBrush, QPolygon, QColor, QFont, QRegion
-from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtWidgets import QLabel
 
 from .CustomBaseWidget import CustomBaseWidget
 from Constants import Constants
 
-from WidgetClasses.WidgetHelpers import BasicImageDisplay
 from WidgetClasses.QWidgets import AttitudeDisplayWidget
 
 
@@ -19,7 +12,6 @@ class AttitudeWidget(CustomBaseWidget):
         QTWidget.setObjectName(name)
 
         self.HUDWidget = AttitudeDisplayWidget.AttitudeDisplayWidget(QTWidget)
-        # self.HUDWidget.setGeometry(0, 0, 200, 200)
 
         super().__init__(QTWidget, x, y, configInfo=widgetInfo, widgetType=Constants.ATTITUDE_TYPE)
 
@@ -63,9 +55,6 @@ class AttitudeWidget(CustomBaseWidget):
         else:
             colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
             self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {" + colorString + " color: " + self.textColor + "}")
-
-        skyColorString = "background: rgb({0}, {1}, {2});".format(30, 144, 255)
-        # self.PainterWidget.setStyleSheet("QWidget#" + self.PainterWidget.objectName() + " {" + skyColorString + " color: " + self.textColor + "}")
 
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")

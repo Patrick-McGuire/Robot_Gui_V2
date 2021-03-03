@@ -34,12 +34,12 @@ class AttitudeDisplayWidget(QLabel):
         self.refreshMask()
 
     def setSize(self, size):
+        # TODO: Use the QWidget size functions instead of this sketchy one
+
         self.size = size
 
         self.setGeometry(0, 0, size, size)
         self.refreshMask()
-
-        print(size)
 
         self.crossHairImage.setGeometry(size * 0.5)
         self.rollPointerImage.setGeometry(size * 0.05, y=10)

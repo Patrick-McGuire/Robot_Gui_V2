@@ -6,12 +6,13 @@ from PyQt5 import QtGui
 
 class BasicImageDisplay(object):
     def __init__(self, rootWidget: QLabel, image, targetWidth, x=None, y=None):
-        self.theta = 0
-
+        """Makes a widget and puts an image in it.  Used to eliminate boilerplate code"""
         self.rootWidget = rootWidget
         self.imageWidget = QLabel(rootWidget)
         self.rawImage = image
         self.image = None
+
+        self.theta = 0
 
         self.setGeometry(targetWidth, x, y)
 
@@ -31,8 +32,6 @@ class BasicImageDisplay(object):
             yOffset = (windowHeight - height) / 2
         else:
             yOffset = y
-
-        print(targetWidth)
 
         self.imageWidget.setGeometry(xOffset, yOffset, width, height)
 
