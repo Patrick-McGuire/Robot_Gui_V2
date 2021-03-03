@@ -32,7 +32,7 @@ class CompassWidget(CustomBaseWidget):
         if self.source not in dataPassDict:
             rotation = 0
         else:
-            rotation = -(float(dataPassDict[self.source]) + 90)  # Convert to actual compass heading
+            rotation = float(dataPassDict[self.source])  # Convert to actual compass heading
 
         self.compassWidget.setYaw(rotation)
 

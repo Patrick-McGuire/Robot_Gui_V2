@@ -7,7 +7,7 @@ from WidgetClasses.WidgetHelpers import BasicImageDisplay
 
 
 class CompassDisplayWidget(QLabel):
-    def __init__(self, parentWidget: QWidget):
+    def __init__(self, parentWidget: QWidget = None):
         self.imageLoaded = False
 
         super().__init__(parentWidget)
@@ -25,6 +25,8 @@ class CompassDisplayWidget(QLabel):
         self.imageLoaded = True
 
     def setYaw(self, yaw):
+        yaw = -(yaw + 90)
+
         self.arrowImage.setRotation(yaw)
 
     def setSize(self, size):
@@ -32,5 +34,8 @@ class CompassDisplayWidget(QLabel):
         self.size = size
 
         self.setGeometry(0, 0, size, size)
+        self.setMinimumWidth(size)
+        self.setMinimumHeight(size)
+
         self.compassImage.setGeometry(size * 1)
         self.arrowImage.setGeometry(size * 1)

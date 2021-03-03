@@ -9,7 +9,7 @@ from WidgetClasses.WidgetHelpers import BasicImageDisplay
 
 
 class AttitudeDisplayWidget(QLabel):
-    def __init__(self, parentWidget: QWidget):
+    def __init__(self, parentWidget: QWidget = None):
         super().__init__(parentWidget)
 
         self.size = 200
@@ -37,6 +37,8 @@ class AttitudeDisplayWidget(QLabel):
         self.size = size
 
         self.setGeometry(0, 0, size, size)
+        self.setMinimumWidth(size)
+        self.setMinimumHeight(size)
         self.refreshMask()
 
         self.crossHairImage.setGeometry(size * 0.5)
@@ -114,5 +116,8 @@ class AttitudeDisplayWidget(QLabel):
         self.rollIndicatorImage.setRotation(self.roll)  # Set roll image
 
     def setRollPitch(self, roll, pitch):
+        if pitch > 180:
+            pitch -= 360
+
         self.roll = roll
         self.pitch = pitch

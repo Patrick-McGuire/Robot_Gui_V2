@@ -19,6 +19,7 @@ from WidgetClasses import AnnunciatorPanel
 from WidgetClasses import SimpleConsoleWidget
 from WidgetClasses import CompleteConsoleWidget
 from WidgetClasses import AttitudeWidget
+from WidgetClasses import FullFlightDisplay
 
 
 # from WidgetClasses import Browse

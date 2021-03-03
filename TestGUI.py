@@ -32,8 +32,11 @@ while not GUI.isDone():
     ret, frame = cap.read()
     dataPassDict["webcam"] = frame
 
-    dataPassDict["roll"] = 45
+    dataPassDict["roll"] = i
     dataPassDict["pitch"] = 10
+    dataPassDict["yaw"] = i
+    dataPassDict["altitude"] = i
+    dataPassDict["groundSpeed"] = 20
 
     testDict = {"aaa": [["hi", "aaa"], ["bbb", random.random()]], "bbb": [["aa", "  {}".format(random.random())], ["bbb", random.random()], ["c", random.random()], ["ddddddddd", random.random()]]}
     dataPassDict["diagnostics_agg"] = testDict
