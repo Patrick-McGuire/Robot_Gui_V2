@@ -84,7 +84,7 @@ class VSpeedIndicatorWidget(QLabel):
 
         painter.translate(0, self.height() / 2 - cornerY)
 
-        currentSpeedY = int(interpolate(clamp(self.value, -maxSpeed, maxSpeed), 0, 2 * maxSpeed / speedIncrement, 0, gaugeHeight - padding))
+        currentSpeedY = -int(interpolate(clamp(self.value, -maxSpeed, maxSpeed), 0, 2 * maxSpeed / speedIncrement, 0, gaugeHeight - padding))
 
         if abs(self.value) > maxSpeed:
             painter.setPen(QPen(Qt.red, 1, Qt.SolidLine))

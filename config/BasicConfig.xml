@@ -18,7 +18,7 @@
 			<line label="Frame Rate" value="frameRate"/>
 		</widget>
 		<widget type="AttitudeWidget" x="1275" y="53" size="300" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll"/>
-		<widget type="FullFlightDisplay" x="554" y="17" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll" yawSource="yaw" altSource="altitude" speedSource="groundSpeed" vSpeedSource="verticalSpeed" compassBelow="False" useAltVSpeedWidget="False"/>
+		<widget type="FullFlightDisplay" x="554" y="17" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll" yawSource="yaw" altSource="altitude" speedSource="groundSpeed" vSpeedSource="verticalSpeed" compassBelow="False" useAltVSpeedWidget="False" terrainAltWidget="False"/>
 	</tab>
 	<tab title="Config">
 		<widget type="ConfigurableTextBox" x="300" y="800" title="Po1werasdff Stats" hidden="False" draggable="True" font="Arial" fontsize="20"/>
@@ -38,5 +38,7 @@
 		<widget type="SimpleConsole" x="1446" y="313" title="TEST CONSOLE" source="testarray" hidden="False" draggable="True" font="Arial" fontsize="14"/>
 		<widget type="CompleteConsole" x="1063" y="476" title="No Title" source="_" hidden="False" draggable="True" font="Arial" fontsize="12"/>
 	</tab>
-	<tab title="test"/>
+	<tab title="test">
+		<widget type="FullFlightDisplay" x="554" y="17" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll" yawSource="yaw" altSource="altitude" speedSource="groundSpeed" vSpeedSource="verticalSpeed" compassBelow="True" useAltVSpeedWidget="True" terrainAltWidget="True"/>
+	</tab>
 </window>
