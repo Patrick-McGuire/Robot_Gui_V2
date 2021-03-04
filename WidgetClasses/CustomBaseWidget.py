@@ -90,7 +90,7 @@ class CustomBaseWidget(object):
             if Constants.SOURCE_ATTRIBUTE in configInfo:
                 self.source = configInfo[Constants.SOURCE_ATTRIBUTE]
             if Constants.TRANSPARENT_ATTRIBUTE in configInfo:
-                self.transparent = configInfo[Constants.TRANSPARENT_ATTRIBUTE]
+                self.transparent = configInfo[Constants.TRANSPARENT_ATTRIBUTE].lower() == "true"
 
         self.defaultFontSize = self.fontSize
         self.setFontInfo()

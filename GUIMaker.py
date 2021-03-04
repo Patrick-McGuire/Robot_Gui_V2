@@ -6,6 +6,7 @@ import types
 import inspect
 import sys
 
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QTabWidget
 
 from WidgetClasses import SimpleButton
@@ -32,7 +33,7 @@ class GUIMaker(object):
 
     widgetClasses = {}  # Dictionary of widgetName: class
 
-    def __init__(self):
+    def __init__(self, fullScreen=False):
         self.application = QApplication([])
         self.mainWindow = QMainWindow()
         self.mainWindow.setObjectName("Main_Window")
@@ -51,6 +52,11 @@ class GUIMaker(object):
                 for item in inspect.getmembers(val):
                     if name in str(item) and "__" not in str(item) and "FrameRateCounter" not in name:
                         self.widgetClasses[name] = item[1]
+
+        if fullScreen:  # Hides everything except the active tab
+            self.mainWindow.setWindowFlag(Qt.FramelessWindowHint)  # Do this to hide window frame
+            self.mainWindow.menuBar().hide()
+            self.tabHolderWidget.tabBar().hide()
 
     def start(self):
         self.mainWindow.setCentralWidget(self.tabHolderWidget)
@@ -155,6 +161,10 @@ class GUIMaker(object):
 
     def getMainWindow(self):
         return self.mainWindow
+
+    def changeTab(self, tabNumber):
+        """Changes the view to the selected tab"""
+        self.tabHolderWidget.setCurrentIndex(tabNumber)
 
     def getTabNames(self):
         """Returns a list of tab names IN ORDER!!!"""

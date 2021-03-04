@@ -17,8 +17,8 @@
 			<line label="Loop Time" value="fullLoopTime"/>
 			<line label="Frame Rate" value="frameRate"/>
 		</widget>
-		<widget type="AttitudeWidget" x="1299" y="39" size="300" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll"/>
-		<widget type="FullFlightDisplay" x="643" y="54" size="200" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll" yawSource="yaw" altSource="altitude" speedSource="groundSpeed" vSpeedSource="verticalSpeed"/>
+		<widget type="AttitudeWidget" x="1275" y="53" size="300" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll"/>
+		<widget type="FullFlightDisplay" x="554" y="17" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll" yawSource="yaw" altSource="altitude" speedSource="groundSpeed" vSpeedSource="verticalSpeed" compassBelow="False" useAltVSpeedWidget="False"/>
 	</tab>
 	<tab title="Config">
 		<widget type="ConfigurableTextBox" x="300" y="800" title="Po1werasdff Stats" hidden="False" draggable="True" font="Arial" fontsize="20"/>
