@@ -96,6 +96,18 @@ class XmlParser:
                 widgetClassName = "SimpleConsoleWidget"
             elif widgetType == Constants.COMPLETE_CONSOLE_TYPE:
                 widgetClassName = "CompleteConsoleWidget"
+            elif widgetType == Constants.MULTI_GRAPH_TYPE:  # Multi-graphs have more configuration
+                lines = widget.getElementsByTagName(Constants.LINE_NAME)
+                for line in lines:
+                    graphType = line.getAttribute(Constants.TYPE_ATTRIBUTE)
+                    source = line.getAttribute(Constants.SOURCE_ATTRIBUTE)
+                    title = line.getAttribute(Constants.TITLE_ATTRIBUTE)
+                    minValue = line.getAttribute(Constants.MIN_ATTRIBUTE)
+                    maxValue = line.getAttribute(Constants.MAX_ATTRIBUTE)
+                    color = line.getAttribute(Constants.COLOR_ATTRIBUTE)
+                    configInfo.append([graphType, source, title, minValue, maxValue, color])
+
+                widgetInfo[Constants.CONFIG_ATTRIBUTE] = configInfo
 
             if not self.guiGenerator.createWidgetFromName(widgetClassName, tab, int(xPos), int(yPos), widgetInfo):
                 print("XML Parser could not create widget {0}: type {1} not supported".format(title, widgetType))

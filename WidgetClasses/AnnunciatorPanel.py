@@ -30,7 +30,7 @@ class AnnunciatorPanel(CustomBaseWidget):
         layout = QGridLayout()
         self.titleWidget.setText(self.title)
         self.titleWidget.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
-        layout.addWidget(self.titleWidget, 0, 0, 1, 3)
+        layout.addWidget(self.titleWidget, 0, 0, 1, self.columns)
 
         self.annunciatorWidgets = []
         for column in range(self.columns):

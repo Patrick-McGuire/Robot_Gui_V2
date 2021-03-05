@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <window title="Probot Control" width="1920" height="1043" theme="Better Dark">
 	<tab title="Dashboard">
-		<widget type="video" x="298" y="0" source="webcam" hidden="False" draggable="False" font="Arial" fontsize="12" fullscreen="true" lockAspectRatio="true" dimensions="1320x990"/>
+		<widget type="video" x="0" y="0" source="webcam" hidden="False" draggable="False" font="Arial" fontsize="12" fullscreen="true" lockAspectRatio="true" dimensions="640x480"/>
 		<widget type="compass" x="1634" y="253" source="spinny" size="200" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12"/>
 		<widget type="SimpleButton" x="500" y="253" title="Test Button" source="button1" hidden="False" draggable="True" font="Arial" fontsize="12"/>
 		<widget type="compass" x="1655" y="39" source="current" size="200" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12"/>
@@ -18,7 +18,7 @@
 			<line label="Frame Rate" value="frameRate"/>
 		</widget>
 		<widget type="AttitudeWidget" x="1275" y="53" size="300" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll"/>
-		<widget type="FullFlightDisplay" x="554" y="17" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll" yawSource="yaw" altSource="altitude" speedSource="groundSpeed" vSpeedSource="verticalSpeed" compassBelow="False" useAltVSpeedWidget="False" terrainAltWidget="False"/>
+		<widget type="FullFlightDisplay" x="554" y="17" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll" yawSource="yaw" altSource="altitude" speedSource="groundSpeed" vSpeedSource="verticalSpeed" terrainAltSource="terrainAlt" compassBelow="False" useAltVSpeedWidget="False" terrainAltWidget="False"/>
 	</tab>
 	<tab title="Config">
 		<widget type="ConfigurableTextBox" x="300" y="800" title="Po1werasdff Stats" hidden="False" draggable="True" font="Arial" fontsize="20"/>
@@ -39,6 +39,13 @@
 		<widget type="CompleteConsole" x="1063" y="476" title="No Title" source="_" hidden="False" draggable="True" font="Arial" fontsize="12"/>
 	</tab>
 	<tab title="test">
-		<widget type="FullFlightDisplay" x="554" y="17" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll" yawSource="yaw" altSource="altitude" speedSource="groundSpeed" vSpeedSource="verticalSpeed" compassBelow="True" useAltVSpeedWidget="True" terrainAltWidget="True"/>
+		<widget type="FullFlightDisplay" x="554" y="17" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll" yawSource="yaw" altSource="altitude" speedSource="groundSpeed" vSpeedSource="verticalSpeed" terrainAltSource="terrainAlt" compassBelow="True" useAltVSpeedWidget="True" terrainAltWidget="True"/>
+		<widget type="MultiBarGraph" x="99" y="329" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12">
+			<line type="SimpleBarGraph" source="roll" title="A" minimum="-20.0" maximum="20.0" color="rgb(0,0,255)"/>
+			<line type="SimpleBarGraph" source="groundSpeed" title="B" minimum="-20.0" maximum="100.0" color="rgb(139,255,158)"/>
+			<line type="SimpleBarGraph" source="verticalSpeed" title="Graph C" minimum="0.0" maximum="20.0" color="rgb(255,0,158)"/>
+			<line type="SimpleBarGraph" source="terrainAlt" title="D" minimum="0.0" maximum="100.0" color="rgb(60,255,40)"/>
+			<line type="SimpleBarGraph" source="" title="Title" minimum="0.0" maximum="100.0" color="rgb(255,255,255)"/>
+		</widget>
 	</tab>
 </window>

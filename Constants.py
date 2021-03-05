@@ -19,6 +19,7 @@ class Constants:
     SIMPLE_CONSOLE_TYPE = "SimpleConsole"
     COMPLETE_CONSOLE_TYPE = "CompleteConsole"
     BROWSE_TYPE = "Browse"
+    MULTI_GRAPH_TYPE = "MultiBarGraph"
 
     CONFIG_ATTRIBUTE = "config"
     TAB_ATTRIBUTE = "tab"
@@ -48,6 +49,9 @@ class Constants:
     ROW_NUMBER_ATTRIBUTE = "row_number"
     COLUMN_NUMBER_ATTRIBUTE = "column_number"
     TRANSPARENT_ATTRIBUTE = "transparent"
+    MIN_ATTRIBUTE = "minimum"
+    MAX_ATTRIBUTE = "maximum"
+    COLOR_ATTRIBUTE = "color"
 
     # ATTRIBUTE
     BATTERY_VOLTAGE_VALUE = "batteryVoltage"

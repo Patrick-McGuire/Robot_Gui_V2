@@ -70,6 +70,7 @@ class VSpeedIndicatorWidget(QLabel):
 
         fontSize = max(self.width() / 5, 10)
         padding = fontSize
+        painter.setFont(QFont("Monospace", fontSize))
 
         painter.setPen(QPen(Qt.white, 1, Qt.SolidLine))
         painter.setBrush(QBrush(Qt.black, Qt.SolidPattern))
