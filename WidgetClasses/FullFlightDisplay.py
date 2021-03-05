@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel
 from .CustomBaseWidget import CustomBaseWidget
 from Constants import Constants
 
-from WidgetClasses.QWidgets import AttitudeDisplayWidget, CompassDisplayWidget, AltitudeSpeedIndicatorWidget
+from WidgetClasses.QWidgets import AttitudeDisplayWidget, CompassDisplayWidget, AltitudeSpeedIndicatorWidget, VSpeedIndicatorWidget
 
 
 class FullFlightDisplay(CustomBaseWidget):
@@ -16,34 +16,15 @@ class FullFlightDisplay(CustomBaseWidget):
         self.SpeedTextBox = QLabel()
         self.VSpeedTextBox = QLabel()
         self.AltitudeTextBox = QLabel()
+        self.TerrainTextBox = QLabel()
 
         super().__init__(QTWidget, x, y, configInfo=widgetInfo, widgetType=Constants.FULL_FLIGHT_TYPE)
 
-        self.HUDWidget = AttitudeDisplayWidget.AttitudeDisplayWidget()
-        self.CompassWidget = CompassDisplayWidget.CompassDisplayWidget()
-        self.AltitudeWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget()
-        self.SpeedWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(leftOriented=False, onScreenSpacingScale=1.5)
-        self.VSpeedWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(onScreenSpacingScale=2)
-
-        layout = QGridLayout()
-        layout.addWidget(self.SpeedWidget, 2, 1)
-        layout.addWidget(self.HUDWidget, 2, 2)
-        layout.addWidget(self.AltitudeWidget, 2, 3)
-        layout.addWidget(self.VSpeedWidget, 2, 4)
-        layout.addWidget(self.CompassWidget, 2, 5)
-
-        layout.addWidget(self.SpeedTextBox, 1, 1)
-        layout.addWidget(self.VSpeedTextBox, 1, 4)
-        layout.addWidget(self.AltitudeTextBox, 1, 3)
-        self.QTWidget.setLayout(layout)
-
-        self.SpeedTextBox.setAlignment(QtCore.Qt.AlignCenter)
-        self.AltitudeTextBox.setAlignment(QtCore.Qt.AlignCenter)
-        self.VSpeedTextBox.setAlignment(QtCore.Qt.AlignCenter)
-
-        self.SpeedTextBox.setText("GS")
-        self.VSpeedTextBox.setText("VS")
-        self.AltitudeTextBox.setText("Alt")
+        if self.size is None:  # Set a default size
+            self.size = 200
+        if self.transparent is None:
+            self.transparent = False
+        self.title = None
 
         self.pitchSource = "pitch"
         self.rollSource = "roll"
@@ -51,12 +32,10 @@ class FullFlightDisplay(CustomBaseWidget):
         self.altSource = "altitude"
         self.speedSource = "groundSpeed"
         self.vSpeedSource = "verticalSpeed"
-
-        if self.size is None:  # Set a default size
-            self.size = 200
-        if self.transparent is None:
-            self.transparent = False
-        self.title = None
+        self.terrainAltSource = "terrainAlt"
+        self.useAltVSpeedWidget = False
+        self.compassBelow = False
+        self.terrainAltWidget = False
 
         if "rollSource" in widgetInfo:
             self.rollSource = widgetInfo["rollSource"]
@@ -70,12 +49,64 @@ class FullFlightDisplay(CustomBaseWidget):
             self.speedSource = widgetInfo["speedSource"]
         if "vSpeedSource" in widgetInfo:
             self.vSpeedSource = widgetInfo["vSpeedSource"]
+        if "terrainAltSource" in widgetInfo:
+            self.terrainAltSource = widgetInfo["terrainAltSource"]
+
+        if "useAltVSpeedWidget" in widgetInfo:
+            self.useAltVSpeedWidget = widgetInfo["useAltVSpeedWidget"].lower() == str("true")
+        if "compassBelow" in widgetInfo:
+            self.compassBelow = widgetInfo["compassBelow"].lower() == str("true")
+        if "terrainAltWidget" in widgetInfo:
+            self.terrainAltWidget = widgetInfo["terrainAltWidget"].lower() == "true"
+
+        self.HUDWidget = AttitudeDisplayWidget.AttitudeDisplayWidget()
+        self.CompassWidget = CompassDisplayWidget.CompassDisplayWidget()
+        self.AltitudeWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget()
+        self.SpeedWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(leftOriented=False, onScreenSpacingScale=1.5)
+        self.VSpeedWidget = VSpeedIndicatorWidget.VSpeedIndicatorWidget()
+        self.TerrainAltWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget()
+
+        if self.useAltVSpeedWidget:
+            self.VSpeedWidget = VSpeedIndicatorWidget.VSpeedIndicatorWidget()
+        else:
+            self.VSpeedWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(onScreenSpacingScale=2)
+
+        layout = QGridLayout()
+        layout.addWidget(self.SpeedWidget, 2, 1)
+        layout.addWidget(self.HUDWidget, 2, 2)
+        layout.addWidget(self.AltitudeWidget, 2, 3)
+        layout.addWidget(self.VSpeedWidget, 2, 4)
+
+        if self.compassBelow:
+            layout.addWidget(self.CompassWidget, 3, 2)
+        else:
+            layout.addWidget(self.CompassWidget, 2, 5)
+
+        if self.terrainAltWidget:
+            layout.addWidget(self.TerrainAltWidget, 2, 0)
+            layout.addWidget(self.TerrainTextBox, 1, 0)
+
+        layout.addWidget(self.SpeedTextBox, 1, 1)
+        layout.addWidget(self.VSpeedTextBox, 1, 4)
+        layout.addWidget(self.AltitudeTextBox, 1, 3)
+        self.QTWidget.setLayout(layout)
+
+        self.SpeedTextBox.setAlignment(QtCore.Qt.AlignCenter)
+        self.AltitudeTextBox.setAlignment(QtCore.Qt.AlignCenter)
+        self.VSpeedTextBox.setAlignment(QtCore.Qt.AlignCenter)
+        self.TerrainTextBox.setAlignment(QtCore.Qt.AlignCenter)
+
+        self.SpeedTextBox.setText("GS")
+        self.VSpeedTextBox.setText("VS")
+        self.AltitudeTextBox.setText("ALT")
+        self.TerrainTextBox.setText("TER")
 
         self.HUDWidget.setSize(self.size)
         self.CompassWidget.setSize(self.size)
         self.AltitudeWidget.setSize(self.size)
         self.SpeedWidget.setSize(self.size)
         self.VSpeedWidget.setSize(self.size)
+        self.TerrainAltWidget.setSize(self.size)
 
         self.QTWidget.adjustSize()
 
@@ -86,6 +117,7 @@ class FullFlightDisplay(CustomBaseWidget):
         altitude = 0
         groundSpeed = 0
         vSpeed = 0
+        terrainAlt = 0
 
         if self.rollSource in dataPassDict:
             roll = float(dataPassDict[self.rollSource])
@@ -105,11 +137,15 @@ class FullFlightDisplay(CustomBaseWidget):
         if self.vSpeedSource in dataPassDict:
             vSpeed = float(dataPassDict[self.vSpeedSource])
 
+        if self.terrainAltSource in dataPassDict:
+            terrainAlt = float(dataPassDict[self.terrainAltSource])
+
         self.HUDWidget.setRollPitch(roll, pitch)
         self.CompassWidget.setYaw(yaw)
         self.AltitudeWidget.setValue(altitude)
         self.SpeedWidget.setValue(groundSpeed)
         self.VSpeedWidget.setValue(vSpeed)
+        self.TerrainAltWidget.setValue(terrainAlt)
 
         self.QTWidget.adjustSize()
         self.QTWidget.update()
@@ -118,6 +154,7 @@ class FullFlightDisplay(CustomBaseWidget):
         self.SpeedTextBox.setStyleSheet("color: " + self.textColor)
         self.VSpeedTextBox.setStyleSheet("color: " + self.textColor)
         self.AltitudeTextBox.setStyleSheet("color: " + self.textColor)
+        self.TerrainTextBox.setStyleSheet("color:" + self.textColor)
 
         if self.transparent:
             self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {" + " color: " + self.textColor + "}")
@@ -135,3 +172,8 @@ class FullFlightDisplay(CustomBaseWidget):
         tag.set("altSource", self.altSource)
         tag.set("speedSource", self.speedSource)
         tag.set("vSpeedSource", self.vSpeedSource)
+        tag.set("terrainAltSource", self.terrainAltSource)
+
+        tag.set("compassBelow", str(self.compassBelow))
+        tag.set("useAltVSpeedWidget", str(self.useAltVSpeedWidget))
+        tag.set("terrainAltWidget", str(self.terrainAltWidget))

@@ -37,7 +37,8 @@ while not GUI.isDone():
     dataPassDict["yaw"] = i
     dataPassDict["altitude"] = i
     dataPassDict["groundSpeed"] = 19.5
-    dataPassDict["verticalSpeed"] = i/30
+    dataPassDict["verticalSpeed"] = (i / 15) - 10
+    dataPassDict["terrainAlt"] = (-i / 5) + 40
 
     testDict = {"aaa": [["hi", "aaa"], ["bbb", random.random()]], "bbb": [["aa", "  {}".format(random.random())], ["bbb", random.random()], ["c", random.random()], ["ddddddddd", random.random()]]}
     dataPassDict["diagnostics_agg"] = testDict
