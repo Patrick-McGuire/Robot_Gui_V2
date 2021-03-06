@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel
 from .CustomBaseWidget import CustomBaseWidget
 from Constants import Constants
 
-from WidgetClasses.QWidgets import SimpleBarGraphWidget
+from WidgetClasses.QWidgets import SimpleBarGraphWidget, CircleBarGraphWidget
 
 
 class MultiBarGraph(CustomBaseWidget):
@@ -17,7 +17,7 @@ class MultiBarGraph(CustomBaseWidget):
         super().__init__(QTWidget, x, y, configInfo=widgetInfo, widgetType=Constants.MULTI_GRAPH_TYPE)
 
         if self.size is None:  # Set a default size
-            self.size = 200
+            self.size = 400
         if self.transparent is None:
             self.transparent = False
         self.title = None
@@ -38,18 +38,26 @@ class MultiBarGraph(CustomBaseWidget):
                 maxValue = float(config[4])
                 color = config[5]
 
-                # if source == "":
-                #     source = "_"
+                if graphType == "SimpleBarGraph":
+                    self.BarGraphWidgets.append(SimpleBarGraphWidget.SimpleBarGraphWidget(title=title, minValue=minValue, maxValue=maxValue, barColor=color))
+                elif graphType == "CircleBarGraph":
+                    self.BarGraphWidgets.append(CircleBarGraphWidget.CircleBarGraphWidget(title=title, minValue=minValue, maxValue=maxValue, barColor=color))
+                else:  # Use simple bar graph as the default
+                    self.BarGraphWidgets.append(SimpleBarGraphWidget.SimpleBarGraphWidget(title=title, minValue=minValue, maxValue=maxValue, barColor=color))
 
-                self.BarGraphWidgets.append(SimpleBarGraphWidget.SimpleBarGraphWidget(title=title, minValue=minValue, maxValue=maxValue, barColor=color))
                 self.Sources.append(source)
                 self.BarGraphWidgets[-1].setSize(self.size)
                 layout.addWidget(self.BarGraphWidgets[-1], 1, i)
-        else:
+        else:  # Default case launches both types of widgets
             self.BarGraphWidgets.append(SimpleBarGraphWidget.SimpleBarGraphWidget())
             self.BarGraphWidgets[-1].setSize(self.size)
             layout.addWidget(self.BarGraphWidgets[-1], 1, 1)
             self.Sources.append("verticalSpeed")
+
+            self.BarGraphWidgets.append(CircleBarGraphWidget.CircleBarGraphWidget(minValue=0, maxValue=360))
+            self.BarGraphWidgets[-1].setSize(self.size)
+            layout.addWidget(self.BarGraphWidgets[-1], 1, 2)
+            self.Sources.append("roll")
 
         self.QTWidget.setLayout(layout)
         self.QTWidget.adjustSize()

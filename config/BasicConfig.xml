@@ -42,10 +42,10 @@
 		<widget type="FullFlightDisplay" x="554" y="17" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll" yawSource="yaw" altSource="altitude" speedSource="groundSpeed" vSpeedSource="verticalSpeed" terrainAltSource="terrainAlt" compassBelow="True" useAltVSpeedWidget="True" terrainAltWidget="True"/>
 		<widget type="MultiBarGraph" x="99" y="329" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12">
 			<line type="SimpleBarGraph" source="roll" title="A" minimum="-20.0" maximum="20.0" color="rgb(0,0,255)"/>
-			<line type="SimpleBarGraph" source="groundSpeed" title="B" minimum="-20.0" maximum="100.0" color="rgb(139,255,158)"/>
+			<line type="CircleBarGraph" source="j" title="B" minimum="0" maximum="360" color="rgb(255,0,0)"/>
 			<line type="SimpleBarGraph" source="verticalSpeed" title="Graph C" minimum="0.0" maximum="20.0" color="rgb(255,0,158)"/>
 			<line type="SimpleBarGraph" source="terrainAlt" title="D" minimum="0.0" maximum="100.0" color="rgb(60,255,40)"/>
-			<line type="SimpleBarGraph" source="" title="Title" minimum="0.0" maximum="100.0" color="rgb(255,255,255)"/>
+			<line type="SimpleBarGraph" source="j" title="Title" minimum="0.0" maximum="360.0" color="rgb(255,255,255)"/>
 		</widget>
 	</tab>
 </window>

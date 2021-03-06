@@ -16,9 +16,13 @@ GUI = RobotGUI2("config/BasicConfig.xml", testMode=True)
 GUI.addCallback(callback, "button1")
 GUI.addCallback(callback, "complete_console_test")
 
-cap = cv2.VideoCapture(0)
+video = False
+
+if video:
+    cap = cv2.VideoCapture(0)
 
 i = 0
+j = 0
 
 while not GUI.isDone():
     GUI.processCallbacks()
@@ -27,10 +31,15 @@ while not GUI.isDone():
     if i > 360:
         i = 0
 
+    j += 0.5
+    if j > 360:
+        j = 0
+
     dataPassDict = {"test": "{}".format(random.random()), "batteryVoltage": "{}".format(random.random()), "current": str(random.random() * 100), "spinny": i}
 
-    ret, frame = cap.read()
-    dataPassDict["webcam"] = frame
+    if video:
+        ret, frame = cap.read()
+        dataPassDict["webcam"] = frame
 
     dataPassDict["roll"] = i
     dataPassDict["pitch"] = 10
@@ -39,6 +48,7 @@ while not GUI.isDone():
     dataPassDict["groundSpeed"] = 19.5
     dataPassDict["verticalSpeed"] = (i / 15) - 10
     dataPassDict["terrainAlt"] = (-i / 5) + 40
+    dataPassDict["j"] = j
 
     testDict = {"aaa": [["hi", "aaa"], ["bbb", random.random()]], "bbb": [["aa", "  {}".format(random.random())], ["bbb", random.random()], ["c", random.random()], ["ddddddddd", random.random()]]}
     dataPassDict["diagnostics_agg"] = testDict
