@@ -9,7 +9,7 @@ class AltitudeSpeedIndicatorWidget(QLabel):
 
         self.size = 200
 
-        self.spacing = 1  # Delta Value between lines
+        self.textSpacing = 1  # Delta Value between lines with text
         self.onScreenSpacingScale = onScreenSpacingScale * 10  # Delta Pixels between lines
         self.value = 0
 
@@ -37,13 +37,13 @@ class AltitudeSpeedIndicatorWidget(QLabel):
         painter.setPen(QPen(Qt.white, lineWidth, Qt.SolidLine))
         painter.setBrush(QBrush(Qt.white, Qt.SolidPattern))
 
-        scaleFactor = float(onScreenSpacing) / float(self.spacing)
+        scaleFactor = float(onScreenSpacing) / float(self.textSpacing)  # Roughly correlated to pixels between lines
 
         maxValueToDraw = int(self.value + (self.height() / 2) / scaleFactor)
         minValueToDraw = int(self.value - (self.height() / 2) / scaleFactor)
 
-        maxValueToDraw = self.spacing * round((maxValueToDraw / self.spacing) + 1)
-        minValueToDraw = self.spacing * round(minValueToDraw / self.spacing)
+        maxValueToDraw = self.textSpacing * round((maxValueToDraw / self.textSpacing) + 1)
+        minValueToDraw = self.textSpacing * round((minValueToDraw / self.textSpacing) -1)
 
         shortLength = 10
         fontSize = max(self.width() / 5, 10)
@@ -55,17 +55,19 @@ class AltitudeSpeedIndicatorWidget(QLabel):
             startX = -startX
             endX = -endX
 
-        for i in range(minValueToDraw, maxValueToDraw, self.spacing):
-            lineYPosition = (self.value - i) * scaleFactor
+        linesBetweenText = int(scaleFactor/15)
+        for i in range(int(linesBetweenText * minValueToDraw), int(linesBetweenText * maxValueToDraw), self.textSpacing):
+            lineYPosition = (self.value - (i / linesBetweenText)) * scaleFactor
 
             painter.drawLine(startX, lineYPosition, endX, lineYPosition)
 
             painter.setFont(QFont("Monospace", fontSize))
 
-            if self.leftOriented:
-                painter.drawText(endX + 5, lineYPosition + int(fontSize / 2), "{}".format(i))
-            else:
-                painter.drawText(endX - 5 - (3 * (fontSize - 2)), lineYPosition + int(fontSize / 2), "{:>3}".format(i))
+            if i%2 == 0:
+                if self.leftOriented:
+                    painter.drawText(endX + 5, lineYPosition + int(fontSize / 2), "{}".format((i / linesBetweenText)))
+                else:
+                    painter.drawText(endX - 5 - (3 * (fontSize - 2)), lineYPosition + int(fontSize / 2), "{:>3}".format((i / linesBetweenText)))
 
         pointerCornerX = int(self.width() / 5)
         pointerHeight = int(self.height() / 20)

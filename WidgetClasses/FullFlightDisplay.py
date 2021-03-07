@@ -9,6 +9,13 @@ from Constants import Constants
 from WidgetClasses.QWidgets import AttitudeDisplayWidget, CompassDisplayWidget, AltitudeSpeedIndicatorWidget, VSpeedIndicatorWidget
 
 
+def getXMLAttribute(XLM, attribute: str, default: str):
+    if XLM.hasAttribute(attribute):
+        return XLM.getAttribute(attribute)
+    else:
+        return default
+
+
 class FullFlightDisplay(CustomBaseWidget):
     def __init__(self, tab, name, x, y, widgetInfo):
         QTWidget = QWidget(tab)
@@ -66,13 +73,14 @@ class FullFlightDisplay(CustomBaseWidget):
 
                 altitude = configInfo[4][0]
                 self.altSource = altitude.getAttribute(Constants.SOURCE_ATTRIBUTE)
+                self.altScale = float(getXMLAttribute(altitude, Constants.SCALE_ATTRIBUTE, "1"))
 
                 groundSpeed = configInfo[5][0]
                 self.speedSource = groundSpeed.getAttribute(Constants.SOURCE_ATTRIBUTE)
 
         self.HUDWidget = AttitudeDisplayWidget.AttitudeDisplayWidget()
         self.CompassWidget = CompassDisplayWidget.CompassDisplayWidget()
-        self.AltitudeWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(onScreenSpacingScale=self.altScale)
+        self.AltitudeWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(onScreenSpacingScale=5)
         self.SpeedWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(leftOriented=False, onScreenSpacingScale=1.5)
         self.TerrainAltWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(onScreenSpacingScale=self.terrainAltScale)
 
@@ -196,6 +204,7 @@ class FullFlightDisplay(CustomBaseWidget):
 
         items = [ElementTree.SubElement(tag, "altitude")]
         items[-1].set(Constants.SOURCE_ATTRIBUTE, self.altSource)
+        items[-1].set(Constants.SCALE_ATTRIBUTE, str(int(self.altScale)))
 
         items = [ElementTree.SubElement(tag, "groundSpeed")]
         items[-1].set(Constants.SOURCE_ATTRIBUTE, self.speedSource)

@@ -44,7 +44,7 @@ while not GUI.isDone():
     dataPassDict["roll"] = i
     dataPassDict["pitch"] = 10
     dataPassDict["yaw"] = i
-    dataPassDict["altitude"] = i
+    dataPassDict["altitude"] = float(i)/80.0 - 10
     dataPassDict["groundSpeed"] = 19.5
     dataPassDict["verticalSpeed"] = (i / 15) - 10
     dataPassDict["terrainAlt"] = (-i / 5) + 40
