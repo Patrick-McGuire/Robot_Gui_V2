@@ -44,21 +44,21 @@ while not GUI.isDone():
     dataPassDict["roll"] = i
     dataPassDict["pitch"] = 10
     dataPassDict["yaw"] = i
-    dataPassDict["altitude"] = float(i)/80.0 - 10
+    dataPassDict["altitude"] = float(i) / 80.0 - 10
     dataPassDict["groundSpeed"] = 19.5
     dataPassDict["verticalSpeed"] = (i / 15) - 10
     dataPassDict["terrainAlt"] = (-i / 5) + 40
     dataPassDict["j"] = j
     dataPassDict["slowSweep"] = 1 - float(j) / 180.0
 
-    dataPassDict["status"] = int((float(i)/360.0) * 3)
+    dataPassDict["status"] = int((float(i) / 360.0) * 3)
 
     if i < 100:
         dataPassDict["allowedToArm"] = False
     else:
         dataPassDict["allowedToArm"] = True
 
-    if i<200:
+    if i < 200:
         dataPassDict["armed"] = False
     else:
         dataPassDict["armed"] = True

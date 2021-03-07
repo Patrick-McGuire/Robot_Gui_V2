@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QGridLayout
 
 from .CustomBaseWidget import CustomBaseWidget
 from Constants import Constants
+from DataHelpers import getValueFromDictionary
 
 
 class ROVStatusWidget(CustomBaseWidget):
@@ -32,19 +33,10 @@ class ROVStatusWidget(CustomBaseWidget):
         self.font = None
         self.fontSize = None
 
-        self.statusSource = "status"
-        self.armedSource = "armed"
-        self.allowedToArmSource = "allowedToArm"
-        self.modeSource = "driveMode"
-
-        if "statusSource" in widgetInfo:
-            self.statusSource = widgetInfo["statusSource"]
-        if "armedSource" in widgetInfo:
-            self.armedSource = widgetInfo["armedSource"]
-        if "allowedToArmSource" in widgetInfo:
-            self.allowedToArmSource = widgetInfo["allowedToArmSource"]
-        if "modeSource" in widgetInfo:
-            self.modeSource = widgetInfo["modeSource"]
+        self.statusSource = getValueFromDictionary(widgetInfo, "statusSource", "status")
+        self.armedSource = getValueFromDictionary(widgetInfo, "armedSource", "armed")
+        self.allowedToArmSource = getValueFromDictionary(widgetInfo, "allowedToArmSource", "allowedToArm")
+        self.modeSource = getValueFromDictionary(widgetInfo, "modeSource", "driveMode")
 
         self.statusBox.setFont(QFont("Monospace", self.size))
         self.statusBox.setAlignment(QtCore.Qt.AlignCenter)

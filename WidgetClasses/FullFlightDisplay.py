@@ -7,13 +7,7 @@ from .CustomBaseWidget import CustomBaseWidget
 from Constants import Constants
 
 from WidgetClasses.QWidgets import AttitudeDisplayWidget, CompassDisplayWidget, AltitudeSpeedIndicatorWidget, VSpeedIndicatorWidget
-
-
-def getXMLAttribute(XLM, attribute: str, default: str):
-    if XLM.hasAttribute(attribute):
-        return XLM.getAttribute(attribute)
-    else:
-        return default
+from DataHelpers import getXMLAttribute
 
 
 class FullFlightDisplay(CustomBaseWidget):
