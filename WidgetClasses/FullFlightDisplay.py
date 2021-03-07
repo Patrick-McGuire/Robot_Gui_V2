@@ -1,3 +1,4 @@
+import xml.etree.ElementTree as ElementTree
 import PyQt5.QtCore as QtCore
 
 from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel
@@ -33,43 +34,52 @@ class FullFlightDisplay(CustomBaseWidget):
         self.speedSource = "groundSpeed"
         self.vSpeedSource = "verticalSpeed"
         self.terrainAltSource = "terrainAlt"
+
         self.useAltVSpeedWidget = False
         self.compassBelow = False
-        self.terrainAltWidget = False
+        self.useTerrainAltWidget = False
+        self.altScale = 1
+        self.vSpeedScale = 1
+        self.terrainAltScale = 1
 
-        if "rollSource" in widgetInfo:
-            self.rollSource = widgetInfo["rollSource"]
-        if "pitchSource" in widgetInfo:
-            self.pitchSource = widgetInfo["pitchSource"]
-        if "yawSource" in widgetInfo:
-            self.yawSource = widgetInfo["yawSource"]
-        if "altSource" in widgetInfo:
-            self.altSource = widgetInfo["altSource"]
-        if "speedSource" in widgetInfo:
-            self.speedSource = widgetInfo["speedSource"]
-        if "vSpeedSource" in widgetInfo:
-            self.vSpeedSource = widgetInfo["vSpeedSource"]
-        if "terrainAltSource" in widgetInfo:
-            self.terrainAltSource = widgetInfo["terrainAltSource"]
+        if Constants.CONFIG_ATTRIBUTE in widgetInfo:  # Better way to get data
+            configInfo = widgetInfo[Constants.CONFIG_ATTRIBUTE]
 
-        if "useAltVSpeedWidget" in widgetInfo:
-            self.useAltVSpeedWidget = widgetInfo["useAltVSpeedWidget"].lower() == str("true")
-        if "compassBelow" in widgetInfo:
-            self.compassBelow = widgetInfo["compassBelow"].lower() == str("true")
-        if "terrainAltWidget" in widgetInfo:
-            self.terrainAltWidget = widgetInfo["terrainAltWidget"].lower() == "true"
+            if len(configInfo[0]) > 0:
+                compass = configInfo[0][0]
+                self.compassBelow = compass.getAttribute("compassBelow").lower() == "true"
+                self.yawSource = compass.getAttribute("yawSource")
+
+                attitude = configInfo[1][0]
+                self.rollSource = attitude.getAttribute("rollSource")
+                self.pitchSource = attitude.getAttribute("pitchSource")
+
+                vSpeed = configInfo[2][0]
+                self.vSpeedSource = vSpeed.getAttribute(Constants.SOURCE_ATTRIBUTE)
+                self.useAltVSpeedWidget = vSpeed.getAttribute("useAltVSpeedWidget").lower() == "true"
+                self.vSpeedScale = float(vSpeed.getAttribute(Constants.SCALE_ATTRIBUTE))
+
+                terrainAlt = configInfo[3][0]
+                self.useTerrainAltWidget = terrainAlt.getAttribute(Constants.ENABLED_ATTRIBUTE).lower() == "true"
+                self.terrainAltSource = terrainAlt.getAttribute(Constants.SOURCE_ATTRIBUTE)
+                self.terrainAltScale = float(terrainAlt.getAttribute(Constants.SCALE_ATTRIBUTE))
+
+                altitude = configInfo[4][0]
+                self.altSource = altitude.getAttribute(Constants.SOURCE_ATTRIBUTE)
+
+                groundSpeed = configInfo[5][0]
+                self.speedSource = groundSpeed.getAttribute(Constants.SOURCE_ATTRIBUTE)
 
         self.HUDWidget = AttitudeDisplayWidget.AttitudeDisplayWidget()
         self.CompassWidget = CompassDisplayWidget.CompassDisplayWidget()
-        self.AltitudeWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget()
+        self.AltitudeWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(onScreenSpacingScale=self.altScale)
         self.SpeedWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(leftOriented=False, onScreenSpacingScale=1.5)
-        self.VSpeedWidget = VSpeedIndicatorWidget.VSpeedIndicatorWidget()
-        self.TerrainAltWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget()
+        self.TerrainAltWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(onScreenSpacingScale=self.terrainAltScale)
 
         if self.useAltVSpeedWidget:
-            self.VSpeedWidget = VSpeedIndicatorWidget.VSpeedIndicatorWidget()
+            self.VSpeedWidget = VSpeedIndicatorWidget.VSpeedIndicatorWidget(maxSpeed=self.vSpeedScale)
         else:
-            self.VSpeedWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(onScreenSpacingScale=2)
+            self.VSpeedWidget = AltitudeSpeedIndicatorWidget.AltitudeSpeedIndicatorWidget(onScreenSpacingScale=self.vSpeedScale)
 
         layout = QGridLayout()
         layout.addWidget(self.SpeedWidget, 2, 1)
@@ -82,7 +92,7 @@ class FullFlightDisplay(CustomBaseWidget):
         else:
             layout.addWidget(self.CompassWidget, 2, 5)
 
-        if self.terrainAltWidget:
+        if self.useTerrainAltWidget:
             layout.addWidget(self.TerrainAltWidget, 2, 0)
             layout.addWidget(self.TerrainTextBox, 1, 0)
 
@@ -160,20 +170,32 @@ class FullFlightDisplay(CustomBaseWidget):
             self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {" + " color: " + self.textColor + "}")
         else:
             colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
-            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {" + colorString + " color: " + self.textColor + "}")
+            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid " + self.borderColor + "; " + colorString + " color: " + self.textColor + "}")
 
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")
 
     def customXMLStuff(self, tag):
-        tag.set("pitchSource", self.pitchSource)
-        tag.set("rollSource", self.rollSource)
-        tag.set("yawSource", self.yawSource)
-        tag.set("altSource", self.altSource)
-        tag.set("speedSource", self.speedSource)
-        tag.set("vSpeedSource", self.vSpeedSource)
-        tag.set("terrainAltSource", self.terrainAltSource)
+        items = [ElementTree.SubElement(tag, "attitude")]
+        items[-1].set("rollSource", self.rollSource)
+        items[-1].set("pitchSource", self.pitchSource)
 
-        tag.set("compassBelow", str(self.compassBelow))
-        tag.set("useAltVSpeedWidget", str(self.useAltVSpeedWidget))
-        tag.set("terrainAltWidget", str(self.terrainAltWidget))
+        items = [ElementTree.SubElement(tag, "compass")]
+        items[-1].set("yawSource", self.yawSource)
+        items[-1].set("compassBelow", str(self.compassBelow))
+
+        items = [ElementTree.SubElement(tag, "vSpeed")]
+        items[-1].set(Constants.SOURCE_ATTRIBUTE, self.vSpeedSource)
+        items[-1].set("useAltVSpeedWidget", str(self.useAltVSpeedWidget))
+        items[-1].set(Constants.SCALE_ATTRIBUTE, str(self.vSpeedScale))
+
+        items = [ElementTree.SubElement(tag, "terrainAlt")]
+        items[-1].set(Constants.ENABLED_ATTRIBUTE, str(self.useTerrainAltWidget))
+        items[-1].set(Constants.SOURCE_ATTRIBUTE, self.terrainAltSource)
+        items[-1].set(Constants.SCALE_ATTRIBUTE, str(self.terrainAltScale))
+
+        items = [ElementTree.SubElement(tag, "altitude")]
+        items[-1].set(Constants.SOURCE_ATTRIBUTE, self.altSource)
+
+        items = [ElementTree.SubElement(tag, "groundSpeed")]
+        items[-1].set(Constants.SOURCE_ATTRIBUTE, self.speedSource)

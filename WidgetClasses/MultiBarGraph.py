@@ -17,7 +17,7 @@ class MultiBarGraph(CustomBaseWidget):
         super().__init__(QTWidget, x, y, configInfo=widgetInfo, widgetType=Constants.MULTI_GRAPH_TYPE)
 
         if self.size is None:  # Set a default size
-            self.size = 400
+            self.size = 200
         if self.transparent is None:
             self.transparent = False
         self.title = None
@@ -26,7 +26,7 @@ class MultiBarGraph(CustomBaseWidget):
         self.Sources = []
         layout = QGridLayout()
 
-        if Constants.CONFIG_ATTRIBUTE in widgetInfo:
+        if Constants.CONFIG_ATTRIBUTE in widgetInfo:  # widgetInfo["config"] is made in XmlParser.py, and is a list like this [[graphType, source, title, minValue, maxValue, color], [...], ...]
             configInfo = widgetInfo[Constants.CONFIG_ATTRIBUTE]
             graphNumber = len(configInfo)
             for i in range(graphNumber):
@@ -86,7 +86,7 @@ class MultiBarGraph(CustomBaseWidget):
             self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {" + " color: " + self.textColor + "}")
         else:
             colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
-            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {" + colorString + " color: " + self.textColor + "}")
+            self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid " + self.borderColor + "; " + colorString + " color: " + self.textColor + "}")
 
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")

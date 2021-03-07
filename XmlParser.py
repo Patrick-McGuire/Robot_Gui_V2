@@ -96,6 +96,14 @@ class XmlParser:
                 widgetClassName = "SimpleConsoleWidget"
             elif widgetType == Constants.COMPLETE_CONSOLE_TYPE:
                 widgetClassName = "CompleteConsoleWidget"
+            elif widgetType == Constants.FULL_FLIGHT_TYPE:
+                configInfo.append(widget.getElementsByTagName("compass"))
+                configInfo.append(widget.getElementsByTagName("attitude"))
+                configInfo.append(widget.getElementsByTagName("vSpeed"))
+                configInfo.append(widget.getElementsByTagName("terrainAlt"))
+                configInfo.append(widget.getElementsByTagName("altitude"))
+                configInfo.append(widget.getElementsByTagName("groundSpeed"))
+                widgetInfo[Constants.CONFIG_ATTRIBUTE] = configInfo
             elif widgetType == Constants.MULTI_GRAPH_TYPE:  # Multi-graphs have more configuration
                 lines = widget.getElementsByTagName(Constants.LINE_NAME)
                 for line in lines:

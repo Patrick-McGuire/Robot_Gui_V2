@@ -22,14 +22,14 @@ def interpolate(value, in_min, in_max, out_min, out_max):
 
 
 class VSpeedIndicatorWidget(QLabel):
-    def __init__(self, parentWidget: QWidget = None, leftOriented=True, onScreenSpacingScale=1):
+    def __init__(self, parentWidget: QWidget = None, leftOriented=True, maxSpeed=6):
         super().__init__(parentWidget)
 
         self.size = 200
 
         self.spacing = 1  # Delta Value between lines
-        self.onScreenSpacingScale = onScreenSpacingScale * 10  # Delta Pixels between lines
         self.value = 0
+        self.maxSpeed = maxSpeed
 
         self.leftOriented = leftOriented
 
@@ -63,9 +63,9 @@ class VSpeedIndicatorWidget(QLabel):
         poly = QPolygon(points)
         painter.drawPolygon(poly)
 
-        maxSpeed = 6
-        speedIncrement = 1
-        numberIncrement = 2
+        maxSpeed = self.maxSpeed
+        speedIncrement = self.maxSpeed / 4  # Spacing to draw lines
+        numberIncrement = max(self.maxSpeed / 2, 1)  # Spacing to draw numbers
         gaugeHeight = self.height() - 2 * cornerY
 
         fontSize = max(self.width() / 5, 10)
@@ -80,17 +80,17 @@ class VSpeedIndicatorWidget(QLabel):
             y = int(interpolate(i, 0, 2 * maxSpeed / speedIncrement, padding, gaugeHeight - padding))
             painter.drawLine(fontSize, y, fontSize + self.width() / 8, y)
 
-            if i % numberIncrement == 0:
-                painter.drawText(0, y + (fontSize / 2), "{}".format(abs(i - maxSpeed)))
+            if (i * speedIncrement) % numberIncrement == 0:
+                painter.drawText(0, y + (fontSize / 2), "{}".format(int(abs((i * speedIncrement) - maxSpeed))))
 
         painter.translate(0, self.height() / 2 - cornerY)
 
-        currentSpeedY = -int(interpolate(clamp(self.value, -maxSpeed, maxSpeed), 0, 2 * maxSpeed / speedIncrement, 0, gaugeHeight - padding))
+        currentSpeedY = -interpolate(clamp(self.value, -maxSpeed, maxSpeed), 0, 2 * maxSpeed / speedIncrement, 0, gaugeHeight - padding)
 
         if abs(self.value) > maxSpeed:
             painter.setPen(QPen(Qt.red, 1, Qt.SolidLine))
 
-        painter.drawLine(self.width() * 1.5, 0, self.width() / 3, currentSpeedY)
+        painter.drawLine(self.width() * 1.5, 0, self.width() / 3, int(currentSpeedY / float(speedIncrement)))
 
     def setValue(self, value):
         self.value = value

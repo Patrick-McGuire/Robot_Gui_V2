@@ -52,6 +52,8 @@ class Constants:
     MIN_ATTRIBUTE = "minimum"
     MAX_ATTRIBUTE = "maximum"
     COLOR_ATTRIBUTE = "color"
+    SCALE_ATTRIBUTE = "scale"
+    ENABLED_ATTRIBUTE = "enabled"
 
     # ATTRIBUTE
     BATTERY_VOLTAGE_VALUE = "batteryVoltage"

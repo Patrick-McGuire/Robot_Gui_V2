@@ -16,7 +16,7 @@ GUI = RobotGUI2("config/BasicConfig.xml", testMode=True)
 GUI.addCallback(callback, "button1")
 GUI.addCallback(callback, "complete_console_test")
 
-video = False
+video = True
 
 if video:
     cap = cv2.VideoCapture(0)
@@ -49,6 +49,7 @@ while not GUI.isDone():
     dataPassDict["verticalSpeed"] = (i / 15) - 10
     dataPassDict["terrainAlt"] = (-i / 5) + 40
     dataPassDict["j"] = j
+    dataPassDict["slowSweep"] = 1 - float(j) / 180.0
 
     testDict = {"aaa": [["hi", "aaa"], ["bbb", random.random()]], "bbb": [["aa", "  {}".format(random.random())], ["bbb", random.random()], ["c", random.random()], ["ddddddddd", random.random()]]}
     dataPassDict["diagnostics_agg"] = testDict
