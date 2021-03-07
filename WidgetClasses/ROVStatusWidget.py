@@ -16,20 +16,26 @@ class ROVStatusWidget(CustomBaseWidget):
     def __init__(self, tab, name, x, y, widgetInfo):
         self.statusBox = QLabel()
         self.armingBox = QLabel()
+        self.modeBox = QLabel()
 
         super().__init__(QWidget(tab, objectName=name), x, y, configInfo=widgetInfo, widgetType=Constants.ROV_STATUS_TYPE)
 
         layout = QGridLayout()
         layout.addWidget(self.statusBox, 1, 1)
-        layout.addWidget(self.armingBox, 1, 2)
+        layout.addWidget(self.armingBox, 2, 1)
+        layout.addWidget(self.modeBox, 3, 1)
         self.QTWidget.setLayout(layout)
 
         if self.size is None:  # Set a default size
             self.size = 30
+        self.title = None
+        self.font = None
+        self.fontSize = None
 
         self.statusSource = "status"
         self.armedSource = "armed"
         self.allowedToArmSource = "allowedToArm"
+        self.modeSource = "driveMode"
 
         if "statusSource" in widgetInfo:
             self.statusSource = widgetInfo["statusSource"]
@@ -37,6 +43,8 @@ class ROVStatusWidget(CustomBaseWidget):
             self.armedSource = widgetInfo["armedSource"]
         if "allowedToArmSource" in widgetInfo:
             self.allowedToArmSource = widgetInfo["allowedToArmSource"]
+        if "modeSource" in widgetInfo:
+            self.modeSource = widgetInfo["modeSource"]
 
         self.statusBox.setFont(QFont("Monospace", self.size))
         self.statusBox.setAlignment(QtCore.Qt.AlignCenter)
@@ -44,12 +52,16 @@ class ROVStatusWidget(CustomBaseWidget):
 
         self.armingBox.setFont(QFont("Monospace", self.size))
         self.armingBox.setAlignment(QtCore.Qt.AlignCenter)
-        self.armingBox.setMinimumWidth(self.size * 12)
+        self.armingBox.setMinimumWidth(self.size * 13)
+
+        self.modeBox.setFont(QFont("Monospace", self.size))
+        self.modeBox.setAlignment(QtCore.Qt.AlignCenter)
 
     def customUpdate(self, dataPassDict):
         faultStatus = 3
         canArm = True
         armed = True
+        mode = "Unknown"
 
         if self.statusSource in dataPassDict:
             faultStatus = int(float(dataPassDict[self.statusSource]))
@@ -57,6 +69,8 @@ class ROVStatusWidget(CustomBaseWidget):
             canArm = str(dataPassDict[self.allowedToArmSource]).lower() == "true"
         if self.armedSource in dataPassDict:
             armed = str(dataPassDict[self.armedSource]).lower() == "true"
+        if self.modeSource in dataPassDict:
+            mode = str(dataPassDict[self.modeSource])
 
         if faultStatus == 2:
             self.statusBox.setStyleSheet("color: red")
@@ -81,14 +95,18 @@ class ROVStatusWidget(CustomBaseWidget):
             else:
                 self.armingBox.setText("Ready to arm")
 
+        self.modeBox.setText(mode)
+
         self.statusBox.adjustSize()
         self.armingBox.adjustSize()
+        self.modeBox.adjustSize()
         self.QTWidget.adjustSize()
 
     def setColorRGB(self, red, green, blue):
         colorString = "background: rgb({0}, {1}, {2});".format(red, green, blue)
 
         self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid " + self.borderColor + "; " + colorString + " color: " + self.textColor + "}")
+        self.modeBox.setStyleSheet("color: " + self.textColor)
 
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")
@@ -99,3 +117,4 @@ class ROVStatusWidget(CustomBaseWidget):
         tag.set("statusSource", self.statusSource)
         tag.set("armedSource", self.armedSource)
         tag.set("allowedToArmSource", self.allowedToArmSource)
+        tag.set("modeSource", self.modeSource)

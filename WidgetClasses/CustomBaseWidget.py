@@ -337,8 +337,10 @@ class CustomBaseWidget(object):
         tag.set(Constants.HIDDEN_ATTRIBUTE, str(self.hidden))
         tag.set(Constants.DRAGGABLE_ATTRIBUTE, str(self.draggable))
 
-        tag.set(Constants.FONT_ATTRIBUTE, str(self.font))
-        tag.set(Constants.FONT_SIZE_ATTRIBUTE, str(self.fontSize))
+        if self.font is not None:
+            tag.set(Constants.FONT_ATTRIBUTE, str(self.font))
+        if self.fontSize is not None:
+            tag.set(Constants.FONT_SIZE_ATTRIBUTE, str(self.fontSize))
         # tag.set(Constants.BORDER_WIDTH_ATTRIBUTE, str(self.borderWidth))
 
         self.customXMLStuff(tag)
