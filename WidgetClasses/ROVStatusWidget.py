@@ -2,7 +2,7 @@
 Specific widget to display ROV status
 """
 
-import xml.etree.ElementTree as ElementTree
+import time
 
 from PyQt5 import QtCore
 from PyQt5.QtGui import QFont
@@ -18,13 +18,17 @@ class ROVStatusWidget(CustomBaseWidget):
         self.statusBox = QLabel()
         self.armingBox = QLabel()
         self.modeBox = QLabel()
+        self.timeBox = QLabel()
+        self.runtimeBox = QLabel()
 
         super().__init__(QWidget(tab, objectName=name), x, y, configInfo=widgetInfo, widgetType=Constants.ROV_STATUS_TYPE)
 
         layout = QGridLayout()
-        layout.addWidget(self.statusBox, 1, 1)
-        layout.addWidget(self.armingBox, 2, 1)
-        layout.addWidget(self.modeBox, 3, 1)
+        layout.addWidget(self.statusBox, 1, 1, 1, 2)
+        layout.addWidget(self.armingBox, 2, 1, 1, 2)
+        layout.addWidget(self.modeBox, 3, 1, 1, 2)
+        layout.addWidget(self.timeBox, 4, 1)
+        layout.addWidget(self.runtimeBox, 4, 2)
         self.QTWidget.setLayout(layout)
 
         if self.size is None:  # Set a default size
@@ -37,6 +41,7 @@ class ROVStatusWidget(CustomBaseWidget):
         self.armedSource = getValueFromDictionary(widgetInfo, "armedSource", "armed")
         self.allowedToArmSource = getValueFromDictionary(widgetInfo, "allowedToArmSource", "allowedToArm")
         self.modeSource = getValueFromDictionary(widgetInfo, "modeSource", "driveMode")
+        self.runtimeSource = getValueFromDictionary(widgetInfo, "runtimeSource", "runtime")
 
         self.statusBox.setFont(QFont("Monospace", self.size))
         self.statusBox.setAlignment(QtCore.Qt.AlignCenter)
@@ -48,6 +53,9 @@ class ROVStatusWidget(CustomBaseWidget):
 
         self.modeBox.setFont(QFont("Monospace", self.size))
         self.modeBox.setAlignment(QtCore.Qt.AlignCenter)
+
+        self.timeBox.setFont(QFont("Monospace", self.size*0.4))
+        self.runtimeBox.setFont(QFont("Monospace", self.size*0.4))
 
     def customUpdate(self, dataPassDict):
         faultStatus = 3
@@ -63,6 +71,8 @@ class ROVStatusWidget(CustomBaseWidget):
             armed = str(dataPassDict[self.armedSource]).lower() == "true"
         if self.modeSource in dataPassDict:
             mode = str(dataPassDict[self.modeSource])
+
+        runtime = getValueFromDictionary(dataPassDict, self.runtimeSource, "0")
 
         if faultStatus == 2:
             self.statusBox.setStyleSheet("color: red")
@@ -88,6 +98,8 @@ class ROVStatusWidget(CustomBaseWidget):
                 self.armingBox.setText("Ready to arm")
 
         self.modeBox.setText(mode)
+        self.timeBox.setText("Time: {}".format(time.strftime('%I:%M:%S')))
+        self.runtimeBox.setText("Run Time: {}".format(runtime))
 
         self.statusBox.adjustSize()
         self.armingBox.adjustSize()
@@ -99,6 +111,8 @@ class ROVStatusWidget(CustomBaseWidget):
 
         self.QTWidget.setStyleSheet("QWidget#" + self.QTWidget.objectName() + " {border: 1px solid " + self.borderColor + "; " + colorString + " color: " + self.textColor + "}")
         self.modeBox.setStyleSheet("color: " + self.textColor)
+        self.timeBox.setStyleSheet("color: " + self.textColor)
+        self.runtimeBox.setStyleSheet("color: " + self.textColor)
 
     def setDefaultAppearance(self):
         self.QTWidget.setStyleSheet("color: black")
@@ -110,3 +124,4 @@ class ROVStatusWidget(CustomBaseWidget):
         tag.set("armedSource", self.armedSource)
         tag.set("allowedToArmSource", self.allowedToArmSource)
         tag.set("modeSource", self.modeSource)
+        tag.set("runtimeSource", self.runtimeSource)
