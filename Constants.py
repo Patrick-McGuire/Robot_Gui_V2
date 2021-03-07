@@ -20,6 +20,7 @@ class Constants:
     COMPLETE_CONSOLE_TYPE = "CompleteConsole"
     BROWSE_TYPE = "Browse"
     MULTI_GRAPH_TYPE = "MultiBarGraph"
+    ROV_STATUS_TYPE = "ROVStatusWidget"
 
     CONFIG_ATTRIBUTE = "config"
     TAB_ATTRIBUTE = "tab"

@@ -51,6 +51,18 @@ while not GUI.isDone():
     dataPassDict["j"] = j
     dataPassDict["slowSweep"] = 1 - float(j) / 180.0
 
+    dataPassDict["status"] = int((float(i)/360.0) * 3)
+
+    if i < 100:
+        dataPassDict["allowedToArm"] = False
+    else:
+        dataPassDict["allowedToArm"] = True
+
+    if i<200:
+        dataPassDict["armed"] = False
+    else:
+        dataPassDict["armed"] = True
+
     testDict = {"aaa": [["hi", "aaa"], ["bbb", random.random()]], "bbb": [["aa", "  {}".format(random.random())], ["bbb", random.random()], ["c", random.random()], ["ddddddddd", random.random()]]}
     dataPassDict["diagnostics_agg"] = testDict
 

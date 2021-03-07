@@ -43,7 +43,7 @@ class AltitudeSpeedIndicatorWidget(QLabel):
         minValueToDraw = int(self.value - (self.height() / 2) / scaleFactor)
 
         maxValueToDraw = self.textSpacing * round((maxValueToDraw / self.textSpacing) + 1)
-        minValueToDraw = self.textSpacing * round((minValueToDraw / self.textSpacing) -1)
+        minValueToDraw = self.textSpacing * round((minValueToDraw / self.textSpacing) - 1)
 
         shortLength = 10
         fontSize = max(self.width() / 5, 10)
@@ -55,7 +55,7 @@ class AltitudeSpeedIndicatorWidget(QLabel):
             startX = -startX
             endX = -endX
 
-        linesBetweenText = int(scaleFactor/15)
+        linesBetweenText = int(scaleFactor / 15)
         for i in range(int(linesBetweenText * minValueToDraw), int(linesBetweenText * maxValueToDraw), self.textSpacing):
             lineYPosition = (self.value - (i / linesBetweenText)) * scaleFactor
 
@@ -63,7 +63,7 @@ class AltitudeSpeedIndicatorWidget(QLabel):
 
             painter.setFont(QFont("Monospace", fontSize))
 
-            if i%2 == 0:
+            if i % 2 == 0:
                 if self.leftOriented:
                     painter.drawText(endX + 5, lineYPosition + int(fontSize / 2), "{}".format((i / linesBetweenText)))
                 else:
