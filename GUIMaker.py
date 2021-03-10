@@ -23,6 +23,7 @@ from WidgetClasses import AttitudeWidget
 from WidgetClasses import FullFlightDisplay
 from WidgetClasses import MultiBarGraph
 from WidgetClasses import ROVStatusWidget
+from WidgetClasses import MissionStatusWidget
 
 
 # from WidgetClasses import Browse
