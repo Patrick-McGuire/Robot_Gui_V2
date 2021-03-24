@@ -136,6 +136,7 @@ class CoreGUI(threading.Thread):
             self.GUICreator.createWidgetFromName("FullFlightDisplay", "Settings", 900, 100)
             self.GUICreator.createWidgetFromName("MultiBarGraph", "Settings", 200, 200)
             self.GUICreator.createWidgetFromName("ROVStatusWidget", "Settings", 600, 300)
+            self.GUICreator.createWidgetFromName("StatusEventWidget", "Settings", 600, 100)
 
         if self.loadXMLFirst:
             self.loadXML()

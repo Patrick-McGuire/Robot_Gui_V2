@@ -22,6 +22,7 @@ class Constants:
     MULTI_GRAPH_TYPE = "MultiBarGraph"
     ROV_STATUS_TYPE = "ROVStatusWidget"
     MISSION_STATUS_TYPE = "MissionStatusWidget"
+    STATUS_EVENT_TYPE = "StatusEventWidget"
 
     CONFIG_ATTRIBUTE = "config"
     TAB_ATTRIBUTE = "tab"

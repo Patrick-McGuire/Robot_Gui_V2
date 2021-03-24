@@ -72,6 +72,9 @@ while not GUI.isDone():
     annunciator2 = [["aaa", 2, "Test"], ["bbb", 0, "Test2"], ["ccc", 0, "Test3"], ["ddddd", 3, "test4"]]
     dataPassDict["annunciator_2"] = annunciator2
 
+    statusEvent = [["help", 1], ["aaaaaaaaaaaaaaaa", 2], ["bbbbbbbbbbb", 3], ["qqqqqqqqq", 0]]
+    dataPassDict["status_event"] = statusEvent
+
     GUI.updateInfo(dataPassDict)
 
     GUI.updateConsole("testarray", str(random.random()))
