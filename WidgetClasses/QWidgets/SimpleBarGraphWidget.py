@@ -54,7 +54,7 @@ class SimpleBarGraphWidget(QLabel):
     def paintEvent(self, e):
         painter = QPainter(self)  # Grey background
 
-        fontSize = int(self.width() * 0.15)
+        fontSize = max(int(self.width() * 0.15), 8)
         padding = 4
         painter.setPen(QPen(self.textColor, 1, Qt.SolidLine))
         painter.setFont(QFont("Monospace", fontSize))
