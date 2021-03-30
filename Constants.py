@@ -24,6 +24,7 @@ class Constants:
     MISSION_STATUS_TYPE = "MissionStatusWidget"
     STATUS_EVENT_TYPE = "StatusEventWidget"
     MAP_TYPE = "MapWidget"
+    VIDEO_SWITCH_TYPE = "VideoSwitcherWidget"
 
     CONFIG_ATTRIBUTE = "config"
     TAB_ATTRIBUTE = "tab"

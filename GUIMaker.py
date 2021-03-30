@@ -26,6 +26,7 @@ from WidgetClasses import ROVStatusWidget
 from WidgetClasses import MissionStatusWidget
 from WidgetClasses import StatusEventWidget
 from WidgetClasses import MapWidget
+from WidgetClasses import VideoSwitcherWidget
 
 
 # from WidgetClasses import Browse

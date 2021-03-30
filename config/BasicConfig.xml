@@ -23,7 +23,7 @@
 			<compass yawSource="yaw" compassBelow="False"/>
 			<vSpeed source="verticalSpeed" useAltVSpeedWidget="False" scale="1.0"/>
 			<terrainAlt enabled="False" source="terrainAlt" scale="1.0"/>
-			<altitude source="altitude" scale="1.0"/>
+			<altitude source="altitude" scale="1"/>
 			<groundSpeed source="groundSpeed"/>
 		</widget>
 	</tab>
@@ -46,7 +46,9 @@
 		<widget type="CompleteConsole" x="1063" y="476" title="No Title" source="_" hidden="False" draggable="True" font="Arial" fontsize="12"/>
 	</tab>
 	<tab title="test">
-		<widget type="FullFlightDisplay" x="554" y="17" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12">
+		<widget type="video" x="298" y="0" source="webcam" hidden="False" draggable="False" font="Arial" fontsize="12" fullscreen="true" lockAspectRatio="true" dimensions="1320x990"/>
+		<widget type="MapWidget" x="463" y="0" size="400" transparent="True" hidden="False" draggable="False" font="Arial" fontsize="12" XSource="x_position_global" YSource="y_position_global" PointsToKeep="200" PointSpacing="0.1" fullscreen="True"/>
+		<widget type="FullFlightDisplay" x="1482" y="0" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12">
 			<attitude rollSource="roll" pitchSource="pitch"/>
 			<compass yawSource="yaw" compassBelow="True"/>
 			<vSpeed source="slowSweep" useAltVSpeedWidget="True" scale="1.0"/>
@@ -54,12 +56,13 @@
 			<altitude source="altitude" scale="5"/>
 			<groundSpeed source="groundSpeed"/>
 		</widget>
-		<widget type="MultiBarGraph" x="99" y="329" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12">
+		<widget type="MultiBarGraph" x="12" y="433" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12">
 			<line type="SimpleBarGraph" source="roll" title="A" minimum="-20.0" maximum="20.0" color="rgb(0,0,255)"/>
 			<line type="CircleBarGraph" source="j" title="B" minimum="0.0" maximum="360.0" color="rgb(255,0,0)"/>
 			<line type="SimpleBarGraph" source="verticalSpeed" title="Graph C" minimum="0.0" maximum="20.0" color="rgb(255,0,158)"/>
 			<line type="SimpleBarGraph" source="terrainAlt" title="D" minimum="0.0" maximum="100.0" color="rgb(60,255,40)"/>
 			<line type="SimpleBarGraph" source="j" title="Title" minimum="0.0" maximum="360.0" color="rgb(255,255,255)"/>
 		</widget>
+		<widget type="VideoSwitcherWidget" x="127" y="102" hidden="False" draggable="True" font="Arial" fontsize="12"/>
 	</tab>
 </window>

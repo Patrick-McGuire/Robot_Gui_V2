@@ -19,6 +19,7 @@ class SimpleMapWidget(QLabel):
 
         self.pointsToKeep = pointsToKeep
         self.distanceBetweenPoints = pointSpacing
+        self.maxDistanceBetweenPoints = pointSpacing
 
         self.x_position = 0
         self.y_position = 0
@@ -37,6 +38,8 @@ class SimpleMapWidget(QLabel):
         self.setMinimumHeight(size)
 
     def paintEvent(self, e):
+        self.size = self.width()
+
         painter = QPainter(self)  # Blue background
         painter.setPen(QPen(QColor(30, 144, 255), 0, Qt.SolidLine))
         painter.setBrush(QBrush(QColor(30, 144, 255), Qt.SolidPattern))
@@ -119,7 +122,9 @@ class SimpleMapWidget(QLabel):
 
         if realAxisSize < 1:
             self.decimals = 2
-        elif 1 <= realAxisSize < 10:
+        elif 1 <= realAxisSize < 20:
             self.decimals = 1
         else:
             self.decimals = 0
+
+        self.distanceBetweenPoints = min(realAxisSize / 20, self.maxDistanceBetweenPoints)

@@ -253,7 +253,7 @@ class CustomBaseWidget(object):
         """Returns the QT Widget that is the top level for this CustomWidget"""
         return self.QTWidget
 
-    def update(self, dataPassDict):
+    def update(self, dataPassDict, listOfWidgets):
         """
         Code that has to run every update for every widget.  DON'T OVERWRITE THIS ONE, OVERWRITE customUpdate()
         NEEDS TO BE CALLED FROM THE GUI THREAD WITH A QTIMER!!!
@@ -268,6 +268,7 @@ class CustomBaseWidget(object):
 
         # Run the custom update code
         self.customUpdate(dataPassDict)
+        self.setWidgetList(listOfWidgets)
 
         # Update the size
         self.width = float(self.QTWidget.size().width())
@@ -276,6 +277,12 @@ class CustomBaseWidget(object):
     def customUpdate(self, dataPassDict):
         """Update the widget.  Should be overwritten to add custom functionality"""
         pass
+
+    def setWidgetList(self, listOfWidgets):
+        pass
+
+    def getName(self):
+        return self.QTWidget.objectName()
 
     def getData(self):
         """Function to return data from a widget.  Should be overwritten"""

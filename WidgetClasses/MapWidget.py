@@ -11,7 +11,6 @@ class MapWidget(CustomBaseWidget):
     def __init__(self, tab, name, x, y, widgetInfo):
         QTWidget = QWidget(tab)
         QTWidget.setObjectName(name)
-
         super().__init__(QTWidget, x, y, configInfo=widgetInfo, widgetType=Constants.MAP_TYPE)
 
         if self.size is None:  # Set a default size
@@ -25,6 +24,7 @@ class MapWidget(CustomBaseWidget):
         self.YSource = getValueFromDictionary(widgetInfo, "YSource", "y_position_global")
         self.pointsToKeep = int(getValueFromDictionary(widgetInfo, "PointsToKeep", "200"))
         self.pointSpacing = float(getValueFromDictionary(widgetInfo, "PointSpacing", "0.1"))
+        self.fullScreen = getValueFromDictionary(widgetInfo, Constants.FULLSCREEN_ATTRIBUTE, "false").lower() == "true"
 
         self.SimpleMapWidget = SimpleMapWidget.SimpleMapWidget(pointsToKeep=self.pointsToKeep, pointSpacing=self.pointSpacing)
 
@@ -32,7 +32,11 @@ class MapWidget(CustomBaseWidget):
         layout.addWidget(self.SimpleMapWidget)
         self.QTWidget.setLayout(layout)
 
-        self.SimpleMapWidget.setSize(self.size)
+        if not self.fullScreen:
+            self.SimpleMapWidget.setSize(self.size)
+        else:
+            self.transparent = True
+            self.SimpleMapWidget.setSize(10)
 
         self.QTWidget.adjustSize()
 
@@ -40,10 +44,21 @@ class MapWidget(CustomBaseWidget):
         x = getValueFromDictionary(dataPassDict, self.XSource, 0)
         y = getValueFromDictionary(dataPassDict, self.YSource, 0)
 
+        screenWidth = self.QTWidget.parent().size().width()
+        screenHeight = self.QTWidget.parent().size().height()
+        screenSize = min(screenWidth, screenHeight)
+
+        if self.fullScreen:
+            self.setSize(screenSize, screenSize)
+            centeredCornerPos = (screenWidth - self.QTWidget.width()) / 2
+            self.setPosition(int(centeredCornerPos), 0)
+            self.draggable = False
+
         self.SimpleMapWidget.setXY(x, y)
 
-        self.QTWidget.adjustSize()
-        self.QTWidget.update()
+        if not self.hidden:
+            self.QTWidget.adjustSize()
+            self.QTWidget.update()
 
     def setColorRGB(self, red, green, blue):
 
@@ -61,3 +76,4 @@ class MapWidget(CustomBaseWidget):
         tag.set("YSource", self.YSource)
         tag.set("PointsToKeep", str(self.pointsToKeep))
         tag.set("PointSpacing", str(self.pointSpacing))
+        tag.set(Constants.FULLSCREEN_ATTRIBUTE, str(self.fullScreen))

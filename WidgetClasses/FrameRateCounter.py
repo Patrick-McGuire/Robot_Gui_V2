@@ -20,7 +20,7 @@ class FrameRateCounter(CustomBaseWidget):
         self.xBuffer = 0
         self.yBuffer = 0
 
-    def update(self, dataPassDict):
+    def update(self, dataPassDict, listOfWidgets):
         outString = str(time.time())
 
         self.QTWidget.setText(outString)

@@ -18,7 +18,7 @@ GUI = RobotGUI2("config/BasicConfig.xml", testMode=True)
 GUI.addCallback(callback, "button1")
 GUI.addCallback(callback, "complete_console_test")
 
-video = False
+video = True
 
 if video:
     cap = cv2.VideoCapture(0)

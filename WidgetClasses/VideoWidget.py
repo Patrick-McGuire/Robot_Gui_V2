@@ -9,15 +9,20 @@ from PyQt5.QtWidgets import QLabel, QMenu, QSizePolicy
 from .CustomBaseWidget import CustomBaseWidget
 from Constants import Constants
 
+from DataHelpers import getValueFromDictionary
+
 
 class VideoWidget(CustomBaseWidget):
     def __init__(self, tab, name, xPos, yPos, widgetInfo):
         QTWidget = QLabel(tab)
+        QTWidget.setObjectName(name)
         super().__init__(QTWidget, xPos, yPos, widgetType=Constants.VIDEO_WINDOW_TYPE)
 
-        width = int(float(widgetInfo[Constants.DIMENSIONS_ATTRIBUTE].split("x")[0]))
-        height = int(float(widgetInfo[Constants.DIMENSIONS_ATTRIBUTE].split("x")[1]))
-        self.source = str(widgetInfo[Constants.SOURCE_ATTRIBUTE])
+        dimensions = getValueFromDictionary(widgetInfo, Constants.DIMENSIONS_ATTRIBUTE, "100x100")
+        dimensions = dimensions.split("x")
+        width = int(float(dimensions[0]))
+        height = int(float(dimensions[1]))
+        self.source = getValueFromDictionary(widgetInfo, Constants.SOURCE_ATTRIBUTE, "video")
 
         self.setSize(width, height)
         self.draggable = False

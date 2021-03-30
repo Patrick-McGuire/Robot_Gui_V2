@@ -222,7 +222,7 @@ class CoreGUI(threading.Thread):
         returnDict = {}
 
         for widget in listOfWidgets:
-            widget.update(self.dataPassDict)
+            widget.update(self.dataPassDict, listOfWidgets)
 
             if widget.returnsData():
                 returnDict[widget.getReturnKey()] = widget.getData()
