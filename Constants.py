@@ -23,6 +23,7 @@ class Constants:
     ROV_STATUS_TYPE = "ROVStatusWidget"
     MISSION_STATUS_TYPE = "MissionStatusWidget"
     STATUS_EVENT_TYPE = "StatusEventWidget"
+    MAP_TYPE = "MapWidget"
 
     CONFIG_ATTRIBUTE = "config"
     TAB_ATTRIBUTE = "tab"

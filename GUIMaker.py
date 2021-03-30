@@ -25,6 +25,7 @@ from WidgetClasses import MultiBarGraph
 from WidgetClasses import ROVStatusWidget
 from WidgetClasses import MissionStatusWidget
 from WidgetClasses import StatusEventWidget
+from WidgetClasses import MapWidget
 
 
 # from WidgetClasses import Browse
@@ -54,7 +55,7 @@ class GUIMaker(object):
         for name, val in globals().items():  # Loop through globals()
             if isinstance(val, types.ModuleType) and "WidgetClasses" in str(val):  # Only look at modules from WidgetClasses
                 for item in inspect.getmembers(val):
-                    if name in str(item) and "__" not in str(item) and "FrameRateCounter" not in name:
+                    if name in str(item) and "__" not in str(item) and "FrameRateCounter" not in name and 'WidgetClasses.QWidgets' not in str(item):
                         self.widgetClasses[name] = item[1]
 
         if fullScreen:  # Hides everything except the active tab

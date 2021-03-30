@@ -1,6 +1,8 @@
 import time
 import random
 import cv2
+import math
+import random
 
 from RobotGUI2 import RobotGUI2
 
@@ -16,7 +18,7 @@ GUI = RobotGUI2("config/BasicConfig.xml", testMode=True)
 GUI.addCallback(callback, "button1")
 GUI.addCallback(callback, "complete_console_test")
 
-video = True
+video = False
 
 if video:
     cap = cv2.VideoCapture(0)
@@ -52,6 +54,10 @@ while not GUI.isDone():
     dataPassDict["slowSweep"] = 1 - float(j) / 180.0
 
     dataPassDict["status"] = int((float(i) / 360.0) * 3)
+
+    r = random.random() * 0.1 + 0.95
+    dataPassDict["x_position_global"] = math.cos(math.radians(j)) * r
+    dataPassDict["y_position_global"] = math.sin(math.radians(j)) * r
 
     if i < 100:
         dataPassDict["allowedToArm"] = False
