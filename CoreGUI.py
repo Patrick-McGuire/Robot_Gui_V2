@@ -250,8 +250,8 @@ class CoreGUI(threading.Thread):
     def mouseMoveEvent(self, e):
         """Moves the active widget to the position of the mouse if we are currently clicked"""
         if self.activeClickedWidget is not None and self.activeClickedWidget.isDraggable():
-            x = clamp(e.x() - self.activeOffset[0], 0, float(self.mainWindow.width()) - 30)
-            y = clamp(e.y() - self.activeOffset[1], 0, float(self.mainWindow.height()) - 50)
+            x = clamp(e.x() - self.activeOffset[0], 0, float(self.mainWindow.width()) - self.activeClickedWidget.width - 5)
+            y = clamp(e.y() - self.activeOffset[1], 0, float(self.mainWindow.height()) - self.activeClickedWidget.height - 55)
             self.activeClickedWidget.setPosition(x, y)
 
     def mousePressEvent(self, e: QMouseEvent):

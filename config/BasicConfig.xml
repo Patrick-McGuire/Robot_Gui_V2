@@ -1,15 +1,14 @@
 <?xml version="1.0" ?>
 <window title="Probot Control" width="1920" height="1043" theme="Better Dark">
 	<tab title="Dashboard">
-		<widget type="video" x="0" y="0" source="webcam" hidden="False" draggable="False" font="Arial" fontsize="12" fullscreen="true" lockAspectRatio="true" dimensions="640x480"/>
-		<widget type="compass" x="1634" y="253" source="spinny" size="200" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12"/>
+		<widget type="video" x="0" y="0" title="VideoWidget_10" source="webcam" hidden="False" draggable="False" fullscreen="True" lockAspectRatio="true" dimensions="640x480"/>
 		<widget type="SimpleButton" x="500" y="253" title="Test Button" source="button1" hidden="False" draggable="True" font="Arial" fontsize="12"/>
-		<widget type="compass" x="1655" y="39" source="current" size="200" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12"/>
-		<widget type="DropDownTextBox" x="89" y="50" title="Error: no title" source="diagnostics_agg" hidden="False" draggable="True" font="Arial" fontsize="12"/>
-		<widget type="AnnunciatorPanel" x="119" y="277" title="Annunciator1" source="annunciator" hidden="False" draggable="True" font="Arial" fontsize="12" row_number="10" column_number="5"/>
-		<widget type="AnnunciatorPanel" x="275" y="624" title="Annunciator2" source="annunciator_2" hidden="False" draggable="True" font="Arial" fontsize="14" row_number="10" column_number="2"/>
-		<widget type="CompleteConsole" x="63" y="227" title="Test Console 2" source="complete_console_test" hidden="False" draggable="True" font="Arial" fontsize="12"/>
-		<widget type="ConfigurableTextBox" x="1478" y="479" title="Power Stats" hidden="False" draggable="True" font="Arial" fontsize="12">
+		<widget type="compass" x="1681" y="324" source="current" size="200" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12"/>
+		<widget type="DropDownTextBox" x="246" y="17" title="Error: no title" source="diagnostics_agg" hidden="False" draggable="True" font="Arial" fontsize="12"/>
+		<widget type="AnnunciatorPanel" x="33" y="710" title="Annunciator1" source="annunciator" hidden="False" draggable="True" font="Arial" fontsize="12" row_number="10" column_number="5"/>
+		<widget type="AnnunciatorPanel" x="0" y="408" title="Annunciator2" source="annunciator_2" hidden="False" draggable="True" font="Arial" fontsize="14" row_number="10" column_number="2"/>
+		<widget type="CompleteConsole" x="24" y="4" title="Test Console 2" source="complete_console_test" hidden="False" draggable="True" font="Arial" fontsize="12"/>
+		<widget type="ConfigurableTextBox" x="1495" y="552" title="Power Stats" hidden="False" draggable="True" font="Arial" fontsize="12">
 			<line label="Battery Voltage" value="batteryVoltage"/>
 			<line label="5v Bus Voltage" value="v5Voltage"/>
 			<line label="3.3v Bus Voltage" value="v33Voltage"/>
@@ -17,8 +16,7 @@
 			<line label="Loop Time" value="fullLoopTime"/>
 			<line label="Frame Rate" value="frameRate"/>
 		</widget>
-		<widget type="AttitudeWidget" x="1275" y="53" size="300" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll"/>
-		<widget type="FullFlightDisplay" x="554" y="17" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12">
+		<widget type="FullFlightDisplay" x="1306" y="19" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12">
 			<attitude rollSource="roll" pitchSource="pitch"/>
 			<compass yawSource="yaw" compassBelow="False"/>
 			<vSpeed source="verticalSpeed" useAltVSpeedWidget="False" scale="1.0"/>
@@ -26,6 +24,12 @@
 			<altitude source="altitude" scale="1"/>
 			<groundSpeed source="groundSpeed"/>
 		</widget>
+		<widget type="MultiBarGraph" x="1554" y="728" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12">
+			<line type="SimpleBarGraph" source="verticalSpeed" title="Title" minimum="0.0" maximum="100.0" color="rgb(50,50,255)"/>
+			<line type="CircleBarGraph" source="roll" title="Title" minimum="0.0" maximum="360.0" color="rgb(50,50,255)"/>
+		</widget>
+		<widget type="MissionStatusWidget" x="23" y="291" size="30" hidden="False" draggable="True" statusSource="missionStatus" missionNameSource="missionName"/>
+		<widget type="ROVStatusWidget" x="858" y="781" size="30" hidden="False" draggable="True" statusSource="status" armedSource="armed" allowedToArmSource="allowedToArm" modeSource="driveMode" runtimeSource="runtime"/>
 	</tab>
 	<tab title="Config">
 		<widget type="ConfigurableTextBox" x="300" y="800" title="Po1werasdff Stats" hidden="False" draggable="True" font="Arial" fontsize="20"/>
@@ -44,10 +48,12 @@
 		<widget type="ConfigurableTextBox" x="1055" y="580" title="Poweras6dff Stats" hidden="False" draggable="True" font="Arial" fontsize="20"/>
 		<widget type="SimpleConsole" x="1446" y="313" title="TEST CONSOLE" source="testarray" hidden="False" draggable="True" font="Arial" fontsize="14"/>
 		<widget type="CompleteConsole" x="1063" y="476" title="No Title" source="_" hidden="False" draggable="True" font="Arial" fontsize="12"/>
+		<widget type="compass" x="122" y="196" size="200" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12"/>
+		<widget type="AttitudeWidget" x="397" y="156" size="200" transparent="True" hidden="False" draggable="True" font="Arial" fontsize="12" pitchSource="pitch" rollSource="roll"/>
 	</tab>
 	<tab title="test">
-		<widget type="video" x="298" y="0" source="webcam" hidden="False" draggable="False" font="Arial" fontsize="12" fullscreen="true" lockAspectRatio="true" dimensions="1320x990"/>
-		<widget type="MapWidget" x="463" y="0" size="400" transparent="True" hidden="False" draggable="False" font="Arial" fontsize="12" XSource="x_position_global" YSource="y_position_global" PointsToKeep="200" PointSpacing="0.1" fullscreen="True"/>
+		<widget type="video" x="298" y="0" title="Camera 1" source="webcam" hidden="False" draggable="False" fullscreen="True" lockAspectRatio="true" dimensions="1320x990"/>
+		<widget type="MapWidget" x="463" y="0" title="Test Map" size="400" transparent="True" hidden="True" draggable="False" XSource="x_position_global" YSource="y_position_global" PointsToKeep="200" PointSpacing="0.1" fullscreen="True"/>
 		<widget type="FullFlightDisplay" x="1482" y="0" size="200" transparent="False" hidden="False" draggable="True" font="Arial" fontsize="12">
 			<attitude rollSource="roll" pitchSource="pitch"/>
 			<compass yawSource="yaw" compassBelow="True"/>

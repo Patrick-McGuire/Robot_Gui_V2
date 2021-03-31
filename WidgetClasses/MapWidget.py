@@ -17,8 +17,12 @@ class MapWidget(CustomBaseWidget):
             self.size = 400
         if self.transparent is None:
             self.transparent = False
-        self.title = None
         self.source = None
+        self.font = None
+        self.fontSize = None
+
+        if self.title is None:
+            self.title = name
 
         self.XSource = getValueFromDictionary(widgetInfo, "XSource", "x_position_global")
         self.YSource = getValueFromDictionary(widgetInfo, "YSource", "y_position_global")

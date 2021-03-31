@@ -24,13 +24,14 @@ class VideoSwitcherWidget(CustomBaseWidget):
         widgetNames = []
         for widget in listOfWidgets:
             if widget.getTabName() == self.getTabName():
-                if "Video" in widget.getName() or "Map" in widget.getName():
-                    widgetNames.append(widget.getName())
+                if Constants.VIDEO_WINDOW_TYPE in widget.type or Constants.MAP_TYPE in widget.type:
+                    if widget.fullScreen:  # We only want the Maps and Video screens that are full screen
+                        widgetNames.append(widget.getTitle())
 
-                    if widget.getName() == self.activeWidget:
-                        widget.show()
-                    else:
-                        widget.hide()
+                        if widget.getTitle() == self.activeWidget:
+                            widget.show()
+                        else:
+                            widget.hide()
 
         if widgetNames != self.widgetOptions:
             self.QTWidget.clear()

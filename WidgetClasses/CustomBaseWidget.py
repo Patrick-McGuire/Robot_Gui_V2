@@ -284,6 +284,12 @@ class CustomBaseWidget(object):
     def getName(self):
         return self.QTWidget.objectName()
 
+    def getTitle(self):
+        if self.title is None or self.title == "Error: no title":
+            return self.getName()
+        else:
+            return self.title
+
     def getData(self):
         """Function to return data from a widget.  Should be overwritten"""
         return 0
