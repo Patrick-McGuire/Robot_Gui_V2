@@ -73,6 +73,7 @@ class CompleteConsoleWidget(CustomBaseWidget):
         for i in range(len(data)):
             if len(data) > len(self.textWidgetList):
                 self.textWidgetList.append(QLabel())
+                self.textWidgetList[-1].setFont(QFont("Monospace", self.fontSize-1))
                 self.layout.addWidget(self.textWidgetList[-1], len(self.textWidgetList) + 3, 1, 1, 2)
 
             self.textWidgetList[i].setText(data[i][0])
