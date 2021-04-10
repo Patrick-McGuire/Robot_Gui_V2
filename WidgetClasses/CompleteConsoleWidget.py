@@ -3,7 +3,7 @@ Text box widget
 """
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QLabel, QWidget, QGridLayout, QLineEdit
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QKeyEvent
 
 from .CustomBaseWidget import CustomBaseWidget
 from Constants import Constants
@@ -26,6 +26,9 @@ class CompleteConsoleWidget(CustomBaseWidget):
 
         self.textEntryWidget.returnPressed.connect(self.returnPressed)
 
+        self.oldKeyPress = self.textEntryWidget.keyPressEvent  # We want to use the old key press, but do our code first
+        self.textEntryWidget.keyPressEvent = self.keyPressEvent
+
         self.xBuffer = 0
         self.yBuffer = 0
 
@@ -40,10 +43,24 @@ class CompleteConsoleWidget(CustomBaseWidget):
         self.titleBox.setText(self.title)
         self.titleBox.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
 
+        self.lastCommand = ""
+        self.currentCommand = ""
+
+    def keyPressEvent(self, eventQKeyEvent: QKeyEvent):
+        if eventQKeyEvent.key() == 16777235:
+            self.currentCommand = self.textEntryWidget.text()
+            self.textEntryWidget.setText(self.lastCommand)
+        elif eventQKeyEvent.key() == 16777237:
+            self.textEntryWidget.setText(self.currentCommand)
+
+        self.oldKeyPress(eventQKeyEvent)
+
     def returnPressed(self):
         text = self.textEntryWidget.text()
         self.textEntryWidget.clear()
         self.returnEvents.append([self.source, text])
+        self.lastCommand = text
+        self.currentCommand = ""
 
     def customUpdate(self, dataPassDict):
         if self.source not in dataPassDict:
