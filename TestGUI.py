@@ -19,9 +19,10 @@ GUI.addCallback(callback, "button1")
 GUI.addCallback(callback, "complete_console_test")
 
 video = True
-
-if video:
-    cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)
+cap.setExceptionMode(True)
+if not cap.isOpened():
+    video = False
 
 i = 0
 j = 0
@@ -40,8 +41,12 @@ while not GUI.isDone():
     dataPassDict = {"test": "{}".format(random.random()), "batteryVoltage": "{}".format(random.random()), "current": str(random.random() * 100), "spinny": i}
 
     if video:
-        ret, frame = cap.read()
-        dataPassDict["webcam"] = frame
+        try:
+            ret, frame = cap.read()
+            dataPassDict["webcam"] = frame
+        except cv2.error:
+            video = False
+            print("Can't get video frame")
 
     dataPassDict["roll"] = i
     dataPassDict["pitch"] = 10
