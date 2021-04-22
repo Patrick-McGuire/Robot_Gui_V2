@@ -47,10 +47,11 @@ class CompleteConsoleWidget(CustomBaseWidget):
         self.currentCommand = ""
 
     def keyPressEvent(self, eventQKeyEvent: QKeyEvent):
-        if eventQKeyEvent.key() == 16777235:
-            self.currentCommand = self.textEntryWidget.text()
-            self.textEntryWidget.setText(self.lastCommand)
-        elif eventQKeyEvent.key() == 16777237:
+        if eventQKeyEvent.key() == 16777235:  # UP
+            if self.textEntryWidget.text() != self.lastCommand:
+                self.currentCommand = self.textEntryWidget.text()
+                self.textEntryWidget.setText(self.lastCommand)
+        elif eventQKeyEvent.key() == 16777237:  # DOWN
             self.textEntryWidget.setText(self.currentCommand)
 
         self.oldKeyPress(eventQKeyEvent)
