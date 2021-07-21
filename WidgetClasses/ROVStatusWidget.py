@@ -95,7 +95,7 @@ class ROVStatusWidget(CustomBaseWidget):
             if armed:
                 self.armingBox.setText("Armed")
             else:
-                self.armingBox.setText("Ready to arm")
+                self.armingBox.setText("Disarmed")
 
         self.modeBox.setText(mode)
         self.timeBox.setText("Time: {}".format(time.strftime('%I:%M:%S')))
