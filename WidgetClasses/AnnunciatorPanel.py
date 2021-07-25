@@ -49,6 +49,9 @@ class AnnunciatorPanel(CustomBaseWidget):
         data = dataPassDict[self.source]
 
         for i in range(len(data)):
+            if i >= len(self.annunciatorWidgets):
+                break
+
             self.annunciatorWidgets[i].setText(data[i][0])
             self.annunciatorWidgets[i].setToolTip(data[i][2])
             self.annunciatorWidgets[i].setToolTipDuration(5000)
