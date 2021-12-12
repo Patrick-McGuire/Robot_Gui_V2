@@ -1,3 +1,5 @@
+import time
+
 from PyQt5.QtWidgets import QLabel, QWidget
 from PyQt5.QtGui import QPainter, QPen, QBrush, QPolygon, QColor, QFont, QRegion
 from PyQt5.QtCore import Qt, QPoint
@@ -6,7 +8,7 @@ from DataHelpers import interpolate, distanceBetweenPoints
 
 
 class SimpleMapWidget(QLabel):
-    def __init__(self, parentWidget: QWidget = None, pointsToKeep=50, pointSpacing=0.1):
+    def __init__(self, parentWidget: QWidget = None, pointsToKeep=200, pointSpacing=0.1):
         super().__init__(parentWidget)
 
         self.size = 200
@@ -16,6 +18,8 @@ class SimpleMapWidget(QLabel):
         self.padding = 20
         self.originSize = 20
         self.decimals = 2
+        self.lastPointTime = time.time()
+        self.newPointInterval = 1
 
         self.pointsToKeep = pointsToKeep
         self.distanceBetweenPoints = pointSpacing
@@ -113,10 +117,9 @@ class SimpleMapWidget(QLabel):
         if len(self.oldPoints) == 0:
             self.oldPoints = [[x, y]]
         else:
-            lastPoint = self.oldPoints[0]
-
-            if distanceBetweenPoints(x, y, lastPoint[0], lastPoint[1]) > self.distanceBetweenPoints:
+            if time.time() > self.lastPointTime + self.newPointInterval:
                 self.oldPoints = ([[x, y]] + self.oldPoints)[:self.pointsToKeep]
+                self.lastPointTime = time.time()
 
         realAxisSize = self.maxAxis - self.minAxis
 
