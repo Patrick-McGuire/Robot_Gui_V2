@@ -43,16 +43,25 @@ class CompleteConsoleWidget(CustomBaseWidget):
         self.titleBox.setText(self.title)
         self.titleBox.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
 
-        self.lastCommand = ""
+        self.commandHistory = []
+        self.commandHistoryIndex = -1
         self.currentCommand = ""
+
+    # ([value] + list)[:20]
 
     def keyPressEvent(self, eventQKeyEvent: QKeyEvent):
         if eventQKeyEvent.key() == 16777235:  # UP
-            if self.textEntryWidget.text() != self.lastCommand:
+            if self.commandHistoryIndex == -1:  # If we're editing the newest command
                 self.currentCommand = self.textEntryWidget.text()
-                self.textEntryWidget.setText(self.lastCommand)
+            if len(self.commandHistory) > 0:
+                self.commandHistoryIndex = min(len(self.commandHistory) - 1, self.commandHistoryIndex + 1)
+                self.textEntryWidget.setText(self.commandHistory[self.commandHistoryIndex])
         elif eventQKeyEvent.key() == 16777237:  # DOWN
-            self.textEntryWidget.setText(self.currentCommand)
+            self.commandHistoryIndex = max(self.commandHistoryIndex - 1, -1)
+            if self.commandHistoryIndex == -1:
+                self.textEntryWidget.setText(self.currentCommand)
+            else:
+                self.textEntryWidget.setText(self.commandHistory[self.commandHistoryIndex])
 
         self.oldKeyPress(eventQKeyEvent)
 
@@ -60,8 +69,14 @@ class CompleteConsoleWidget(CustomBaseWidget):
         text = self.textEntryWidget.text()
         self.textEntryWidget.clear()
         self.returnEvents.append([self.source, text])
-        self.lastCommand = text
+
+        if len(self.commandHistory) == 0:
+            self.commandHistory = [text]
+        if self.commandHistory[0] != text:
+            self.commandHistory = [text] + self.commandHistory
+
         self.currentCommand = ""
+        self.commandHistoryIndex = -1
 
     def customUpdate(self, dataPassDict):
         if self.source not in dataPassDict:

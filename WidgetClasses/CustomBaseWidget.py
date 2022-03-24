@@ -142,14 +142,17 @@ class CustomBaseWidget(object):
             self.draggable = False
             print("Patrick has been whacked!!!!!!!!!!!!!!!!!!")
         elif action == increaseFontSizeAction:
-            self.fontSize += 2
-            self.setFontInfo()
+            if self.fontSize is not None:
+                self.fontSize += 2
+                self.setFontInfo()
         elif action == decreaseFontSizeAction:
-            self.fontSize -= 2
-            self.setFontInfo()
+            if self.fontSize is not None:
+                self.fontSize -= 2
+                self.setFontInfo()
         elif action == defaultFontSizeAction:
-            self.fontSize = self.defaultFontSize
-            self.setFontInfo()
+            if self.fontSize is not None:
+                self.fontSize = self.defaultFontSize
+                self.setFontInfo()
 
     def setColor(self, color, textColor=None, headerTextColor=None, borderColor=None):
         color = color.replace("Grey", "Gray")
