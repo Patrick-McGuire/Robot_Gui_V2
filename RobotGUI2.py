@@ -1,4 +1,11 @@
+import sys
+import os
+
 from CoreGUI import CoreGUI
+
+if sys.platform == "linux":  # I don't even know anymore
+    if "QT_QPA_PLATFORM_PLUGIN_PATH" in os.environ:
+        os.environ.pop("QT_QPA_PLATFORM_PLUGIN_PATH")  # https://stackoverflow.com/questions/63829991/qt-qpa-plugin-could-not-load-the-qt-platform-plugin-xcb-in-even-though-it
 
 
 class RobotGUI2:
